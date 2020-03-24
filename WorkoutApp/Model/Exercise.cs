@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace WorkoutApp.Model
@@ -17,6 +16,7 @@ namespace WorkoutApp.Model
         Cardio, 
         LowerBody, 
         UpperBody, 
-        Core
+        Core,
+        FullBody
     }
 }
