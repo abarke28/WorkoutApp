@@ -6,7 +6,7 @@ namespace WorkoutApp.Model
 {
     public class Exercise
     {
-        public int Id { get; set; }
+        public int ExerciseId { get; set; }
         public string ExerciseName { get; set; }
         public string Description { get; set; }
         public ExerciseType ExerciseType { get; set; }
