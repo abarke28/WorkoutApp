@@ -9,6 +9,10 @@
         Title="Poor Yorrick Workouts" Height="450" Width="800">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
     </Window.Resources>
     <DockPanel DataContext="{Binding Source={StaticResource vm}}">
         <Menu DockPanel.Dock="Top" Height="20">
@@ -40,8 +44,6 @@
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
                 <TextBlock Text="Exercises"
-                           FontSize="18"
-                           FontWeight="DemiBold"
                            Margin="3"/>
             </Label>
             <ListView ItemsSource="{Binding Exercises}"
@@ -60,8 +62,6 @@
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
                 <TextBlock Text="Workouts"
-                           FontSize="18"
-                           FontWeight="DemiBold"
                            Margin="3"/>
             </Label>
             <Label Grid.Row="0" 
@@ -69,8 +69,6 @@
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
                 <TextBlock Text="{Binding SelectedWorkout.WorkoutName}"
-                           FontSize="18"
-                           FontWeight="DemiBold"
                            Margin="3"/>
             </Label>
             <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
@@ -88,13 +86,13 @@
                             <StackPanel Grid.Row="0" 
                                         Orientation="Horizontal">
                                 <Label Grid.Column="0"
-                                       Content="Station"
-                                       FontWeight="DemiBold"/>
+                                       FontSize="12"
+                                       Content="Station"/>
                                 <Label Grid.Column="1"
+                                       FontSize="12"
                                        Content="{Binding StationId}"
                                        HorizontalContentAlignment="Left"
-                                       Padding="0,5"
-                                       FontWeight="DemiBold"/>
+                                       Padding="0,5"/>
                             </StackPanel>
                             <ListBox ItemsSource="{Binding Exercises}"
                                      Grid.Row="1"
@@ -103,8 +101,16 @@
                                      BorderThickness="0">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ExerciseName}"
-                                                   ToolTip="{Binding Description}"/>
+                                        <TextBlock Text="{Binding ExerciseName}">
+                                            <TextBlock.ToolTip>
+                                                <ToolTip MaxWidth="200" Background="White">
+                                                    <TextBlock Text="{Binding Description}"
+                                                               TextWrapping="Wrap"
+                                                               HorizontalAlignment="Stretch"
+                                                               VerticalAlignment="Stretch"/>
+                                                </ToolTip>
+                                            </TextBlock.ToolTip>
+                                        </TextBlock>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
