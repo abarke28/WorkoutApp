@@ -22,6 +22,8 @@
                 <Separator/>
                 <MenuItem Header="Generate Random Workout"
                           Command="{Binding RandomWorkoutCommand}"/>
+                <MenuItem Header="Build Custom Workout"/>
+                <MenuItem Header="Save Workout"/>
                 <Separator/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
