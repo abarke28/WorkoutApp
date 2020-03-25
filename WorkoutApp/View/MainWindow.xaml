@@ -14,11 +14,15 @@
         <Menu DockPanel.Dock="Top" Height="20">
             <MenuItem Header="File">
                 <MenuItem Header="Add New Exercise"/>
+                <MenuItem Header="Add New Workout"/>
+                <Separator/>
+                <MenuItem Header="Generate Random Workout"
+                          Command="{Binding RandomWorkoutCommand}"/>
                 <Separator/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
             <MenuItem Header="Options">
-                <MenuItem Header="Example"/>
+                <MenuItem Header="Config"/>
             </MenuItem>
         </Menu>
         <Grid>
@@ -76,16 +80,26 @@
                       Margin="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <Label Content="Station"
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="3*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" 
+                                        Orientation="Horizontal">
+                                <Label Grid.Column="0"
+                                       Content="Station"
                                        FontWeight="DemiBold"/>
-                                <Label Content="{Binding StationId}"
+                                <Label Grid.Column="1"
+                                       Content="{Binding StationId}"
                                        HorizontalContentAlignment="Left"
                                        Padding="0,5"
                                        FontWeight="DemiBold"/>
                             </StackPanel>
                             <ListBox ItemsSource="{Binding Exercises}"
+                                     Grid.Row="1"
+                                     HorizontalAlignment="Stretch"
+                                     HorizontalContentAlignment="Stretch"
                                      BorderThickness="0">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -94,8 +108,8 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-                        </StackPanel>
-                    </DataTemplate>                    
+                        </Grid>
+                    </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>

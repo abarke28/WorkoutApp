@@ -1,8 +1,10 @@
-﻿using System;
+﻿using PodcastApp.ViewModel.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Input;
 using WorkoutApp.Model;
 
 namespace WorkoutApp.ViewModel
@@ -57,19 +59,21 @@ namespace WorkoutApp.ViewModel
             }
         }
         public Random Rng { get; set; }
+        public ICommand RandomWorkoutCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
-
-            // RNG for creating random workouts. Important to initialize only once
             Rng = new Random();
 
-
+            InstantiateCommands();
             ReadExercises();
-            GenerateRandomWorkout();
         }
-
+        public void InstantiateCommands()
+        {
+            // x = nothing
+            RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
+        }
         public void ReadExercises()
         {
             // Summary
@@ -94,12 +98,13 @@ namespace WorkoutApp.ViewModel
             DateTime dateTime1 = DateTime.Now;
 
             List<Exercise> randomizedExercises = new List<Exercise>();
-            Workout randomizedWorkout = new Workout();
-            randomizedWorkout.WorkoutName = "New Workout";
+            Workout randomizedWorkout = new Workout{WorkoutName = "New Workout"};
 
             var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
 
             int randIndex;
+
+            // Don't want any repeats. Loop until randomizedExercises has correct number of unique exercises
 
             while (randomizedExercises.Count != numStations * numExercises)
             {
@@ -110,6 +115,8 @@ namespace WorkoutApp.ViewModel
                     randomizedExercises.Add(exercises[randIndex]);
                 }
             }
+
+            // Add exercises into workout
 
             for (int i = 0; i < numStations; i++)
             {

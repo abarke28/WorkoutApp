@@ -7,6 +7,6 @@ namespace WorkoutApp.Config
     public class Config
     {
         public int NumStations { get; set; } = 4;
-        public int ExercisesPerStation { get; set; } = 3;
+        public int NumExercisesPerStation { get; set; } = 3;
     }
 }
