@@ -8,14 +8,9 @@ namespace WorkoutApp.Model
         public string WorkoutName { get; set; }
         public List<Station> Stations { get; set; }
 
-        public Workout(int numStations = 4)
+        public Workout()
         {
             Stations = new List<Station>();
-
-            for (int i = 0; i < numStations; i++)
-            {
-                Stations.Add(new Station());
-            }
         }
     }
 }

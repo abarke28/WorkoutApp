@@ -120,9 +120,11 @@ namespace WorkoutApp.ViewModel
 
             for (int i = 0; i < numStations; i++)
             {
+                randomizedWorkout.Stations.Add(new Station()); 
                 randomizedWorkout.Stations[i].StationId = (i + 1);
                 for (int j = 0; j <numExercises; j++)
                 {
+                    randomizedWorkout.Stations[i].Exercises.Add(new Exercise());
                     randomizedWorkout.Stations[i].Exercises[j] = randomizedExercises[(3 * i + j)];
                 }
             }
