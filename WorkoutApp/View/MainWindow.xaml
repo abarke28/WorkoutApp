@@ -64,11 +64,40 @@
                Grid.Column="2" 
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
-                <TextBlock Text="Workout Name"
+                <TextBlock Text="{Binding SelectedWorkout.WorkoutName}"
                            FontSize="18"
                            FontWeight="DemiBold"
                            Margin="3"/>
             </Label>
+            <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
+                      Grid.Column="2"
+                      Grid.Row="1"
+                      BorderThickness="0"
+                      Margin="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Station"
+                                       FontWeight="DemiBold"/>
+                                <Label Content="{Binding StationId}"
+                                       HorizontalContentAlignment="Left"
+                                       Padding="0,5"
+                                       FontWeight="DemiBold"/>
+                            </StackPanel>
+                            <ListBox ItemsSource="{Binding Exercises}"
+                                     BorderThickness="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ExerciseName}"
+                                                   ToolTip="{Binding Description}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </DataTemplate>                    
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </DockPanel>
 </Window>

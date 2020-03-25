@@ -85,14 +85,17 @@ namespace WorkoutApp.ViewModel
                 Exercises.Add(exercise);
             }
         }
-        public Workout GenerateRandomWorkout(int numStations = 4, int numExercises = 3)
+        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3)
         {
             // Summary
             // 
-            // Create randomized workout using degined number of 
+            // Create randomized workout using defined sizes with unique exercises
+
+            DateTime dateTime1 = DateTime.Now;
 
             List<Exercise> randomizedExercises = new List<Exercise>();
             Workout randomizedWorkout = new Workout();
+            randomizedWorkout.WorkoutName = "New Workout";
 
             var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
 
@@ -110,13 +113,16 @@ namespace WorkoutApp.ViewModel
 
             for (int i = 0; i < numStations; i++)
             {
+                randomizedWorkout.Stations[i].StationId = (i + 1);
                 for (int j = 0; j <numExercises; j++)
                 {
                     randomizedWorkout.Stations[i].Exercises[j] = randomizedExercises[(3 * i + j)];
                 }
             }
 
-            return randomizedWorkout;
+            System.Diagnostics.Debug.WriteLine((DateTime.Now - dateTime1).TotalMilliseconds);
+
+            SelectedWorkout = randomizedWorkout;
         }
         private void OnPropertyChanged(string property)
         {

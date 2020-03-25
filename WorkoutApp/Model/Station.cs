@@ -10,7 +10,7 @@ namespace WorkoutApp.Model
         {
             Exercises = new List<Exercise>();
 
-            for (int i=0; i<numExercises; i++)
+            for (int i = 0; i < numExercises; i++)
             {
                 Exercises.Add(new Exercise());
             }
