@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkoutApp.Model;
 
 namespace WorkoutApp.Migrations
 {
     [DbContext(typeof(ExerciseContext))]
-    partial class ExerciseContextModelSnapshot : ModelSnapshot
+    [Migration("20200325223452_RedoExerciseStationMappingManyToMany")]
+    partial class RedoExerciseStationMappingManyToMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace WorkoutApp.Migrations
 
                     b.HasIndex("StationId");
 
-                    b.ToTable("ExerciseStations");
+                    b.ToTable("ExerciseStation");
                 });
 
             modelBuilder.Entity("WorkoutApp.Model.Station", b =>
@@ -72,7 +74,7 @@ namespace WorkoutApp.Migrations
 
                     b.HasIndex("WorkoutId");
 
-                    b.ToTable("Stations");
+                    b.ToTable("Station");
                 });
 
             modelBuilder.Entity("WorkoutApp.Model.Workout", b =>
@@ -87,12 +89,6 @@ namespace WorkoutApp.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RepSeconds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RestSeconds")
-                        .HasColumnType("int");
 
                     b.HasKey("WorkoutId");
 

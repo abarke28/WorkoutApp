@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace WorkoutApp.Model
@@ -9,6 +10,7 @@ namespace WorkoutApp.Model
         public string ExerciseName { get; set; }
         public string Description { get; set; }
         public ExerciseType ExerciseType { get; set; }
+        public IList<ExerciseStation> ExerciseStations { get; set; }
     }
 
     public enum ExerciseType

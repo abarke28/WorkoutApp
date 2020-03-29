@@ -23,7 +23,9 @@
                 <MenuItem Header="Generate Random Workout"
                           Command="{Binding RandomWorkoutCommand}"/>
                 <MenuItem Header="Build Custom Workout"/>
-                <MenuItem Header="Save Workout"/>
+                <MenuItem Header="Save Current Workout"
+                          Command="{Binding SaveWorkoutCommand}"
+                          CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
@@ -66,12 +68,33 @@
                 <TextBlock Text="Workouts"
                            Margin="3"/>
             </Label>
-            <Label Grid.Row="0" 
+            <ListView ItemsSource="{Binding Workouts}"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      BorderThickness="0"
+                      Margin="2">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Text="{Binding Name}"/>
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding Description}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Grid.Row="0"
                Grid.Column="2" 
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
-                <TextBlock Text="{Binding SelectedWorkout.WorkoutName}"
-                           Margin="3"/>
+                <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay}"
+                         BorderThickness="0"
+                         Margin="3"/>
             </Label>
             <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
                       Grid.Column="2"
@@ -92,7 +115,7 @@
                                        Content="Station"/>
                                 <Label Grid.Column="1"
                                        FontSize="12"
-                                       Content="{Binding StationId}"
+                                       Content="{Binding StationName}"
                                        HorizontalContentAlignment="Left"
                                        Padding="0,5"/>
                             </StackPanel>
