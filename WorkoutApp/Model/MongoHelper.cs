@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,12 +33,13 @@ namespace WorkoutApp.Model
             //
             // Get all workouts
 
-            //TODO: Fix casting failure due to MongoDb added field _Id 
+            List<Workout> workouts = new List<Workout>();
 
             var client = new MongoClient(CONNECTION_STRING);
             var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Workout>(WORKOUTS_COLLECTION);
 
-            return database.GetCollection<Workout>(WORKOUTS_COLLECTION).Find(w => true).ToEnumerable();
+            return collection.FindSync(w => true).ToEnumerable();
         }
     }
 }

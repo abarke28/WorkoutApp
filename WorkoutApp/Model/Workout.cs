@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace WorkoutApp.Model
 {
+    [BsonIgnoreExtraElements]
     public class Workout
     {
         public int? WorkoutId { get; set; }

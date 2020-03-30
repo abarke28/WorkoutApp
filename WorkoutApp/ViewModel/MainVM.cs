@@ -106,7 +106,7 @@ namespace WorkoutApp.ViewModel
 
             Workouts.Clear();
 
-            foreach(var workout in workouts)
+            foreach (var workout in workouts)
             {
                 Workouts.Add(workout);
             }
@@ -120,7 +120,7 @@ namespace WorkoutApp.ViewModel
             List<Exercise> randomizedExercises = new List<Exercise>();
 
             var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
-            
+
             int randIndex;
 
             // Get list of distinct randomized exercises of necessary size
@@ -134,19 +134,22 @@ namespace WorkoutApp.ViewModel
                 }
             }
 
-            Workout workout = new Workout{ Name = "New Workout", 
+            Workout workout = new Workout
+            {
+                Name = "New Workout",
                 Description = "Randomly Generated Workout",
                 RepSeconds = repSeconds,
-                RestSeconds = restSeconds};
+                RestSeconds = restSeconds
+            };
 
             // Fill workout
-            for (int i=0; i < numStations; i++)
+            for (int i = 0; i < numStations; i++)
             {
                 workout.Stations.Add(new Station());
-                workout.Stations[i].StationName = ("Station " + (i+1).ToString());
+                workout.Stations[i].StationName = ("Station " + (i + 1).ToString());
                 workout.Stations[i].Exercises = new List<Exercise>();
 
-                for (int j=0; j<numExercises; j++)
+                for (int j = 0; j < numExercises; j++)
                 {
                     workout.Stations[i].Exercises.Add(new Exercise());
                     workout.Stations[i].Exercises[j] = randomizedExercises[numExercises * i + j];
