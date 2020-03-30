@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorkoutApp.Model
 {
     public class Station
     {
-        public int StationId { get; set; }
+        public int? StationId { get; set; }
         public string StationName { get; set; }
-        public IList<ExerciseStation> ExerciseStations { get; set; }
+        public List<Exercise> Exercises { get; set; }
         public Station()
         {
-            // Exercises = new List<Exercise>();
+            Exercises = new List<Exercise>();
         }
     }
 }

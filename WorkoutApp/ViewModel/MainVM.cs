@@ -1,4 +1,6 @@
-﻿using PodcastApp.ViewModel.Commands;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using PodcastApp.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -69,7 +71,9 @@ namespace WorkoutApp.ViewModel
             Rng = new Random();
 
             InstantiateCommands();
+
             ReadExercises();
+            ReadWorkouts();
         }
         public void InstantiateCommands()
         {
@@ -98,70 +102,28 @@ namespace WorkoutApp.ViewModel
             //
             // Read workouts from Database with DbHelper class. Clear existing workouts first.
 
-            var workouts = DatabaseHelper.GetWorkouts();
+            var workouts = MongoHelper.GetWorkoutsAsync();
 
             Workouts.Clear();
 
-            foreach(Workout workout in workouts)
+            foreach(var workout in workouts)
             {
                 Workouts.Add(workout);
             }
         }
-        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3)
+        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3, int repSeconds = 35, int restSeconds = 10)
         {
             // Summary
-            // 
-            // Create randomized workout using defined sizes with unique exercises
-
-            //TODO: Parameterize numStations and numExrcises via Config 
-
-            //DateTime dateTime1 = DateTime.Now;
-
-            //List<Exercise> randomizedExercises = new List<Exercise>();
-            //Workout randomizedWorkout = new Workout { Name = "New Workout" };
-
-            //var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
-
-            //int randIndex;
-
-            //// Don't want any repeats. Loop until randomizedExercises has correct number of unique exercises
-
-            //while (randomizedExercises.Count != numStations * numExercises)
-            //{
-            //    randIndex = Rng.Next(exercises.Count);
-
-            //    if (!randomizedExercises.Contains(exercises[randIndex]))
-            //    {
-            //        randomizedExercises.Add(exercises[randIndex]);
-            //    }
-            //}
-
-            //// Add exercises into workout
-
-            //for (int i = 0; i < numStations; i++)
-            //{
-            //    randomizedWorkout.Stations.Add(new Station());
-            //    randomizedWorkout.Stations[i].StationName = ((i + 1).ToString());
-            //    for (int j = 0; j < numExercises; j++)
-            //    {
-            //        randomizedWorkout.Stations[i].Exercises.Add(new Exercise());
-            //        randomizedWorkout.Stations[i].Exercises[j] = randomizedExercises[(3 * i + j)];
-            //    }
-            //}
-
-            //System.Diagnostics.Debug.WriteLine("Generated Workout in " + (DateTime.Now - dateTime1).TotalMilliseconds.ToString() + " ms");
-
-            //SelectedWorkout = randomizedWorkout;
-
-            DateTime dateTime1 = DateTime.Now;
+            //
+            // Generates new randomized workout
 
             List<Exercise> randomizedExercises = new List<Exercise>();
-            Workout randomizedWorkout = new Workout { Name = "New Workout" };
 
             var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
-
+            
             int randIndex;
 
+            // Get list of distinct randomized exercises of necessary size
             while (randomizedExercises.Count != numStations * numExercises)
             {
                 randIndex = Rng.Next(exercises.Count);
@@ -172,27 +134,26 @@ namespace WorkoutApp.ViewModel
                 }
             }
 
+            Workout workout = new Workout{ Name = "New Workout", 
+                Description = "Randomly Generated Workout",
+                RepSeconds = repSeconds,
+                RestSeconds = restSeconds};
+
+            // Fill workout
             for (int i=0; i < numStations; i++)
             {
-                randomizedWorkout.Stations.Add(new Station());
-                randomizedWorkout.Stations[i].StationName = "Station " + (1 + i).ToString();
+                workout.Stations.Add(new Station());
+                workout.Stations[i].StationName = ("Station " + (i+1).ToString());
+                workout.Stations[i].Exercises = new List<Exercise>();
 
-                for (int j=0; j< numExercises; j++)
+                for (int j=0; j<numExercises; j++)
                 {
-                    ExerciseStation es = new ExerciseStation();
-                    es.Station = randomizedWorkout.Stations[i];
-                    es.Exercise = randomizedExercises[numExercises * i + j];
-
-                    randomizedWorkout.Stations[i].ExerciseStations.Add(es);
-
-                    DatabaseHelper.AddExerciseStation(es);
-                    DatabaseHelper.AddStation(randomizedWorkout.Stations[i]);
+                    workout.Stations[i].Exercises.Add(new Exercise());
+                    workout.Stations[i].Exercises[j] = randomizedExercises[numExercises * i + j];
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine("Generated Workout in " + (DateTime.Now - dateTime1).TotalMilliseconds.ToString() + " ms");
-
-            SelectedWorkout = randomizedWorkout;
+            SelectedWorkout = workout;
         }
         public void SaveWorkout()
         {
@@ -200,7 +161,8 @@ namespace WorkoutApp.ViewModel
             //
             // Saves selected workout to the DB then refreshes the list
 
-            DatabaseHelper.AddWorkout(SelectedWorkout);
+            MongoHelper.AddWorkoutAsync(SelectedWorkout);
+
             ReadWorkouts();
         }
         private void OnPropertyChanged(string property)

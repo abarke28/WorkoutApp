@@ -6,11 +6,10 @@ namespace WorkoutApp.Model
 {
     public class Exercise
     {
-        public int ExerciseId { get; set; }
+        public int? ExerciseId { get; set; }
         public string ExerciseName { get; set; }
         public string Description { get; set; }
         public ExerciseType ExerciseType { get; set; }
-        public IList<ExerciseStation> ExerciseStations { get; set; }
     }
 
     public enum ExerciseType
