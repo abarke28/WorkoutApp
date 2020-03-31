@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="500" Width="800">
+        Title="Poor Yorrick Workouts" Height="550" Width="800">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <Style TargetType="Label">
@@ -69,7 +69,8 @@
                 <TextBlock Text="Workouts"
                            Margin="3"/>
             </Label> <!--Workouts Label-->
-            <ListView ItemsSource="{Binding Workouts}"
+            <ListView ItemsSource="{Binding Workouts, Mode=OneWay}"
+                      SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
                       Grid.Column="1"
                       Grid.Row="1"
                       BorderThickness="0"
@@ -104,7 +105,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0">
-                    <TextBox Text="{Binding SelectedWorkout.Description}"
+                    <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              FontSize="12"
                              FontWeight="Normal"
                              BorderThickness="0"
