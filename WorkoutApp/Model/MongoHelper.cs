@@ -33,13 +33,35 @@ namespace WorkoutApp.Model
             //
             // Get all workouts
 
-            List<Workout> workouts = new List<Workout>();
-
             var client = new MongoClient(CONNECTION_STRING);
             var database = client.GetDatabase(DATABASE_NAME);
             var collection = database.GetCollection<Workout>(WORKOUTS_COLLECTION);
 
             return collection.FindSync(w => true).ToEnumerable();
+        }
+        public static void AddExerciseAsync(Exercise exercise)
+        {
+            // Summary
+            //
+            // Inserts new exercise
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
+
+            collection.InsertOneAsync(exercise);
+        }
+        public static IEnumerable<Exercise> GetExercisesAsync()
+        {
+            // Summary
+            //
+            // Get all exercises
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
+
+            return collection.FindSync(e => true).ToEnumerable();
         }
     }
 }
