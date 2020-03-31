@@ -6,7 +6,6 @@ namespace WorkoutApp.Model
     [BsonIgnoreExtraElements]
     public class Workout
     {
-        public int? WorkoutId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int RepSeconds { get; set; }
