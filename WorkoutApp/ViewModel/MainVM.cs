@@ -64,6 +64,7 @@ namespace WorkoutApp.ViewModel
         public Random Rng { get; set; }
         public ICommand RandomWorkoutCommand { get; set; }
         public BaseCommand SaveWorkoutCommand { get; set; }
+        public ICommand ExitApplicationCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
@@ -77,9 +78,11 @@ namespace WorkoutApp.ViewModel
         }
         public void InstantiateCommands()
         {
-            // x = nothing
+            // x = nothing, w = workout
+
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
+            ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
         }
         public void ReadExercises()
         {
@@ -167,6 +170,14 @@ namespace WorkoutApp.ViewModel
             MongoHelper.AddWorkoutAsync(SelectedWorkout);
 
             ReadWorkouts();
+        }
+        public void ExitApplication()
+        {
+            // Summary
+            //
+            // Exit application
+
+            System.Windows.Application.Current.Shutdown();
         }
         private void OnPropertyChanged(string property)
         {

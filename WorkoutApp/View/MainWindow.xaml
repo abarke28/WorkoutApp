@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="450" Width="800">
+        Title="Poor Yorrick Workouts" Height="500" Width="800">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <Style TargetType="Label">
@@ -27,7 +27,8 @@
                           Command="{Binding SaveWorkoutCommand}"
                           CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Exit"
+                          Command="{Binding ExitApplicationCommand}"/>
             </MenuItem>
             <MenuItem Header="Options">
                 <MenuItem Header="Config"/>
@@ -40,8 +41,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" 
                Grid.Column="0" 

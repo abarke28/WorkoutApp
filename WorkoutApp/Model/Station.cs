@@ -6,7 +6,6 @@ namespace WorkoutApp.Model
 {
     public class Station
     {
-        public int? StationId { get; set; }
         public string StationName { get; set; }
         public List<Exercise> Exercises { get; set; }
         public Station()
