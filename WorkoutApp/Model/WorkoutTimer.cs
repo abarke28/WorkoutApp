@@ -2,42 +2,91 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Threading;
 
 namespace WorkoutApp.Model
 {
     public class WorkoutTimer : INotifyPropertyChanged
     {
-        private Workout _workout;
-        public Workout Workout
+        private int? _timerText;
+        public int? TimerText
         {
-            get { return _workout; }
+            get { return _timerText; }
             set
             {
-                if (_workout == value) return;
-                _workout = value;
-                OnPropertyChanged("Workout");
+                if (_timerText == value) return;
+                _timerText = value;
+                OnPropertyChanged("TimerText");
             }
         }
 
-        private List<TimerStation> _timeStack;
-        public List<TimerStation> TimeStack
+        private string _stationNumText;
+        public string StationNumText
         {
-            get { return _timeStack; }
+            get { return _stationNumText; }
             set
             {
-                if (_timeStack == value) return;
-                _timeStack = value;
-                OnPropertyChanged("TimeStack");
+                if (_stationNumText == value) return;
+                _stationNumText = value;
+                OnPropertyChanged("StationNumText");
             }
-        }        
-        public WorkoutTimer(Workout workout)
+        }
+
+        private string _exerciseNumText;
+        public string ExerciseNumText
+        {
+            get { return _exerciseNumText; }
+            set
+            {
+                if (_exerciseNumText == value) return;
+                _exerciseNumText = value;
+                OnPropertyChanged("ExerciseNumText");
+            }
+        }
+
+        private string _exerciseNameText;
+        public string ExerciseNameText
+        {
+            get { return _exerciseNameText; }
+            set
+            {
+                if (_exerciseNameText == value) return;
+                _exerciseNameText = value;
+                OnPropertyChanged("ExerciseNameText");
+            }
+        }
+
+        private string _exerciseDescriptionText;
+        public string ExerciseDescriptionText
+        {
+            get { return _exerciseDescriptionText; }
+            set
+            {
+                if (_exerciseDescriptionText == value) return;
+                _exerciseDescriptionText = value;
+                OnPropertyChanged("ExerciseDescriptionText");
+            }
+        }
+
+        private int _stackIndex;
+
+        private readonly DispatcherTimer _dispatcherTimer;
+
+        private readonly List<TimerStation> _timeStack;
+
+        public WorkoutTimer()
+        {
+            _dispatcherTimer = new DispatcherTimer();
+            _timeStack = new List<TimerStation>();
+            _stackIndex = 0;
+        }
+        public void BuildTimer(Workout workout)
         {
             // Summary
             //
-            // Constructor takes a workout and builds a stack of timer stations with each station
+            // Takes a workout and builds a stack of timer stations with each station
             // repersenting an exercise or rest
 
-            TimeStack = new List<TimerStation>();
             int numStations = workout.Stations.Count;
             int exercisesPerStation = workout.Stations[0].Exercises.Count;
 
@@ -46,7 +95,7 @@ namespace WorkoutApp.Model
                 for (int j=0; j < exercisesPerStation; j++)
                 {
                     // Add Exercise
-                    TimeStack.Add(new TimerStation
+                    _timeStack.Add(new TimerStation
                     {
                         ExerciseName = workout.Stations[i].Exercises[j].ExerciseName,
                         Description = workout.Stations[i].Exercises[j].Description,
@@ -57,10 +106,10 @@ namespace WorkoutApp.Model
 
                     // Add Rep Rest unless about to add a Station Rest
 
-                    // Need to add 2 to avoid off-by-1 error since indexes start at 0 & have to stop 1 early
+                    // Need to add 2 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
                     if ((j + 2) == exercisesPerStation) break;
 
-                    TimeStack.Add(new TimerStation
+                    _timeStack.Add(new TimerStation
                     {
                         ExerciseName = "Rest",
                         Description = String.Empty,
@@ -72,9 +121,10 @@ namespace WorkoutApp.Model
 
                 // Add Station Rest unless workout is over
 
+                // Need to add 2 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
                 if ((i + 2) == numStations) break;
 
-                TimeStack.Add(new TimerStation 
+                _timeStack.Add(new TimerStation 
                 {
                     ExerciseName = "Rest",
                     Description = String.Empty,
@@ -84,7 +134,85 @@ namespace WorkoutApp.Model
                 });
             }
         }
+        public void StartWorkout(Workout workout)
+        {
+            // Summary
+            //
+            // Set ticks to 1 second, sets initial timer properties, subscribes to event, starts timer
 
+            _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            _dispatcherTimer.Tick += OnTick;
+
+            // Build workout
+            BuildTimer(workout);
+
+            // Set initial properties of timer
+            TimerText = (int)_timeStack[_stackIndex].Time.TotalSeconds;
+            StationNumText = _timeStack[_stackIndex].StationNumber;
+            ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
+            ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
+            ExerciseDescriptionText = _timeStack[_stackIndex].Description;
+
+            _dispatcherTimer.Start();
+        }
+        public void PlayPauseWorkout()
+        {
+            // Summary
+            //
+            // Toggle timer Pause or Play Timer
+
+            switch (_dispatcherTimer.IsEnabled)
+            {
+                case true:
+                    _dispatcherTimer.Stop();
+                    break;
+                case false:
+                    _dispatcherTimer.Start();
+                    break;
+            }
+        }
+        public void StopWorkout()
+        {
+            // Summary
+            //
+            // Stops timer
+
+            if (_dispatcherTimer.IsEnabled) _dispatcherTimer.Stop();
+
+            TimerText = null;
+            StationNumText = String.Empty;
+            ExerciseNumText = String.Empty;
+            ExerciseNameText = String.Empty;
+            ExerciseDescriptionText = String.Empty;
+        }
+        private void OnTick(object sender, EventArgs e)
+        {
+            // Summary
+            //
+            // On tick events, decrement timer by 1 second. Check if timer has hit 0. If so, then check if 
+            // workout is over. If not, increment stack index and timer properties
+
+            TimerText -= 1;
+
+            // Current movement/rest is not yet over
+            if (TimerText != 0) return;
+
+            // Have finished final stackIndex item
+            if ((_stackIndex + 1) == _timeStack.Count)
+            {
+                StopWorkout();
+                return;
+            }
+
+            // Increment stack index and change timer properties
+            _stackIndex++;
+
+            TimerText = (int)_timeStack[_stackIndex].Time.TotalSeconds;
+            StationNumText = _timeStack[_stackIndex].StationNumber;
+            ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
+            ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
+            ExerciseDescriptionText = _timeStack[_stackIndex].Description;
+        }
         private void OnPropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

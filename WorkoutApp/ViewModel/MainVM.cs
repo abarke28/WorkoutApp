@@ -37,6 +37,18 @@ namespace WorkoutApp.ViewModel
             }
         }
 
+        private WorkoutTimer _timer;
+        public WorkoutTimer Timer
+        {
+            get { return _timer; }
+            set
+            {
+                if (_timer == value) return;
+                _timer = value;
+                OnPropertyChanged("Timer");
+            }
+        }
+
         private Exercise _selectedExercise;
         public Exercise SelectedExercise
         {
@@ -70,6 +82,7 @@ namespace WorkoutApp.ViewModel
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
             Rng = new Random();
+            Timer = new WorkoutTimer();
 
             InstantiateCommands();
 
@@ -172,6 +185,16 @@ namespace WorkoutApp.ViewModel
             MongoHelper.AddWorkoutAsync(SelectedWorkout);
 
             ReadWorkouts();
+        }
+        public void StartWorkout(object parameter)
+        {
+            // Summary
+            //
+            // Tied to StartWorkoutCommand, calls appropriate method in Timer object
+
+            if (!(parameter is Workout)) throw new ArgumentNullException();
+
+            Timer.StartWorkout(parameter as Workout);
         }
         public void ExitApplication()
         {

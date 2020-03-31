@@ -16,4 +16,8 @@
     <PackageReference Include="MongoDB.Driver" Version="2.10.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\Converters\" />
+  </ItemGroup>
+
 </Project>
