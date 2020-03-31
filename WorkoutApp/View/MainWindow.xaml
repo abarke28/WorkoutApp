@@ -102,6 +102,7 @@
             <Grid Grid.Row="1" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0">
@@ -111,8 +112,30 @@
                              BorderThickness="0"
                              VerticalAlignment="Center"/>
                 </Label>
+                <StackPanel Grid.Row="1" 
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Label Content="Reps:" 
+                           VerticalContentAlignment="Stretch" 
+                           FontWeight="Normal"
+                           FontSize="12"/>
+                    <Label Content="{Binding SelectedWorkout.RepSeconds}"
+                           VerticalContentAlignment="Stretch"
+                           Width="45"
+                           FontWeight="Normal"
+                           FontSize="12"/>
+                    <Label Content="Rests:" 
+                           VerticalContentAlignment="Stretch" 
+                           FontWeight="Normal"
+                           FontSize="12"/>
+                    <Label Content="{Binding SelectedWorkout.RestSeconds}"
+                           VerticalContentAlignment="Stretch"
+                           Width="45"
+                           FontWeight="Normal"
+                           FontSize="12"/>
+                </StackPanel>
                 <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
-                          Grid.Row="1"
+                          Grid.Row="2"
                           BorderThickness="0"
                           Margin="2">
                     <ListView.ItemTemplate>
