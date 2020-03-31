@@ -10,6 +10,7 @@ namespace WorkoutApp.Model
         public string Description { get; set; }
         public int RepSeconds { get; set; }
         public int RestSeconds { get; set; }
+        public int SetSeconds { get; set; }
         public List<Station> Stations { get; set; }
         public Workout()
         {

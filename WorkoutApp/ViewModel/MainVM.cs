@@ -114,7 +114,7 @@ namespace WorkoutApp.ViewModel
                 Workouts.Add(workout);
             }
         }
-        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3, int repSeconds = 35, int restSeconds = 10)
+        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3, int repSeconds = 35, int restSeconds = 10, int setSeconds = 45)
         {
             // Summary
             //
@@ -142,7 +142,9 @@ namespace WorkoutApp.ViewModel
                 Name = "New Workout",
                 Description = "Randomly Generated Workout",
                 RepSeconds = repSeconds,
-                RestSeconds = restSeconds
+                RestSeconds = restSeconds,
+                SetSeconds = setSeconds
+                
             };
 
             // Fill workout

@@ -133,6 +133,15 @@
                            Width="45"
                            FontWeight="Normal"
                            FontSize="12"/>
+                    <Label Content="Sets:" 
+                           VerticalContentAlignment="Stretch" 
+                           FontWeight="Normal"
+                           FontSize="12"/>
+                    <Label Content="{Binding SelectedWorkout.SetSeconds}"
+                           VerticalContentAlignment="Stretch"
+                           Width="45"
+                           FontWeight="Normal"
+                           FontSize="12"/>
                 </StackPanel>
                 <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
                           Grid.Row="2"
