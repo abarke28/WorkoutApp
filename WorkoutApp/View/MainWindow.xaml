@@ -35,7 +35,7 @@
         </Menu> <!--Menu-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -96,47 +96,60 @@
                          BorderThickness="0"
                          Margin="3"/>
             </Label> <!--Selected Workout Label-->
-            <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
-                      Grid.Column="2"
-                      Grid.Row="1"
-                      BorderThickness="0"
-                      Margin="2">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="3*"/>
-                            </Grid.RowDefinitions>
-                            <Label Grid.Row="0"
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0">
+                    <TextBox Text="{Binding SelectedWorkout.Description}"
+                             FontSize="12"
+                             FontWeight="Normal"
+                             BorderThickness="0"
+                             VerticalAlignment="Center"/>
+                </Label>
+                <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
+                          Grid.Row="1"
+                          BorderThickness="0"
+                          Margin="2">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="3*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
                                        FontSize="12"
                                        Content="{Binding StationName}"
                                        HorizontalContentAlignment="Left"
                                        Padding="0,5"/>
-                            <ListBox ItemsSource="{Binding Exercises}"
+                                <ListBox ItemsSource="{Binding Exercises}"
                                      Grid.Row="1"
                                      HorizontalAlignment="Stretch"
                                      HorizontalContentAlignment="Stretch"
                                      BorderThickness="0">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ExerciseName}">
-                                            <TextBlock.ToolTip>
-                                                <ToolTip MaxWidth="200" Background="White">
-                                                    <TextBlock Text="{Binding Description}"
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ExerciseName}">
+                                                <TextBlock.ToolTip>
+                                                    <ToolTip MaxWidth="200" Background="White">
+                                                        <TextBlock Text="{Binding Description}"
                                                                TextWrapping="Wrap"
                                                                HorizontalAlignment="Stretch"
                                                                VerticalAlignment="Stretch"/>
-                                                </ToolTip>
-                                            </TextBlock.ToolTip>
+                                                    </ToolTip>
+                                                </TextBlock.ToolTip>
                                         </TextBlock>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView> <!--Selected Workout-->
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <!--Selected Workout-->
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>
