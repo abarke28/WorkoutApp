@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="550" Width="800">
+        Title="Poor Yorrick Workouts" Height="550" Width="1100">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <Style TargetType="Label">
@@ -27,6 +27,10 @@
                           Command="{Binding SaveWorkoutCommand}"
                           CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
+                <MenuItem Header="Start Current Workout"
+                          CommandParameter="{Binding SelectedWorkout, Mode=Default}"
+                          Command="{Binding StartWorkoutCommand}"/>
+                <Separator/>
                 <MenuItem Header="Exit"
                           Command="{Binding ExitApplicationCommand}"/>
             </MenuItem>
@@ -37,6 +41,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -185,6 +190,33 @@
                 </ListView>
                 <!--Selected Workout-->
             </Grid> <!--Selected Workout-->
+            <Label Grid.Row="0" 
+               Grid.Column="3" 
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch">
+                <TextBlock Text="Timer"
+                           Margin="3"/>
+            </Label> <!--Timer Label-->
+            <Grid Grid.Row="1"
+                  Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontSize="36"
+                           Text="{Binding Timer.TimerText}"/>
+            </Grid> <!--Timer-->
         </Grid>
     </DockPanel>
 </Window>

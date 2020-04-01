@@ -70,6 +70,7 @@ namespace WorkoutApp.ViewModel
                 if (_selectedWorkout == value) return;
                 _selectedWorkout = value;
                 SaveWorkoutCommand.RaiseCanExecuteChanged();
+                StartWorkoutCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
         }
@@ -77,6 +78,7 @@ namespace WorkoutApp.ViewModel
         public ICommand RandomWorkoutCommand { get; set; }
         public BaseCommand SaveWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
+        public BaseCommand StartWorkoutCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
@@ -96,6 +98,7 @@ namespace WorkoutApp.ViewModel
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
+            StartWorkoutCommand = new BaseCommand(w => w != null, w => StartWorkout(w));
         }
         public void ReadExercises()
         {
