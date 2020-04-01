@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="550" Width="1100">
+        Title="Poor Yorrick Workouts" Height="550" Width="800">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <Style TargetType="Label">
@@ -40,7 +40,7 @@
         </Menu> <!--Menu-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

@@ -73,7 +73,6 @@ namespace WorkoutApp.Model
         private readonly DispatcherTimer _dispatcherTimer;
 
         private readonly List<TimerStation> _timeStack;
-
         public WorkoutTimer()
         {
             _dispatcherTimer = new DispatcherTimer();
@@ -88,41 +87,53 @@ namespace WorkoutApp.Model
             // repersenting an exercise or rest
 
             int numStations = workout.Stations.Count;
+            int stationReps = workout.StationReps;
             int exercisesPerStation = workout.Stations[0].Exercises.Count;
 
+            // Looping through Stations
             for (int i=0; i < numStations; i++)
             {
-                for (int j=0; j < exercisesPerStation; j++)
+                // Looping through Reps per Station
+                for (int j=0; j < stationReps; j++)
                 {
-                    // Add Exercise
-                    _timeStack.Add(new TimerStation
+                    // Looing through Exercises
+                    for (int k = 0; k < exercisesPerStation; k++)
                     {
-                        ExerciseName = workout.Stations[i].Exercises[j].ExerciseName,
-                        Description = workout.Stations[i].Exercises[j].Description,
-                        ExerciseNumber = (j+1).ToString(),
-                        StationNumber = (i+1).ToString(),
-                        Time = new TimeSpan(0,0,workout.RepSeconds)
-                    });
+                        // Add Exercise
+                        _timeStack.Add(new TimerStation
+                        {
+                            ExerciseName = workout.Stations[i].Exercises[k].ExerciseName,
+                            Description = workout.Stations[i].Exercises[k].Description,
+                            ExerciseNumber = (k + 1).ToString(),
+                            StationNumber = (i + 1).ToString(),
+                            Time = new TimeSpan(0, 0, workout.RepSeconds)
+                        });
 
-                    // Add Rep Rest unless about to add a Station Rest
+                        System.Diagnostics.Debug.WriteLine("Exercise "+(i*exercisesPerStation + (k+1)).ToString());
 
-                    // Need to add 2 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
-                    if ((j + 2) == exercisesPerStation) break;
+                        // Add Rep Rest unless about to add a Station Rest
 
-                    _timeStack.Add(new TimerStation
-                    {
-                        ExerciseName = "Rest",
-                        Description = String.Empty,
-                        ExerciseNumber = (j+1).ToString(),
-                        StationNumber = (i+1).ToString(),
-                        Time = new TimeSpan(0,0,workout.RestSeconds)
-                    });
+                        // Need to add 1 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
+                        if (((k + 1) == exercisesPerStation) && ((j + 1) == stationReps)) break;
+
+                        _timeStack.Add(new TimerStation
+                        {
+                            ExerciseName = "Rest",
+                            Description = String.Empty,
+                            ExerciseNumber = (k + 1).ToString(),
+                            StationNumber = (i + 1).ToString(),
+                            Time = new TimeSpan(0, 0, workout.RestSeconds)
+                        });
+
+
+                        System.Diagnostics.Debug.WriteLine("10 Second Rest");
+                    }
                 }
 
                 // Add Station Rest unless workout is over
 
-                // Need to add 2 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
-                if ((i + 2) == numStations) break;
+                // Need to add 1 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
+                if ((i + 1) == numStations) break;
 
                 _timeStack.Add(new TimerStation 
                 {
@@ -132,6 +143,8 @@ namespace WorkoutApp.Model
                     StationNumber = "--",
                     Time = new TimeSpan(0,0,workout.SetSeconds)
                 });
+
+                System.Diagnostics.Debug.WriteLine("45 Second Rest");
             }
         }
         public void StartWorkout(Workout workout)

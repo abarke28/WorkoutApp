@@ -11,6 +11,7 @@ namespace WorkoutApp.Model
         public int RepSeconds { get; set; }
         public int RestSeconds { get; set; }
         public int SetSeconds { get; set; }
+        public int StationReps { get; set; }
         public List<Station> Stations { get; set; }
         public Workout()
         {
