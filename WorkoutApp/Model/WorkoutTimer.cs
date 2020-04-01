@@ -122,8 +122,6 @@ namespace WorkoutApp.Model
                             Time = new TimeSpan(0, 0, workout.RepSeconds)
                         });
 
-                        System.Diagnostics.Debug.WriteLine("Exercise "+(i*exercisesPerStation + (k+1)).ToString());
-
                         // Add Rep Rest unless about to add a Station Rest
 
                         // Need to add 1 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
@@ -138,9 +136,6 @@ namespace WorkoutApp.Model
                             StationNumber = (i + 1).ToString(),
                             Time = new TimeSpan(0, 0, workout.RestSeconds)
                         });
-
-
-                        System.Diagnostics.Debug.WriteLine("10 Second Rest");
                     }
                 }
 
@@ -158,8 +153,6 @@ namespace WorkoutApp.Model
                     StationNumber = "--",
                     Time = new TimeSpan(0,0,workout.SetSeconds)
                 });
-
-                System.Diagnostics.Debug.WriteLine("45 Second Rest");
             }
         }
         public void StartWorkout(Workout workout)

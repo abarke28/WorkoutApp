@@ -69,12 +69,41 @@ namespace WorkoutApp.ViewModel
             {
                 if (_selectedWorkout == value) return;
                 _selectedWorkout = value;
+
+                if (value == null) WorkoutSelected = false;
+                else if (value != null) WorkoutSelected = true;
+
                 SaveWorkoutCommand.RaiseCanExecuteChanged();
                 StartWorkoutCommand.RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
         }
-        public Random Rng { get; set; }
+
+        private bool _workoutActive;
+        public bool WorkoutActive
+        {
+            get { return _workoutActive; }
+            set
+            {
+                if (_workoutActive == value) return;
+                _workoutActive = value;
+                OnPropertyChanged("WorkoutActive");
+            }
+        }
+
+        private bool _workoutSelected;
+        public bool WorkoutSelected
+        {
+            get { return _workoutSelected; }
+            set
+            {
+                if (_workoutSelected == value) return;
+                _workoutSelected = value;
+                OnPropertyChanged("WorkoutSelected");
+            }
+        }
+
+        private readonly Random _rng;
         public ICommand RandomWorkoutCommand { get; set; }
         public BaseCommand SaveWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
@@ -83,7 +112,7 @@ namespace WorkoutApp.ViewModel
         {
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
-            Rng = new Random();
+            _rng = new Random();
             Timer = new WorkoutTimer();
 
             InstantiateCommands();
@@ -146,7 +175,7 @@ namespace WorkoutApp.ViewModel
             // Get list of distinct randomized exercises of necessary size
             while (randomizedExercises.Count != numStations * numExercises)
             {
-                randIndex = Rng.Next(exercises.Count);
+                randIndex = _rng.Next(exercises.Count);
 
                 if (!randomizedExercises.Contains(exercises[randIndex]))
                 {
