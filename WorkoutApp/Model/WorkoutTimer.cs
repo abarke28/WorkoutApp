@@ -20,6 +20,18 @@ namespace WorkoutApp.Model
             }
         }
 
+        private string _roundNumText;
+        public string RoundNumText
+        {
+            get { return _roundNumText; }
+            set
+            {
+                if (_roundNumText == value) return;
+                _roundNumText = value;
+                OnPropertyChanged("RoundNumText");
+            }
+        }
+
         private string _stationNumText;
         public string StationNumText
         {
@@ -105,6 +117,7 @@ namespace WorkoutApp.Model
                             ExerciseName = workout.Stations[i].Exercises[k].ExerciseName,
                             Description = workout.Stations[i].Exercises[k].Description,
                             ExerciseNumber = (k + 1).ToString(),
+                            RoundNumber = (j + 1).ToString(),
                             StationNumber = (i + 1).ToString(),
                             Time = new TimeSpan(0, 0, workout.RepSeconds)
                         });
@@ -121,6 +134,7 @@ namespace WorkoutApp.Model
                             ExerciseName = "Rest",
                             Description = String.Empty,
                             ExerciseNumber = (k + 1).ToString(),
+                            RoundNumber = (j + 1).ToString(),
                             StationNumber = (i + 1).ToString(),
                             Time = new TimeSpan(0, 0, workout.RestSeconds)
                         });
@@ -140,6 +154,7 @@ namespace WorkoutApp.Model
                     ExerciseName = "Rest",
                     Description = String.Empty,
                     ExerciseNumber = "--",
+                    RoundNumber = "--",
                     StationNumber = "--",
                     Time = new TimeSpan(0,0,workout.SetSeconds)
                 });
@@ -161,6 +176,7 @@ namespace WorkoutApp.Model
 
             // Set initial properties of timer
             TimerText = (int)_timeStack[_stackIndex].Time.TotalSeconds;
+            RoundNumText = _timeStack[_stackIndex].RoundNumber;
             StationNumText = _timeStack[_stackIndex].StationNumber;
             ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
@@ -221,6 +237,7 @@ namespace WorkoutApp.Model
             _stackIndex++;
 
             TimerText = (int)_timeStack[_stackIndex].Time.TotalSeconds;
+            RoundNumText = _timeStack[_stackIndex].RoundNumber;
             StationNumText = _timeStack[_stackIndex].StationNumber;
             ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;

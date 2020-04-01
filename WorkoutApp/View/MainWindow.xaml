@@ -13,6 +13,22 @@
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
+        <Style TargetType="TextBlock" x:Key="Clock">
+            <Setter Property="FontSize" Value="90"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="3">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+                <Trigger Property="Text" Value="2">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+                <Trigger Property="Text" Value="1">
+                    <Setter Property="Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <DockPanel DataContext="{Binding Source={StaticResource vm}}">
         <Menu DockPanel.Dock="Top" Height="20">
@@ -202,20 +218,66 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Grid.ColumnSpan="2"
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontSize="36"
-                           Text="{Binding Timer.TimerText}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Grid.RowSpan="2" Grid.ColumnSpan="3"
+                           Style="{StaticResource Clock}"
+                           Text="{Binding Timer.TimerText}"/> <!--Clock-->
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                    <Label Content="Station"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                    <Label Content="{Binding Timer.StationNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                </StackPanel> <!--StationNum-->
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                    <Label Content="Exercise"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                    <Label Content="{Binding Timer.ExerciseNumText}"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"/>
+                </StackPanel> <!--ExerciseNum-->
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                    <Label Content="Round"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                    <Label Content="{Binding Timer.RoundNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                </StackPanel> <!--RoundNum-->
+                <Label Content="{Binding Timer.ExerciseNameText}"
+                       Grid.Row="3"
+                       Grid.ColumnSpan="3"
+                       FontSize="18"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"/> <!--ExerciseName-->
+                <TextBlock Text="{Binding Timer.ExerciseDescriptionText}"
+                       Grid.Row="4"
+                       Grid.ColumnSpan="3"
+                       FontWeight="Normal"
+                       FontSize="14"
+                       TextWrapping="Wrap"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/> <!--ExerciseDescription-->
             </Grid> <!--Timer-->
         </Grid>
     </DockPanel>

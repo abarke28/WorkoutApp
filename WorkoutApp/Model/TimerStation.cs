@@ -56,6 +56,18 @@ namespace WorkoutApp.Model
             }
         }
 
+        private string _roundNumber;
+        public string RoundNumber
+        {
+            get { return _roundNumber; }
+            set
+            {
+                if (_roundNumber == value) return;
+                _roundNumber = value;
+                OnPropertyChanged("RoundNumber");
+            }
+        }
+
         private string _description;
         public string Description
         {
