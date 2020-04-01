@@ -211,15 +211,12 @@
                 </ListView>
                 <!--Selected Workout-->
             </Grid> <!--Selected Workout-->
-            <Label Grid.Row="0" 
-                   Grid.Column="3"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Stretch">
-                    <TextBlock Text="Timer"
-                               Margin="3"/>
+            <Label Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <TextBlock Text="Timer" Margin="3"/>
             </Label> <!--Timer Label-->
             <Grid Grid.Row="1"
-                  Grid.Column="3">
+                  Grid.Column="3"
+                  Visibility="{Binding WorkoutActive, Converter={StaticResource b2vh}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -283,10 +280,10 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/> <!--ExerciseDescription-->
                 </StackPanel> <!--ExerciseName&Description-->
-                <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                    <Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="60">
-                    </Button>                    
-                </StackPanel>
+                <Button Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Height="40" Width="40" Command="{Binding PlayPauseWorkoutCommand}">
+                    <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
+                </Button>
             </Grid> <!--Timer-->
         </Grid>
     </DockPanel>

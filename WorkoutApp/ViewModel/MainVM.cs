@@ -108,6 +108,7 @@ namespace WorkoutApp.ViewModel
         public BaseCommand SaveWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
         public BaseCommand StartWorkoutCommand { get; set; }
+        public ICommand PlayPauseWorkoutCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
@@ -127,7 +128,8 @@ namespace WorkoutApp.ViewModel
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
-            StartWorkoutCommand = new BaseCommand(w => w != null, w => StartWorkout(w));
+            StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
+            PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
         }
         public void ReadExercises()
         {
@@ -219,7 +221,7 @@ namespace WorkoutApp.ViewModel
 
             ReadWorkouts();
         }
-        public void StartWorkout(object parameter)
+        public void LoadTimer(object parameter)
         {
             // Summary
             //
@@ -227,7 +229,16 @@ namespace WorkoutApp.ViewModel
 
             if (!(parameter is Workout)) throw new ArgumentNullException();
 
-            Timer.StartWorkout(parameter as Workout);
+            Timer.LoadWorkout(parameter as Workout);
+            WorkoutActive = true;
+        }
+        public void PlayPauseWorkout()
+        {
+            // Summary
+            //
+            // Calls timers play pause method
+
+            Timer.PlayPauseWorkout();
         }
         public void ExitApplication()
         {

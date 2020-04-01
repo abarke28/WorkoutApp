@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Media;
 using System.Text;
 using System.Windows.Threading;
+using WorkoutApp.AppResources;
 
 namespace WorkoutApp.Model
 {
@@ -80,7 +82,21 @@ namespace WorkoutApp.Model
             }
         }
 
+        private string _playPauseButtonSource;
+        public string PlayPauseButtonSource
+        {
+            get { return _playPauseButtonSource; }
+            set
+            {
+                if (_playPauseButtonSource == value) return;
+                _playPauseButtonSource = value;
+                OnPropertyChanged("PlayPauseButtonSource");
+            }
+        }
+
         private int _stackIndex;
+
+        private readonly SoundPlayer _soundPlayer;
 
         private readonly DispatcherTimer _dispatcherTimer;
 
@@ -88,8 +104,11 @@ namespace WorkoutApp.Model
         public WorkoutTimer()
         {
             _dispatcherTimer = new DispatcherTimer();
+            _soundPlayer = new SoundPlayer();
             _timeStack = new List<TimerStation>();
             _stackIndex = 0;
+
+            PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
         }
         public void BuildTimer(Workout workout)
         {
@@ -155,11 +174,11 @@ namespace WorkoutApp.Model
                 });
             }
         }
-        public void StartWorkout(Workout workout)
+        public void LoadWorkout(Workout workout)
         {
             // Summary
             //
-            // Set ticks to 1 second, sets initial timer properties, subscribes to event, starts timer
+            // Set ticks to 1 second, sets initial timer properties, subscribes to event, does not actually start timer
 
             _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
             _dispatcherTimer.Tick += OnTick;
@@ -175,7 +194,7 @@ namespace WorkoutApp.Model
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
             ExerciseDescriptionText = _timeStack[_stackIndex].Description;
 
-            _dispatcherTimer.Start();
+            _dispatcherTimer.IsEnabled = false;
         }
         public void PlayPauseWorkout()
         {
@@ -187,9 +206,11 @@ namespace WorkoutApp.Model
             {
                 case true:
                     _dispatcherTimer.Stop();
+                    PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
                     break;
                 case false:
                     _dispatcherTimer.Start();
+                    PlayPauseButtonSource = AppResources.AppResources.PAUSEIMAGE;
                     break;
             }
         }
@@ -216,12 +237,51 @@ namespace WorkoutApp.Model
 
             TimerText -= 1;
 
-            // Current movement/rest is not yet over
-            if (TimerText != 0) return;
+            switch (TimerText)
+            {
+                case 3:
+                    _soundPlayer.SoundLocation = AppResources.AppResources.THREE;
+                    _soundPlayer.Play();
+                    break;
+
+                case 2:
+                    _soundPlayer.SoundLocation = AppResources.AppResources.TWO;
+                    _soundPlayer.Play();
+                    break;
+
+                case 1:
+                    _soundPlayer.SoundLocation = AppResources.AppResources.ONE;
+                    _soundPlayer.Play();
+                    break;
+
+                case 0:
+                    // Check if workout is over
+                    if (!((_stackIndex + 1) == _timeStack.Count))
+                    {
+                        switch (_timeStack[_stackIndex + 1].ExerciseName)
+                        {
+                            case "Rest":
+                                _soundPlayer.SoundLocation = AppResources.AppResources.REST;
+                                _soundPlayer.Play();
+                                break;
+
+                            default:
+                                _soundPlayer.SoundLocation = AppResources.AppResources.GO;
+                                _soundPlayer.Play();
+                                break;
+                        }
+                    }
+                    break;
+            }
+
+            // Current movement/rest is not yet over. Let timer hit 0.
+            if (TimerText != -1) return;
 
             // Have finished final stackIndex item
             if ((_stackIndex + 1) == _timeStack.Count)
             {
+                _soundPlayer.SoundLocation = AppResources.AppResources.DONE;
+                _soundPlayer.Play();
                 StopWorkout();
                 return;
             }
