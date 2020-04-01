@@ -7,10 +7,12 @@
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         xmlns:cv="clr-namespace:WorkoutApp.ViewModel.Converters"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="550" Width="800">
+        Title="Poor Yorrick Workouts" Height="550" Width="830">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <cv:BoolToVisibilityHiddenConverter x:Key="b2vh"/>
+        <SolidColorBrush x:Key="PlayPauseBarColour" Color="#2f80ba"/>
+        <SolidColorBrush x:Key="ListViewContrastColour" Color="#5890cc"/>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
@@ -58,7 +60,7 @@
         </Menu> <!--Menu-->
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -109,7 +111,8 @@
                                        Text="{Binding Name}"
                                        FontWeight="DemiBold"/>
                             <TextBlock Grid.Row="1"
-                                       Text="{Binding Description}"/>
+                                       Text="{Binding Description}"
+                                       Foreground="{StaticResource ListViewContrastColour}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -227,7 +230,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="1" Grid.Column="0"
                            Grid.RowSpan="2" Grid.ColumnSpan="3"
@@ -280,10 +283,14 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/> <!--ExerciseDescription-->
                 </StackPanel> <!--ExerciseName&Description-->
-                <Button Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
-                        Height="40" Width="40" Command="{Binding PlayPauseWorkoutCommand}">
-                    <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
-                </Button>
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Background="{StaticResource PlayPauseBarColour}">
+                    <Button Height="40" Width="40"
+                            BorderThickness="0" Background="Transparent"
+                            HorizontalAlignment="Center"
+                            Command="{Binding PlayPauseWorkoutCommand}">
+                        <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
+                    </Button>
+                </Grid> <!--PlayPauseControl-->
             </Grid> <!--Timer-->
         </Grid>
     </DockPanel>

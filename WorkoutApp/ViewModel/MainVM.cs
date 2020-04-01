@@ -113,8 +113,8 @@ namespace WorkoutApp.ViewModel
         {
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
-            _rng = new Random();
             Timer = new WorkoutTimer();
+            _rng = new Random();
 
             InstantiateCommands();
 
