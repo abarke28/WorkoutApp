@@ -17,6 +17,11 @@
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
+        <Style TargetType="Label" x:Key="WorkoutProperty">
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
         <Style TargetType="TextBlock" x:Key="Clock">
             <Setter Property="FontSize" Value="90"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -136,6 +141,7 @@
                              FontSize="12"
                              FontWeight="Normal"
                              BorderThickness="0"
+                             Foreground="{StaticResource ListViewContrastColour}"
                              VerticalAlignment="Center"/>
                 </Label>
                 <StackPanel Grid.Row="1"
@@ -143,9 +149,7 @@
                             VerticalAlignment="Center">
                     <Label Content="Reps:"
                            Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           VerticalContentAlignment="Stretch" 
-                           FontWeight="Normal"
-                           FontSize="12"/>
+                           Style="{StaticResource WorkoutProperty}"/>
                     <Label Content="{Binding SelectedWorkout.RepSeconds}"
                            VerticalContentAlignment="Stretch"
                            Width="45"
@@ -153,9 +157,7 @@
                            FontSize="12"/>
                     <Label Content="Rests:"
                            Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           VerticalContentAlignment="Stretch" 
-                           FontWeight="Normal"
-                           FontSize="12"/>
+                           Style="{StaticResource WorkoutProperty}"/>
                     <Label Content="{Binding SelectedWorkout.RestSeconds}"
                            VerticalContentAlignment="Stretch"
                            Width="45"
@@ -163,9 +165,7 @@
                            FontSize="12"/>
                     <Label Content="Sets:"
                            Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           VerticalContentAlignment="Stretch" 
-                           FontWeight="Normal"
-                           FontSize="12"/>
+                           Style="{StaticResource WorkoutProperty}"/>
                     <Label Content="{Binding SelectedWorkout.SetSeconds}"
                            VerticalContentAlignment="Stretch"
                            Width="45"
