@@ -17,4 +17,10 @@
     <PackageReference Include="MongoDB.Driver" Version="2.10.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="utilities">
+      <HintPath>..\..\utilities\utilities\bin\Debug\netcoreapp3.1\utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
