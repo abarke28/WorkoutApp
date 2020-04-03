@@ -22,6 +22,30 @@ namespace WorkoutApp.Model
             }
         }
 
+        private TimeSpan _timeToGo;
+        public TimeSpan TimeToGo
+        {
+            get { return _timeToGo; }
+            set
+            {
+                if (_timeToGo == value) return;
+                _timeToGo = value;
+                OnPropertyChanged("TimeToGo");
+            }
+        }
+
+        private TimeSpan _timeElapsed;
+        public TimeSpan TimeElapsed
+        {
+            get { return _timeElapsed; }
+            set
+            {
+                if (_timeElapsed == value) return;
+                _timeElapsed = value;
+                OnPropertyChanged("TimeElapsed");
+            }
+        }
+
         private string _roundNumText;
         public string RoundNumText
         {
@@ -108,18 +132,32 @@ namespace WorkoutApp.Model
             _timeStack = new List<TimerStation>();
             _stackIndex = 0;
 
+            TimeElapsed = TimeSpan.Zero;
+            TimeToGo = TimeSpan.Zero;
+
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
         }
         public void BuildTimer(Workout workout)
         {
             // Summary
             //
-            // Takes a workout and builds a stack of timer stations with each station
-            // repersenting an exercise or rest
+            // Takes a workout and builds a stack of timer stations with each station repersenting
+            // an exercise or rest. Also, build TimeToGo up to total length of workout.
 
             int numStations = workout.Stations.Count;
             int stationReps = workout.StationReps;
             int exercisesPerStation = workout.Stations[0].Exercises.Count;
+
+            // Add 10s countdown for start of workout
+            _timeStack.Add(new TimerStation
+            {
+                ExerciseName = "Get Ready",
+                Description = String.Empty,
+                ExerciseNumber = "--",
+                RoundNumber = "--",
+                StationNumber = "--",
+                Time = TimeSpan.FromSeconds(10)
+            });
 
             // Looping through Stations
             for (int i=0; i < numStations; i++)
@@ -138,7 +176,7 @@ namespace WorkoutApp.Model
                             ExerciseNumber = (k + 1).ToString(),
                             RoundNumber = (j + 1).ToString(),
                             StationNumber = (i + 1).ToString(),
-                            Time = new TimeSpan(0, 0, workout.RepSeconds)
+                            Time = TimeSpan.FromSeconds(workout.RepSeconds)
                         });
 
                         // Add Rep Rest unless about to add a Station Rest
@@ -153,7 +191,7 @@ namespace WorkoutApp.Model
                             ExerciseNumber = (k + 1).ToString(),
                             RoundNumber = (j + 1).ToString(),
                             StationNumber = (i + 1).ToString(),
-                            Time = new TimeSpan(0, 0, workout.RestSeconds)
+                            Time = TimeSpan.FromSeconds(workout.RestSeconds)
                         });
                     }
                 }
@@ -170,9 +208,23 @@ namespace WorkoutApp.Model
                     ExerciseNumber = "--",
                     RoundNumber = "--",
                     StationNumber = "--",
-                    Time = new TimeSpan(0,0,workout.SetSeconds)
+                    Time = TimeSpan.FromSeconds(workout.SetSeconds)
                 });
             }
+
+            // Set TimeToGo to total workout length
+
+            // Add exercise time
+            TimeToGo += TimeSpan.FromSeconds(numStations * exercisesPerStation * workout.RepSeconds);
+
+            // Add exercise rest times. Take one from exercises per station since last rep is followed by station break
+            TimeToGo += TimeSpan.FromSeconds(numStations * (exercisesPerStation - 1) * workout.RestSeconds);
+
+            // Add station rest times. Take one from number of stations since last station ends workout
+            TimeToGo += TimeSpan.FromSeconds((numStations - 1) * workout.SetSeconds);
+
+            // Add 10s for start of workout countdown
+            TimeToGo += TimeSpan.FromSeconds(10);
         }
         public void LoadWorkout(Workout workout)
         {
@@ -225,6 +277,7 @@ namespace WorkoutApp.Model
             TimerText = null;
             StationNumText = String.Empty;
             ExerciseNumText = String.Empty;
+            RoundNumText = String.Empty;
             ExerciseNameText = String.Empty;
             ExerciseDescriptionText = String.Empty;
         }
@@ -255,7 +308,7 @@ namespace WorkoutApp.Model
                     break;
 
                 case 0:
-                    // Check if workout is over
+                    // As long as workout is not over.. if next station is Rest, play rest.wav, else, play go.wav
                     if (!((_stackIndex + 1) == _timeStack.Count))
                     {
                         switch (_timeStack[_stackIndex + 1].ExerciseName)
@@ -295,6 +348,10 @@ namespace WorkoutApp.Model
             ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
             ExerciseDescriptionText = _timeStack[_stackIndex].Description;
+
+            // Increment TimeElapsed, decrement TimeToGo
+            TimeElapsed += TimeSpan.FromSeconds(1);
+            TimeToGo -= TimeSpan.FromSeconds(1);
         }
         private void OnPropertyChanged(string property)
         {
