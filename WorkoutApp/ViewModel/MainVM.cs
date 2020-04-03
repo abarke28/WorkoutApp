@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Input;
 using WorkoutApp.Config;
 using WorkoutApp.Model;
+using WorkoutApp.View;
 
 namespace WorkoutApp.ViewModel
 {
@@ -167,18 +168,30 @@ namespace WorkoutApp.ViewModel
                 Workouts.Add(workout);
             }
         }
-        public void GenerateRandomWorkout(int numStations = 4, int numExercises = 3, int repSeconds = 35, 
-            int restSeconds = 10, int setSeconds = 45, int stationReps = 4)
+        public void GenerateRandomWorkout()
         {
             // Summary
             //
             // Generates new randomized workout
 
+            // Worker variables
             List<Exercise> randomizedExercises = new List<Exercise>();
 
             var exercises = (List<Exercise>)DatabaseHelper.GetExercises();
 
             int randIndex;
+
+            // Get parameters from config
+
+            if (_config == null) _config = Configuration.GetConfig();
+
+            int numStations = _config.NumStations;
+            int numExercises = _config.NumExercisesPerStation;
+            int stationReps = _config.NumRounds;
+
+            int repSeconds = _config.ExerciseLength;
+            int restSeconds = _config.ExerciseRestLength;
+            int setSeconds = _config.StationRestLength;
 
             // Get list of distinct randomized exercises of necessary size
             while (randomizedExercises.Count != numStations * numExercises)
@@ -251,6 +264,12 @@ namespace WorkoutApp.ViewModel
             // Summary
             //
             // Called by OpenConfigCommand. Opens ConfigWindow
+
+            ConfigWindow configWindow = new ConfigWindow();
+            configWindow.ShowDialog();
+
+            //Refresh config
+            _config = Configuration.GetConfig();
         }
         public void ExitApplication()
         {

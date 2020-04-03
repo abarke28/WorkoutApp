@@ -75,11 +75,11 @@
                 <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}"/>
             </MenuItem>
             <MenuItem Header="Options">
-                <MenuItem Header="Config"/>
+                <MenuItem Header="Config" Command="{Binding OpenConfigCommand}"/>
             </MenuItem>
         </Menu>
         <!--Coloumn 1 - Exercises-->
-        <Grid Grid.Row="1" Grid.Column="0" Visibility="Visible">
+        <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>

@@ -225,6 +225,9 @@ namespace WorkoutApp.Model
 
             // Add 10s for start of workout countdown
             TimeToGo += TimeSpan.FromSeconds(10);
+
+            // Add 1s per exercise & rest since timer actually shows 0
+            TimeToGo += TimeSpan.FromSeconds(2 * numStations * exercisesPerStation * stationReps);
         }
         public void LoadWorkout(Workout workout)
         {
