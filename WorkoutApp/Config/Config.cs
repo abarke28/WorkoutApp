@@ -6,7 +6,7 @@ using utilities;
 
 namespace WorkoutApp.Config
 {
-    public class Config
+    public class Configuration
     {
         public static string ConfigFilePath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
             + @"\Poor Yorrick Workouts\config.xml";
@@ -19,7 +19,7 @@ namespace WorkoutApp.Config
         public int ExerciseLength { get; set; }
         public int ExerciseRestLength { get; set; }
         public int StationRestLength { get; set; }
-        private Config()
+        private Configuration()
         {
             // Summary
             //
@@ -37,7 +37,7 @@ namespace WorkoutApp.Config
             ExerciseRestLength = 10;
             StationRestLength = 45;
         }
-        public static Config GetConfig()
+        public static Configuration GetConfig()
         {
             // Summary
             //
@@ -46,11 +46,25 @@ namespace WorkoutApp.Config
 
             if (!(File.Exists(ConfigFilePath)))
             {
-                Config config = new Config();
-                Serializer.SerializeToXmlFile<Config>(ConfigFilePath, config);
+                Configuration config = new Configuration();
+                Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, config);
             }
 
-            return Serializer.DeserializeFromXmlFile<Config>(ConfigFilePath);
+            return Serializer.DeserializeFromXmlFile<Configuration>(ConfigFilePath);
+        }
+        public static void UpdateConfig(Configuration config)
+        {
+            // Summary
+            //
+            // Write supplied config file, method is used to updates settings
+
+            if (!(File.Exists(ConfigFilePath)))
+            {
+                Configuration newConfig = new Configuration();
+                Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, newConfig);
+            }
+
+            Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, config);
         }
     }
 }

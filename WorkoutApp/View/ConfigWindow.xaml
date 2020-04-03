@@ -1,0 +1,73 @@
+﻿<Window x:Class="WorkoutApp.View.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkoutApp.View"
+        xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
+        mc:Ignorable="d"
+        Title="Configuration" Height="350" Width="300">
+    <Window.Resources>
+        <vm:ConfigVM x:Key="vm"/>
+        <Style TargetType="Label" x:Key="SettingLabel">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="SettingInput">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="5" DataContext="{Binding Source={StaticResource vm}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontWeight="DemiBold" FontSize="16"
+               Content="Settings"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Exercises/Station:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="1" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.NumExercisesPerStation, Mode=TwoWay}"/>
+        <Label Grid.Row="2" Grid.Column="0" Content="Number of Stations:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="2" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.NumStations, Mode=TwoWay}"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Number of Rounds:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="3" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.NumRounds, Mode=TwoWay}"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Length of Exercise:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="4" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.ExerciseLength, Mode=TwoWay}"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="Exercise Rest Length:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="5" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.ExerciseRestLength, Mode=TwoWay}"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Station Rest Length:"
+               Style="{StaticResource SettingLabel}"/>
+        <TextBox Grid.Row="6" Grid.Column="1"
+                 Style="{StaticResource SettingInput}"
+                 Text="{Binding Settings.StationRestLength, Mode=TwoWay}"/>
+    </Grid>
+</Window>
