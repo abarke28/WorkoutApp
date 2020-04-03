@@ -105,17 +105,21 @@ namespace WorkoutApp.ViewModel
         }
 
         private readonly Random _rng;
+
+        private Configuration _config;
         public ICommand RandomWorkoutCommand { get; set; }
         public BaseCommand SaveWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
         public BaseCommand StartWorkoutCommand { get; set; }
         public ICommand PlayPauseWorkoutCommand { get; set; }
+        public ICommand OpenConfigCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
             Timer = new WorkoutTimer();
             _rng = new Random();
+            _config = Configuration.GetConfig();
 
             InstantiateCommands();
 
@@ -131,6 +135,7 @@ namespace WorkoutApp.ViewModel
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
             StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
+            OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
         }
         public void ReadExercises()
         {
@@ -240,6 +245,12 @@ namespace WorkoutApp.ViewModel
             // Calls timers play pause method
 
             Timer.PlayPauseWorkout();
+        }
+        public void OpenConfig()
+        {
+            // Summary
+            //
+            // Called by OpenConfigCommand. Opens ConfigWindow
         }
         public void ExitApplication()
         {

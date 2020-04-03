@@ -69,5 +69,8 @@
         <TextBox Grid.Row="6" Grid.Column="1"
                  Style="{StaticResource SettingInput}"
                  Text="{Binding Settings.StationRestLength, Mode=TwoWay}"/>
+        <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
+                Content="Save" Width="80"
+                Margin="5" Background="AliceBlue"/>
     </Grid>
 </Window>
