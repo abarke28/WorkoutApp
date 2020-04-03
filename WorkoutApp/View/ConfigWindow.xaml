@@ -6,23 +6,31 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        Title="Configuration" Height="350" Width="300">
+        Title="Config" Height="300" Width="240">
     <Window.Resources>
         <vm:ConfigVM x:Key="vm"/>
         <Style TargetType="Label" x:Key="SettingLabel">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="10,0"/>
         </Style>
         <Style TargetType="TextBox" x:Key="SettingInput">
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="10,0"/>
+        </Style>
+        <Style TargetType="Grid" x:Key="ConfigGrid">
+            <Setter Property="Background" Value="#f5f5f7"/>
+        </Style>
+        <Style TargetType="Button" x:Key="SaveButton">
+            <Setter Property="Background" Value="#c2c2cc"/>
         </Style>
     </Window.Resources>
-    <Grid Margin="5" DataContext="{Binding Source={StaticResource vm}}">
+    <Grid Style="{StaticResource ConfigGrid}" DataContext="{Binding Source={StaticResource vm}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2.75*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -70,8 +78,8 @@
                  Style="{StaticResource SettingInput}"
                  Text="{Binding Settings.StationRestLength, Mode=TwoWay}"/>
         <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
-                Content="Save" Width="80"
-                Margin="5" Background="AliceBlue"
+                Content="Save" Width="80" Margin="5" 
+                Style="{StaticResource SaveButton}"
                 Command="{Binding SaveSettingsCommand}"/>
     </Grid>
 </Window>

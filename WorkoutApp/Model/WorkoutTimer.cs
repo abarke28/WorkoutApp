@@ -212,7 +212,9 @@ namespace WorkoutApp.Model
                 });
             }
 
-            // Set TimeToGo to total workout length
+            // Set TimeToGo to total workout length. Clear first
+            TimeElapsed = TimeSpan.Zero;
+            TimeToGo = TimeSpan.Zero;
 
             // Add exercise time
             TimeToGo += TimeSpan.FromSeconds(stationReps * numStations * exercisesPerStation * workout.RepSeconds);
@@ -283,6 +285,7 @@ namespace WorkoutApp.Model
             RoundNumText = String.Empty;
             ExerciseNameText = String.Empty;
             ExerciseDescriptionText = String.Empty;
+            PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
         }
         private void OnTick(object sender, EventArgs e)
         {

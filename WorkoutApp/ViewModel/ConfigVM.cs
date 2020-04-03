@@ -35,6 +35,7 @@ namespace WorkoutApp.ViewModel
             // TODO: Error handling
 
             Configuration.UpdateConfig(Settings);
+            System.Threading.Thread.Sleep(500);
         }
     }
 }
