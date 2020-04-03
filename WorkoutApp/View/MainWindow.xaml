@@ -312,11 +312,22 @@
                 <!--PlayBar-->
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
                       Background="{StaticResource PlayPauseBarColour}">
-                    <Button Height="40" Width="40"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" Height="40" Width="40"
                             BorderThickness="0" Background="Transparent"
                             HorizontalAlignment="Center"
                             Command="{Binding PlayPauseWorkoutCommand}">
                         <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
+                    </Button>
+                    <Button Grid.Column="2" Height="20" Width="40"
+                            Background="AliceBlue"
+                            HorizontalAlignment="Center" Content="Stop"
+                            CommandParameter="{Binding WorkoutActive, Mode=OneWay}"
+                            Command="{Binding StopWorkoutCommand}">
                     </Button>
                 </Grid>
             </Grid>

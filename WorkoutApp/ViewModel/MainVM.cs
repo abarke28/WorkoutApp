@@ -75,8 +75,9 @@ namespace WorkoutApp.ViewModel
                 if (value == null) WorkoutSelected = false;
                 else if (value != null) WorkoutSelected = true;
 
-                SaveWorkoutCommand.RaiseCanExecuteChanged();
-                StartWorkoutCommand.RaiseCanExecuteChanged();
+                (SaveWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (StopWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
         }
@@ -109,9 +110,10 @@ namespace WorkoutApp.ViewModel
 
         private Configuration _config;
         public ICommand RandomWorkoutCommand { get; set; }
-        public BaseCommand SaveWorkoutCommand { get; set; }
+        public ICommand SaveWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
-        public BaseCommand StartWorkoutCommand { get; set; }
+        public ICommand StartWorkoutCommand { get; set; }
+        public ICommand StopWorkoutCommand { get; set; }
         public ICommand PlayPauseWorkoutCommand { get; set; }
         public ICommand OpenConfigCommand { get; set; }
         public MainVM()
@@ -129,10 +131,11 @@ namespace WorkoutApp.ViewModel
         }
         public void InstantiateCommands()
         {
-            // x = nothing, w = workout
+            // x = nothing, w = workout, b=bool
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
+            StopWorkoutCommand = new BaseCommand(b => (bool)b, x => Timer.StopWorkout());
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
             StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
