@@ -215,10 +215,10 @@ namespace WorkoutApp.Model
             // Set TimeToGo to total workout length
 
             // Add exercise time
-            TimeToGo += TimeSpan.FromSeconds(numStations * exercisesPerStation * workout.RepSeconds);
+            TimeToGo += TimeSpan.FromSeconds(stationReps * numStations * exercisesPerStation * workout.RepSeconds);
 
             // Add exercise rest times. Take one from exercises per station since last rep is followed by station break
-            TimeToGo += TimeSpan.FromSeconds(numStations * (exercisesPerStation - 1) * workout.RestSeconds);
+            TimeToGo += TimeSpan.FromSeconds((stationReps * numStations * exercisesPerStation - numStations) * workout.RestSeconds);
 
             // Add station rest times. Take one from number of stations since last station ends workout
             TimeToGo += TimeSpan.FromSeconds((numStations - 1) * workout.SetSeconds);
@@ -290,6 +290,10 @@ namespace WorkoutApp.Model
 
             TimerText -= 1;
 
+            // Increment TimeElapsed, decrement TimeToGo
+            TimeElapsed += TimeSpan.FromSeconds(1);
+            TimeToGo -= TimeSpan.FromSeconds(1);
+
             switch (TimerText)
             {
                 case 3:
@@ -348,10 +352,6 @@ namespace WorkoutApp.Model
             ExerciseNumText = _timeStack[_stackIndex].ExerciseNumber;
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
             ExerciseDescriptionText = _timeStack[_stackIndex].Description;
-
-            // Increment TimeElapsed, decrement TimeToGo
-            TimeElapsed += TimeSpan.FromSeconds(1);
-            TimeToGo -= TimeSpan.FromSeconds(1);
         }
         private void OnPropertyChanged(string property)
         {
