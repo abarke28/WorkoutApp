@@ -11,6 +11,7 @@
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <cv:BoolToVisibilityHiddenConverter x:Key="b2vh"/>
+        <cv:BoolToVisibilityCollapsedConverter x:Key="b2vc"/>
         <SolidColorBrush x:Key="PlayPauseBarColour" Color="#2f80ba"/>
         <SolidColorBrush x:Key="ListViewContrastColour" Color="#5890cc"/>
         <Style TargetType="Label">
@@ -77,243 +78,249 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" 
+            <!--Coloumn 1 - Exercises-->
+            <Grid Grid.Row="0" Grid.Column="0" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--ExercisesLabel-->
+                <Label Grid.Row="0" 
                Grid.Column="0" 
                HorizontalAlignment="Stretch"
                VerticalAlignment="Stretch">
-                <TextBlock Text="Exercises"
+                    <TextBlock Text="Exercises"
                            Margin="3"/>
-            </Label> <!--Exercises Label-->
-            <ListView ItemsSource="{Binding Exercises}"
+                </Label>
+                <!--ExercisesList-->
+                <ListView ItemsSource="{Binding Exercises}"
                       Grid.Column="0"
                       Grid.Row="1"
                       BorderThickness="0"
                       Margin="2">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding ExerciseName}"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView> <!--Exercise List-->
-            <Label Grid.Row="0" 
-               Grid.Column="1" 
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch">
-                <TextBlock Text="Workouts"
-                           Margin="3"/>
-            </Label> <!--Workouts Label-->
-            <ListView ItemsSource="{Binding Workouts, Mode=OneWay}"
-                      SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
-                      Grid.Column="1"
-                      Grid.Row="1"
-                      BorderThickness="0"
-                      Margin="2">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0,5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       Text="{Binding Name}"
-                                       FontWeight="DemiBold"/>
-                            <TextBlock Grid.Row="1"
-                                       Text="{Binding Description}"
-                                       Foreground="{StaticResource ListViewContrastColour}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView> <!--Workout List-->
-            <Label Grid.Row="0"
-               Grid.Column="2" 
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch">
-                <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay}"
-                         BorderThickness="0"
-                         Margin="3"/>
-            </Label> <!--Selected Workout Label-->
-            <Grid Grid.Row="1" Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0">
-                    <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             FontSize="12"
-                             FontWeight="Normal"
-                             BorderThickness="0"
-                             Foreground="{StaticResource ListViewContrastColour}"
-                             VerticalAlignment="Center"/>
-                </Label>
-                <StackPanel Grid.Row="1"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                    <Label Content="Reps:"
-                           Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           Style="{StaticResource WorkoutProperty}"/>
-                    <Label Content="{Binding SelectedWorkout.RepSeconds}"
-                           VerticalContentAlignment="Stretch"
-                           Width="45"
-                           FontWeight="Normal"
-                           FontSize="12"/>
-                    <Label Content="Rests:"
-                           Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           Style="{StaticResource WorkoutProperty}"/>
-                    <Label Content="{Binding SelectedWorkout.RestSeconds}"
-                           VerticalContentAlignment="Stretch"
-                           Width="45"
-                           FontWeight="Normal"
-                           FontSize="12"/>
-                    <Label Content="Sets:"
-                           Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
-                           Style="{StaticResource WorkoutProperty}"/>
-                    <Label Content="{Binding SelectedWorkout.SetSeconds}"
-                           VerticalContentAlignment="Stretch"
-                           Width="45"
-                           FontWeight="Normal"
-                           FontSize="12"/>
-                </StackPanel>
-                <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
-                          Grid.Row="2"
-                          BorderThickness="0"
-                          Margin="2">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding ExerciseName}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <!--Coloumn 2 - Workouts-->
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--Workouts Label-->
+                <Label Grid.Row="0" Grid.Column="1" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Text="Workouts" Margin="3"/>
+                </Label>
+                <!--Workouts List-->
+                <ListView ItemsSource="{Binding Workouts, Mode=OneWay}"
+                          SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
+                          Grid.Column="1" Grid.Row="1" BorderThickness="0" Margin="2">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
-                                    <RowDefinition Height="3*"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Label Grid.Row="0"
-                                       FontSize="12"
-                                       Content="{Binding StationName}"
-                                       HorizontalContentAlignment="Left"
-                                       Padding="0,5"/>
-                                <ListBox ItemsSource="{Binding Exercises}"
-                                     Grid.Row="1"
-                                     HorizontalAlignment="Stretch"
-                                     HorizontalContentAlignment="Stretch"
-                                     BorderThickness="0">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ExerciseName}">
-                                                <TextBlock.ToolTip>
-                                                    <ToolTip MaxWidth="200" Background="White">
-                                                        <TextBlock Text="{Binding Description}"
-                                                               TextWrapping="Wrap"
-                                                               HorizontalAlignment="Stretch"
-                                                               VerticalAlignment="Stretch"/>
-                                                    </ToolTip>
-                                                </TextBlock.ToolTip>
-                                        </TextBlock>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
+                                <TextBlock Grid.Row="0" Text="{Binding Name}" FontWeight="DemiBold"/>
+                                <TextBlock Grid.Row="1" Text="{Binding Description}"
+                                           Foreground="{StaticResource ListViewContrastColour}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <!--Selected Workout-->
-            </Grid> <!--Selected Workout-->
-            <Label Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                    <TextBlock Text="Timer" Margin="3"/>
-            </Label> <!--Timer Label-->
-            <Grid Grid.Row="1"
-                  Grid.Column="3"
-                  Visibility="{Binding WorkoutActive, Converter={StaticResource b2vh}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            </Grid>
+            <!--Coloumn 3 - Selected Workout-->
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Selected Workout Label-->
+                    <Label Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay}" BorderThickness="0" Margin="3"/>
+                    </Label>
+                    <!--Selected Workout-->
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0">
+                            <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     FontSize="12" FontWeight="Normal"
+                                     Foreground="{StaticResource ListViewContrastColour}"
+                                     VerticalAlignment="Center" BorderThickness="0" />
+                        </Label>
+                        <!--Workout Parameters-->
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Label Content="Reps:"
+                                   Style="{StaticResource WorkoutProperty}"
+                                   Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"/>
+                            <Label Content="{Binding SelectedWorkout.RepSeconds}"
+                                   VerticalContentAlignment="Stretch" Width="45" 
+                                   FontWeight="Normal" FontSize="12"/>
+                            <Label Content="Rests:"
+                                   Style="{StaticResource WorkoutProperty}"
+                                   Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"/>
+                            <Label Content="{Binding SelectedWorkout.RestSeconds}"
+                                   Width="45" FontWeight="Normal" FontSize="12"
+                                   VerticalContentAlignment="Stretch"/>
+                            <Label Content="Sets:"
+                                   Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
+                                   Style="{StaticResource WorkoutProperty}"/>
+                            <Label Content="{Binding SelectedWorkout.SetSeconds}"
+                                   VerticalContentAlignment="Stretch" Width="45"
+                                   FontWeight="Normal" FontSize="12"/>
+                        </StackPanel>
+                        <!--Workout Stations List-->
+                        <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
+                                   Grid.Row="2" BorderThickness="0" Margin="2">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="3*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" FontSize="12" Padding="0,5"
+                                               Content="{Binding StationName}"
+                                               HorizontalContentAlignment="Left"/>
+                                        <!--Exercises Lists-->
+                                        <ListBox ItemsSource="{Binding Exercises}"
+                                                  Grid.Row="1"
+                                                  HorizontalAlignment="Stretch"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  BorderThickness="0">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ExerciseName}">
+                                                        <TextBlock.ToolTip>
+                                                            <ToolTip MaxWidth="200" Background="White">
+                                                                <TextBlock Text="{Binding Description}"
+                                                                           TextWrapping="Wrap"
+                                                                           HorizontalAlignment="Stretch"
+                                                                           VerticalAlignment="Stretch"/>
+                                                                </ToolTip>
+                                                        </TextBlock.ToolTip>
+                                                     </TextBlock>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!--Coloumn 4 - Timer-->
+            <Grid Grid.Row="0" Grid.Column="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="0">
-                    <Label Content="Station"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.StationNumText}"
-                           VerticalContentAlignment="Center"
-                           HorizontalContentAlignment="Center"/>
-                </StackPanel> <!--StationNum-->
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="1">
-                    <Label Content="Exercise"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.ExerciseNumText}"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Center"/>
-                </StackPanel> <!--ExerciseNum-->
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="2">
-                    <Label Content="Round"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.RoundNumText}"
-                           VerticalContentAlignment="Center"
-                           HorizontalContentAlignment="Center"/>
-                </StackPanel> <!--RoundNum-->
-                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                <!--Timer Label-->
+                <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <TextBlock Text="Timer" Margin="3"/>
+                </Label>
+                <!--Timer Body Grid-->
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Elapsed:" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="1" Content="{Binding Timer.TimeElapsed}" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="2" Content="To Go:" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="3" Content="{Binding Timer.TimeToGo}" Style="{StaticResource TimeSpanLabel}"/>
-                </Grid> <!--TimeElapsedAndToGo-->
-                <TextBlock Grid.Row="2" Grid.Column="0"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <!--StationNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        <Label Content="Station"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.StationNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--ExerciseNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                        <Label Content="Exercise"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.ExerciseNumText}"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--RoundNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                        <Label Content="Round"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.RoundNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--Time Elapsed & To Go-->
+                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Elapsed:" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="1" Content="{Binding Timer.TimeElapsed}" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="2" Content="To Go:" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="3" Content="{Binding Timer.TimeToGo}" Style="{StaticResource TimeSpanLabel}"/>
+                    </Grid>
+                    <!--Clock-->
+                    <TextBlock Grid.Row="2" Grid.Column="0"
                            Grid.RowSpan="2" Grid.ColumnSpan="3"
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            Style="{StaticResource Clock}"
-                           Text="{Binding Timer.TimerText}"/> <!--Clock-->
-                <StackPanel Grid.Row="4"
-                            Grid.ColumnSpan="3"
-                            Orientation="Vertical">
-                    <Label Content="{Binding Timer.ExerciseNameText}"
-                       FontSize="18"
-                       VerticalContentAlignment="Center"
-                       HorizontalContentAlignment="Center"/> <!--ExerciseName-->
-                    <TextBlock Text="{Binding Timer.ExerciseDescriptionText}"
-                       FontWeight="Normal" FontSize="12"
-                       TextWrapping="Wrap"
-                       Margin="5,0"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/> <!--ExerciseDescription-->
-                </StackPanel> <!--ExerciseName&Description-->
-                <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
+                           Text="{Binding Timer.TimerText}"/>
+                    <!--Current Exercise & Description-->
+                    <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Orientation="Vertical">
+                        <Label Content="{Binding Timer.ExerciseNameText}" FontSize="18"
+                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <TextBlock Text="{Binding Timer.ExerciseDescriptionText}"
+                                   FontWeight="Normal" FontSize="12" TextWrapping="Wrap" Margin="5,0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                    <!--PlayBar-->
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
                       Background="{StaticResource PlayPauseBarColour}">
-                    <Button Height="40" Width="40"
+                        <Button Height="40" Width="40"
                             BorderThickness="0" Background="Transparent"
                             HorizontalAlignment="Center"
                             Command="{Binding PlayPauseWorkoutCommand}">
-                        <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
-                    </Button>
-                </Grid> <!--PlayPauseControl-->
-            </Grid> <!--Timer-->
+                            <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
         </Grid>
     </DockPanel>
 </Window>
