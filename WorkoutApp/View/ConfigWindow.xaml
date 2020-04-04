@@ -1,4 +1,5 @@
-﻿<Window x:Class="WorkoutApp.View.ConfigWindow"
+﻿
+<Window x:Class="WorkoutApp.View.ConfigWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +7,7 @@
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
+        x:Uid="ConfigWindow"
         Title="Config" Height="300" Width="240">
     <Window.Resources>
         <vm:ConfigVM x:Key="vm"/>

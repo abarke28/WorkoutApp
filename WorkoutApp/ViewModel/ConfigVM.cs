@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using WorkoutApp.Config;
 
@@ -35,7 +36,7 @@ namespace WorkoutApp.ViewModel
             // TODO: Error handling
 
             Configuration.UpdateConfig(Settings);
-            System.Threading.Thread.Sleep(500);
+            //Application.Current.Windows[1].Close();
         }
     }
 }
