@@ -39,6 +39,20 @@ namespace WorkoutApp.Model
 
             return collection.FindSync(w => true).ToEnumerable();
         }
+        public static void DeleteWorkout(Workout workout)
+        {
+            // Summary
+            //
+            // Delete supplied workout
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Workout>(WORKOUTS_COLLECTION);
+
+            var deletionFilter = Builders<Workout>.Filter.Eq("Stations", workout.Stations);
+
+            collection.DeleteOneAsync(deletionFilter);
+        }
         public static void AddExerciseAsync(Exercise exercise)
         {
             // Summary

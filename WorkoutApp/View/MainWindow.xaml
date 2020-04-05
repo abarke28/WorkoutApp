@@ -90,10 +90,10 @@
         <Menu Grid.Row="0" Grid.ColumnSpan="4">
             <MenuItem Header="File">
                 <MenuItem Header="Add New Exercise"/>
-                <MenuItem Header="Add New Workout"/>
                 <Separator/>
                 <MenuItem Header="Generate Random Workout" Command="{Binding RandomWorkoutCommand}"/>
                 <MenuItem Header="Build Custom Workout"/>
+                <Separator/>
                 <MenuItem Header="Save Current Workout" Command="{Binding SaveWorkoutCommand}"
                               CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
@@ -161,6 +161,11 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete Workout" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
         </Grid>
         <!--Coloumn 3 - Selected Workout-->

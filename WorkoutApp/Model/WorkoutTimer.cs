@@ -280,17 +280,11 @@ namespace WorkoutApp.Model
 
             if (_dispatcherTimer.IsEnabled) _dispatcherTimer.Stop();
 
-            TimerText = null;
-            StationNumText = String.Empty;
-            ExerciseNumText = String.Empty;
-            RoundNumText = String.Empty;
             ExerciseNameText = String.Empty;
             ExerciseDescriptionText = String.Empty;
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
 
             // Reset appropriate properties
-            TimeElapsed = TimeSpan.Zero;
-            TimeToGo = TimeSpan.Zero;
 
             _stackIndex = 0;
         }
@@ -307,6 +301,7 @@ namespace WorkoutApp.Model
             TimeElapsed += TimeSpan.FromSeconds(1);
             TimeToGo -= TimeSpan.FromSeconds(1);
 
+            // Play sounds counting down
             switch (TimerText)
             {
                 case 3:

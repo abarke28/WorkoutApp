@@ -110,6 +110,7 @@ namespace WorkoutApp.ViewModel
         private Configuration _config;
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand SaveWorkoutCommand { get; set; }
+        public ICommand DeleteWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
         public ICommand StartWorkoutCommand { get; set; }
         public ICommand StopWorkoutCommand { get; set; }
@@ -130,13 +131,14 @@ namespace WorkoutApp.ViewModel
         }
         public void InstantiateCommands()
         {
-            // x = nothing, w = workout, b=bool
+            // x = nothing, w = workout, b = bool
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
-            StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
+            DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
             StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
+            StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
         }
@@ -241,6 +243,17 @@ namespace WorkoutApp.ViewModel
             MongoHelper.AddWorkoutAsync(SelectedWorkout);
 
             ReadWorkouts();
+        }
+        public void DeleteWorkout(Object parameter)
+        {
+            // Summary
+            //
+            // Bound to DeleteWorkoutCommand. Call appropriate method in
+            // MongoHelper class
+
+            if (!(parameter is Workout)) throw new ArgumentNullException();
+
+            MongoHelper.DeleteWorkout(parameter as Workout);
         }
         public void LoadTimer(object parameter)
         {
