@@ -128,6 +128,7 @@ namespace WorkoutApp.Model
         public WorkoutTimer()
         {
             _dispatcherTimer = new DispatcherTimer();
+            _dispatcherTimer.Tick += OnTick;
             _soundPlayer = new SoundPlayer();
             _timeStack = new List<TimerStation>();
             _stackIndex = 0;
@@ -143,6 +144,8 @@ namespace WorkoutApp.Model
             //
             // Takes a workout and builds a stack of timer stations with each station repersenting
             // an exercise or rest. Also, build TimeToGo up to total length of workout.
+
+            _timeStack.Clear();
 
             int numStations = workout.Stations.Count;
             int stationReps = workout.StationReps;
@@ -235,10 +238,8 @@ namespace WorkoutApp.Model
         {
             // Summary
             //
-            // Set ticks to 1 second, sets initial timer properties, subscribes to event, does not actually start timer
-
+            // Set ticks to 1 second, sets initial timer properties, does not actually start timer
             _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            _dispatcherTimer.Tick += OnTick;
 
             // Build workout
             BuildTimer(workout);
@@ -286,6 +287,12 @@ namespace WorkoutApp.Model
             ExerciseNameText = String.Empty;
             ExerciseDescriptionText = String.Empty;
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
+
+            // Reset appropriate properties
+            TimeElapsed = TimeSpan.Zero;
+            TimeToGo = TimeSpan.Zero;
+
+            _stackIndex = 0;
         }
         private void OnTick(object sender, EventArgs e)
         {
