@@ -355,8 +355,8 @@
                     <!--Stop Button-->
                     <Button Grid.Column="2" Height="20" Width="40"
                             Background="AliceBlue"
-                            CommandParameter="{Binding WorkoutActive}"
                             Command="{Binding StopWorkoutCommand}"
+                            IsEnabled="{Binding WorkoutActive, Mode=OneWay}"
                             HorizontalAlignment="Center" Content="Stop">
                     </Button>
                 </Grid>

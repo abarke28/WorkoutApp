@@ -89,9 +89,6 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workoutActive == value) return;
                 _workoutActive = value;
-
-                (StopWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
-
                 OnPropertyChanged("WorkoutActive");
             }
         }
@@ -137,7 +134,7 @@ namespace WorkoutApp.ViewModel
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
-            StopWorkoutCommand = new BaseCommand(b => CanStopTimer(b), x => Timer.StopWorkout());
+            StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
             StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
@@ -256,14 +253,6 @@ namespace WorkoutApp.ViewModel
             Timer.LoadWorkout(parameter as Workout);
             WorkoutActive = true;
         }
-        public bool CanStopTimer(object parameter)
-        {
-            // Summary
-            //
-            // Can execute method for StopTimerCommand
-
-            return parameter != null ? (bool)parameter : false;
-        }
         public void PlayPauseWorkout()
         {
             // Summary
@@ -271,6 +260,15 @@ namespace WorkoutApp.ViewModel
             // Calls timers play pause method
 
             Timer.PlayPauseWorkout();
+        }
+        public void StopWorkout()
+        {
+            // Summary
+            //
+            // Stop workout and set appropriate flags
+
+            Timer.StopWorkout();
+            WorkoutActive = false;
         }
         public void OpenConfig()
         {
