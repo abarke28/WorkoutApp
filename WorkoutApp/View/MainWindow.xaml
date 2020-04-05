@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         xmlns:cv="clr-namespace:WorkoutApp.ViewModel.Converters"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="550" Width="830">
+        Title="Poor Yorrick Workouts" Height="550" Width="Auto">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <cv:BoolToVisibilityHiddenConverter x:Key="b2vh"/>
@@ -54,9 +54,9 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="275"/>
         </Grid.ColumnDefinitions>
         <!--Row 0 - Menu-->
         <Menu Grid.Row="0" Grid.ColumnSpan="4">
@@ -317,17 +317,19 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    <!--Play Button-->
                     <Button Grid.Column="1" Height="40" Width="40"
                             BorderThickness="0" Background="Transparent"
                             HorizontalAlignment="Center"
                             Command="{Binding PlayPauseWorkoutCommand}">
                         <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
                     </Button>
+                    <!--Stop Button-->
                     <Button Grid.Column="2" Height="20" Width="40"
                             Background="AliceBlue"
-                            HorizontalAlignment="Center" Content="Stop"
-                            CommandParameter="{Binding WorkoutActive, Mode=OneWay}"
-                            Command="{Binding StopWorkoutCommand}">
+                            CommandParameter="{Binding WorkoutActive}"
+                            Command="{Binding StopWorkoutCommand}"
+                            HorizontalAlignment="Center" Content="Stop">
                     </Button>
                 </Grid>
             </Grid>

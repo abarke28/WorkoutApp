@@ -90,10 +90,7 @@ namespace WorkoutApp.ViewModel
                 if (_workoutActive == value) return;
                 _workoutActive = value;
 
-                if (value)
-                {
-                    (StopWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
-                }
+                (StopWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
 
                 OnPropertyChanged("WorkoutActive");
             }
