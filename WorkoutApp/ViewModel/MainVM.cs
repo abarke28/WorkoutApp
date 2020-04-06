@@ -244,7 +244,7 @@ namespace WorkoutApp.ViewModel
 
             ReadWorkouts();
         }
-        public void DeleteWorkout(Object parameter)
+        public void DeleteWorkout(object parameter)
         {
             // Summary
             //
@@ -254,6 +254,10 @@ namespace WorkoutApp.ViewModel
             if (!(parameter is Workout)) throw new ArgumentNullException();
 
             MongoHelper.DeleteWorkout(parameter as Workout);
+
+            // Reset selection and repoll database
+            SelectedWorkout = null;
+            ReadWorkouts();
         }
         public void LoadTimer(object parameter)
         {

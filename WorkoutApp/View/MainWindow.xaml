@@ -163,7 +163,9 @@
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Delete Workout" />
+                        <MenuItem Header="Delete Workout" 
+                                  Command="{Binding DeleteWorkoutCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
