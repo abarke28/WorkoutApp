@@ -176,9 +176,9 @@ namespace WorkoutApp.Model
                         {
                             ExerciseName = workout.Stations[i].Exercises[k].ExerciseName,
                             Description = workout.Stations[i].Exercises[k].Description,
-                            ExerciseNumber = (k + 1).ToString(),
-                            RoundNumber = (j + 1).ToString(),
-                            StationNumber = (i + 1).ToString(),
+                            ExerciseNumber = (k + 1).ToString() + @" / " + exercisesPerStation.ToString(),
+                            RoundNumber = (j + 1).ToString() + @" / " + stationReps.ToString(),
+                            StationNumber = (i + 1).ToString() + @" / " + numStations.ToString(),
                             Time = TimeSpan.FromSeconds(workout.RepSeconds)
                         });
 
@@ -191,9 +191,9 @@ namespace WorkoutApp.Model
                         {
                             ExerciseName = "Rest",
                             Description = String.Empty,
-                            ExerciseNumber = (k + 1).ToString(),
-                            RoundNumber = (j + 1).ToString(),
-                            StationNumber = (i + 1).ToString(),
+                            ExerciseNumber = (k + 1).ToString() + @" / " + exercisesPerStation.ToString(),
+                            RoundNumber = (j + 1).ToString() + @" / " + stationReps.ToString(),
+                            StationNumber = (i + 1).ToString() + @" / " + numStations.ToString(),
                             Time = TimeSpan.FromSeconds(workout.RestSeconds)
                         });
                     }
@@ -231,8 +231,8 @@ namespace WorkoutApp.Model
             // Add 10s for start of workout countdown
             TimeToGo += TimeSpan.FromSeconds(10);
 
-            // Add 1s per exercise & rest since timer actually shows 0
-            TimeToGo += TimeSpan.FromSeconds(2 * numStations * exercisesPerStation * stationReps);
+            // Add 1s per exercise & rest since timer actually shows 0. Take 1 second off to skip final 0
+            TimeToGo += TimeSpan.FromSeconds(2 * numStations * exercisesPerStation * stationReps - 1);
         }
         public void LoadWorkout(Workout workout)
         {
@@ -280,6 +280,8 @@ namespace WorkoutApp.Model
 
             if (_dispatcherTimer.IsEnabled) _dispatcherTimer.Stop();
 
+            TimerText = 0;
+            TimeToGo = TimeSpan.Zero;
             ExerciseNameText = String.Empty;
             ExerciseDescriptionText = String.Empty;
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
