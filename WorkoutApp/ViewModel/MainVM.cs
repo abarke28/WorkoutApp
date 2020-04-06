@@ -146,7 +146,9 @@ namespace WorkoutApp.ViewModel
         {
             Exercises = new ObservableCollection<Exercise>();
             Workouts = new ObservableCollection<Workout>();
+            CustomWorkout = new Workout();
             Timer = new WorkoutTimer();
+
             _rng = new Random();
             _config = Configuration.GetConfig();
 
@@ -270,8 +272,10 @@ namespace WorkoutApp.ViewModel
         {
             // Summary
             //
-            // Build custom workout. Set appropriate flags.
+            // Build custom workout. Clear old custom workout. Set appropriate flags.
 
+            CustomWorkout = new Workout();
+            BuildingWorkout = true;
 
         }
         public void SaveWorkout()

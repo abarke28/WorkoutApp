@@ -95,6 +95,9 @@
                             <Trigger Property="cm:DesignerProperties.IsInDesignMode" Value="True">
                                 <Setter Property="Width" Value="275"/>
                             </Trigger>
+                            <DataTrigger Binding="{Binding Source={StaticResource vm}, Path=BuildingWorkout, Mode=OneWay}" Value="True">
+                                <Setter Property="Width" Value="275"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ColumnDefinition.Style>
@@ -106,7 +109,7 @@
                 <MenuItem Header="Add New Exercise"/>
                 <Separator/>
                 <MenuItem Header="Generate Random Workout" Command="{Binding RandomWorkoutCommand}"/>
-                <MenuItem Header="Build Custom Workout"/>
+                <MenuItem Header="Build Custom Workout" Command="{Binding CustomWorkoutCommand}"/>
                 <Separator/>
                 <MenuItem Header="Save Current Workout" Command="{Binding SaveWorkoutCommand}"
                               CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>

@@ -9,8 +9,8 @@ namespace PodcastApp.ViewModel.Commands
 {
     public class BaseCommand : ICommand
     {
-        private readonly Predicate<object> _canExecuteMethod = null;
-        private readonly Action<object> _executeMethod = null;
+            private readonly Predicate<object> _canExecuteMethod = null;
+            private readonly Action<object> _executeMethod = null;
 
         public BaseCommand(Predicate<object> canExecuteMethod, Action<object> executeMethod)
         {
