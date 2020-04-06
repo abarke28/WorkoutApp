@@ -53,6 +53,23 @@ namespace WorkoutApp.Model
 
             collection.DeleteOneAsync(deletionFilter);
         }
+        public static void UpdateWorkout(Workout workout)
+        {
+            // Summary
+            //
+            // Update supplied workout
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Workout>(WORKOUTS_COLLECTION);
+
+            var updateFilter = Builders<Workout>.Filter.Eq("Stations", workout.Stations);
+            var updateName = Builders<Workout>.Update.Set("Name", workout.Name);
+            var updateDescription = Builders<Workout>.Update.Set("Description", workout.Description);
+
+            collection.UpdateOneAsync(updateFilter, updateName);
+            collection.UpdateOneAsync(updateFilter, updateDescription);
+        }
         public static void AddExerciseAsync(Exercise exercise)
         {
             // Summary

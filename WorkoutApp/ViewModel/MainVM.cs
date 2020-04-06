@@ -111,6 +111,7 @@ namespace WorkoutApp.ViewModel
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand SaveWorkoutCommand { get; set; }
         public ICommand DeleteWorkoutCommand { get; set; }
+        public ICommand UpdateWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
         public ICommand StartWorkoutCommand { get; set; }
         public ICommand StopWorkoutCommand { get; set; }
@@ -131,11 +132,16 @@ namespace WorkoutApp.ViewModel
         }
         public void InstantiateCommands()
         {
+            // Summary
+            //
+            // Instantiate all commands for VM
+
             // x = nothing, w = workout, b = bool
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
+            UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
             StartWorkoutCommand = new BaseCommand(w => w != null, w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
@@ -257,6 +263,18 @@ namespace WorkoutApp.ViewModel
 
             // Reset selection and repoll database
             SelectedWorkout = null;
+            ReadWorkouts();
+        }
+        public void UpdateWorkout(object parameter)
+        {
+            // Summary
+            //
+            // Update supplied workout
+
+            SelectedWorkout = null;
+
+            MongoHelper.UpdateWorkout(parameter as Workout);
+
             ReadWorkouts();
         }
         public void LoadTimer(object parameter)
