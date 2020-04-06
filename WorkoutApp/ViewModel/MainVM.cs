@@ -81,6 +81,18 @@ namespace WorkoutApp.ViewModel
             }
         }
 
+        private Workout _customWorkout;
+        public Workout CustomWorkout
+        {
+            get { return _customWorkout; }
+            set
+            {
+                if (_customWorkout == value) return;
+                _customWorkout = value;
+                OnPropertyChanged("CustomWorkout");
+            }
+        }
+
         private bool _workoutActive;
         public bool WorkoutActive
         {
@@ -105,10 +117,23 @@ namespace WorkoutApp.ViewModel
             }
         }
 
+        private bool _buildingWorkout;
+        public bool BuildingWorkout
+        {
+            get { return _buildingWorkout; }
+            set
+            {
+                if (_buildingWorkout == value) return;
+                _buildingWorkout = value;
+                OnPropertyChanged("BuildingWorkout");
+            }
+        }
+
         private readonly Random _rng;
 
         private Configuration _config;
         public ICommand RandomWorkoutCommand { get; set; }
+        public ICommand CustomWorkoutCommand { get; set; }
         public ICommand SaveWorkoutCommand { get; set; }
         public ICommand DeleteWorkoutCommand { get; set; }
         public ICommand UpdateWorkoutCommand { get; set; }
@@ -139,6 +164,7 @@ namespace WorkoutApp.ViewModel
             // x = nothing, w = workout, b = bool
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
+            CustomWorkoutCommand = new BaseCommand(x => true, x => BuildCustomWorkout());
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
@@ -239,6 +265,14 @@ namespace WorkoutApp.ViewModel
             }
 
             SelectedWorkout = workout;
+        }
+        public void BuildCustomWorkout()
+        {
+            // Summary
+            //
+            // Build custom workout. Set appropriate flags.
+
+
         }
         public void SaveWorkout()
         {
