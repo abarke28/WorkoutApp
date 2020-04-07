@@ -169,7 +169,7 @@
                       Margin="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ExerciseName}"/>
+                        <TextBlock Text="{Binding ExerciseName}" ToolTip="{Binding Description}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
@@ -429,9 +429,10 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBox Grid.Row="0" Text="{Binding Name, Mode=TwoWay}" 
-                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     FontSize="18" FontWeight="DemiBold"/>
             <TextBox Grid.Row="1" Text="{Binding Description, Mode=TwoWay}"
-                     VerticalAlignment="Center"/>
+                     VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
         </Grid>
     </Grid>
 </Window>
