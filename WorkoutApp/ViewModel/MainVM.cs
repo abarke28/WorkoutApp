@@ -136,6 +136,7 @@ namespace WorkoutApp.ViewModel
         private int _customWorkoutExerciseCount;
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand CustomWorkoutCommand { get; set; }
+        public ICommand AbortCustomWorkoutCommand { get; set; }
         public ICommand AddToWorkoutCommand { get; set; }
         public ICommand RemoveFromWorkoutCommand { get; set; }
         public ICommand SaveWorkoutCommand { get; set; }
@@ -171,6 +172,7 @@ namespace WorkoutApp.ViewModel
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             CustomWorkoutCommand = new BaseCommand(x => true, x => BuildCustomWorkout());
+            AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
@@ -308,6 +310,17 @@ namespace WorkoutApp.ViewModel
                     CustomWorkout.Stations[i].Exercises.Add(new Exercise());
                 }
             }
+        }
+        public void AbortCustomWorkout()
+        {
+            // Summary
+            //
+            // Abort custom workout build. Reset properties and set flags
+
+            BuildingWorkout = false;
+
+            CustomWorkout = null;
+            _customWorkoutExerciseCount = 0;
         }
         public void AddExerciseToWorkout(object parameter)
         {

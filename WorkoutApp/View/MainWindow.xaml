@@ -47,6 +47,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" x:Key="CustomWorkoutButton">
+            <Setter Property="Background" Value="AliceBlue"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
     </Window.Resources>
     <Grid DataContext="{Binding Source={StaticResource vm}}">
         <Grid.RowDefinitions>
@@ -136,7 +140,6 @@
                               CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="Build Custom Workout" Command="{Binding CustomWorkoutCommand}"/>
-                <MenuItem Header="Save Custom Workout"/>
                 <Separator/>
                 <MenuItem Header="Start Current Workout" CommandParameter="{Binding SelectedWorkout, Mode=Default}"
                               Command="{Binding StartWorkoutCommand}"/>
@@ -437,7 +440,7 @@
             <TextBox Grid.Row="1" Text="{Binding Description, Mode=TwoWay}"
                      BorderThickness="0"
                      VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
-            <!--Workout Listviw-->
+            <!--Workout Listview-->
             <ListView Grid.Row="2" ItemsSource="{Binding Stations, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -461,6 +464,20 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <!--Control Bar-->
+            <Grid Grid.Row="3" Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource CustomWorkoutButton}">
+                    <TextBlock Text="Save"/>
+                </Button>
+                <Button Grid.Column="1" Style="{StaticResource CustomWorkoutButton}"
+                        Command="{Binding Source={StaticResource vm}, Path=AbortCustomWorkoutCommand}">
+                    <TextBlock Text="Cancel"/>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </Window>
