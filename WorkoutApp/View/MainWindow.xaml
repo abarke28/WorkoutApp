@@ -174,7 +174,8 @@
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add to Workout"/>
+                        <MenuItem Header="Add to Workout" Command="{Binding AddToWorkoutCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -437,21 +438,23 @@
                      BorderThickness="0"
                      VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
             <!--Workout Listviw-->
-            <ListView Grid.Row="2" ItemsSource="{Binding Stations}">
+            <ListView Grid.Row="2" ItemsSource="{Binding Stations, Mode=OneWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!--Station Listview-->
-                        <ListView ItemsSource="{Binding Exercises}">
+                        <ListView ItemsSource="{Binding Exercises, Mode=OneWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{Binding ExerciseName}" ToolTip="{Binding Description}"/>
+                                        <TextBlock Text="{Binding ExerciseName, Mode=OneWay}" ToolTip="{Binding Description, Mode=OneWay}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                             <ListView.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="Remove From Workout"/>
+                                    <MenuItem Header="Remove From Workout"
+                                              Command="{Binding Source={StaticResource vm}}"
+                                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                                 </ContextMenu>
                             </ListView.ContextMenu>
                         </ListView>

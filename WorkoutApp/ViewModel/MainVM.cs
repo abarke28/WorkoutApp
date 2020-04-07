@@ -132,6 +132,8 @@ namespace WorkoutApp.ViewModel
         private readonly Random _rng;
 
         private Configuration _config;
+
+        private int _customWorkoutExerciseCount;
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand CustomWorkoutCommand { get; set; }
         public ICommand AddToWorkoutCommand { get; set; }
@@ -292,14 +294,45 @@ namespace WorkoutApp.ViewModel
                 SetSeconds = _config.StationRestLength,
                 StationReps = _config.NumRounds,
             };
+
+            _customWorkoutExerciseCount = 0;
+
+            // Initialize empty CustomWorkout
+            for (int i=0; i<_config.NumStations; i++)
+            {
+                CustomWorkout.Stations.Add(new Station());
+                CustomWorkout.Stations[i].StationName = @"Station " + (i + 1).ToString();
+
+                for (int j = 0; j < _config.NumExercisesPerStation; j++)
+                {
+                    CustomWorkout.Stations[i].Exercises.Add(new Exercise());
+                }
+            }
         }
         public void AddExerciseToWorkout(object parameter)
         {
             // Summary
             //
             // Add supplied exercise to custom workout
-            
-            throw new NotImplementedException();
+
+            Exercise exercise = parameter as Exercise;
+
+            int exercisesPerStation = _config.NumExercisesPerStation;
+            int numStations = CustomWorkout.StationReps;
+            int maxExerciseCount = numStations * exercisesPerStation;
+
+            // Cant add above capacity of workout
+            if (_customWorkoutExerciseCount == maxExerciseCount) return;
+
+            // Indices for insertion
+            int indexStation = _customWorkoutExerciseCount / exercisesPerStation;
+            int indexExercise = _customWorkoutExerciseCount % exercisesPerStation;
+
+            // Add exercise and increment count
+            CustomWorkout.Stations[indexStation].Exercises[indexExercise] = exercise;
+            _customWorkoutExerciseCount++;
+
+            OnPropertyChanged("CustomWorkout");
         }
         public void RemoveExerciseFromWorkout(object parameter)
         {
@@ -307,7 +340,27 @@ namespace WorkoutApp.ViewModel
             //
             // Remove supplied exercise from custom workout
 
-            throw new NotImplementedException();
+            Exercise exercise = parameter as Exercise;
+
+            if (_customWorkoutExerciseCount == 0) return;
+
+            // Find exercise and remove
+            for (int i = 0; i < _config.NumStations; i++)
+            {
+                for (int j = 0; j < _config.NumExercisesPerStation; j++)
+                {
+                    // Remove exercise if found, decrement, then return.
+                    if (CustomWorkout.Stations[i].Exercises[j] == exercise)
+                    {
+                        CustomWorkout.Stations[i].Exercises[j] = null;
+                        _customWorkoutExerciseCount--;
+                        return;
+                    }
+                }
+            }
+
+            // Have failed to find exercise
+            throw new ArgumentException("Exercise not found");
         }
         public void SaveWorkout()
         {
