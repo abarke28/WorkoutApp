@@ -75,7 +75,7 @@ namespace WorkoutApp.ViewModel
                 if (value == null) WorkoutSelected = false;
                 else if (value != null) WorkoutSelected = true;
 
-                (SaveWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
@@ -139,7 +139,8 @@ namespace WorkoutApp.ViewModel
         public ICommand AbortCustomWorkoutCommand { get; set; }
         public ICommand AddToWorkoutCommand { get; set; }
         public ICommand RemoveFromWorkoutCommand { get; set; }
-        public ICommand SaveWorkoutCommand { get; set; }
+        public ICommand SaveRandomWorkoutCommand { get; set; }
+        public ICommand SaveCustomWorkoutCommand { get; set; }
         public ICommand DeleteWorkoutCommand { get; set; }
         public ICommand UpdateWorkoutCommand { get; set; }
         public ICommand ExitApplicationCommand { get; set; }
@@ -175,7 +176,8 @@ namespace WorkoutApp.ViewModel
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
-            SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
+            SaveRandomWorkoutCommand = new BaseCommand(w => w != null, x => SaveRandomWorkout());
+            SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
@@ -350,7 +352,8 @@ namespace WorkoutApp.ViewModel
             CustomWorkout = null;
             CustomWorkout = flusher;
 
-            OnPropertyChanged("CustomWorkout");
+            // Re-evaluate if Workout is full and can be saved
+            (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
         }
         public void RemoveExerciseFromWorkout(object parameter)
         {
@@ -378,6 +381,9 @@ namespace WorkoutApp.ViewModel
                         CustomWorkout = null;
                         CustomWorkout = flusher;
 
+                        // Re-evaluate if Workout is full and can be saved
+                        (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+
                         return;
                     }
                 }
@@ -386,13 +392,37 @@ namespace WorkoutApp.ViewModel
             // Have failed to find exercise
             throw new ArgumentException("Exercise not found");
         }
-        public void SaveWorkout()
+        public void SaveRandomWorkout()
         {
             // Summary
             //
             // Saves selected workout to the DB then refreshes the list
 
             MongoHelper.AddWorkoutAsync(SelectedWorkout);
+
+            ReadWorkouts();
+        }
+        public bool CanSaveCustomWorkout()
+        {
+            // Summary
+            //
+            // Check if workout is full, then return true
+
+            return (_customWorkoutExerciseCount == (_config.NumExercisesPerStation * _config.NumStations));
+        }
+        public void SaveCustomWorkout(object parameter)
+        {
+            // Summary
+            //
+            // Save Custom made workout
+
+            if (parameter == null) throw new ArgumentNullException();
+
+            MongoHelper.AddWorkoutAsync(parameter as Workout);
+
+            BuildingWorkout = false;
+            CustomWorkout = null;
+            _customWorkoutExerciseCount = 0;
 
             ReadWorkouts();
         }

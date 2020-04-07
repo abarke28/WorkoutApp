@@ -136,7 +136,7 @@
                 <MenuItem Header="Add New Exercise"/>
                 <Separator/>
                 <MenuItem Header="Generate Random Workout" Command="{Binding RandomWorkoutCommand}"/>
-                <MenuItem Header="Save Random Workout" Command="{Binding SaveWorkoutCommand}"
+                <MenuItem Header="Save Random Workout" Command="{Binding SaveRandomWorkoutCommand}"
                               CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
                 <Separator/>
                 <MenuItem Header="Build Custom Workout" Command="{Binding CustomWorkoutCommand}"/>
@@ -450,8 +450,8 @@
                                 <RowDefinition Height="15"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="{Binding StationName}"/>
-                            <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}">
+                            <TextBlock Grid.Row="0" Text="{Binding StationName}" FontWeight="DemiBold"/>
+                            <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}" BorderThickness="0">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
@@ -462,7 +462,7 @@
                                 <ListView.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Remove From Workout"
-                                              Command="{Binding Source={StaticResource vm}}"
+                                              Command="{Binding Source={StaticResource vm}, Path=RemoveFromWorkoutCommand}"
                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                                     </ContextMenu>
                                 </ListView.ContextMenu>
@@ -477,7 +477,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource CustomWorkoutButton}">
+                <Button Grid.Column="0" Style="{StaticResource CustomWorkoutButton}"
+                        Command="{Binding Source={StaticResource vm}, Path=SaveCustomWorkoutCommand}"
+                        CommandParameter="{Binding Source={StaticResource vm}, Path=CustomWorkout}">
                     <TextBlock Text="Save"/>
                 </Button>
                 <Button Grid.Column="1" Style="{StaticResource CustomWorkoutButton}"
