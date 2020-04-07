@@ -272,11 +272,24 @@ namespace WorkoutApp.ViewModel
         {
             // Summary
             //
-            // Build custom workout. Clear old custom workout. Set appropriate flags.
+            // Build custom workout. Shows config first to configure workout.
+            // Clear old custom workout. Set appropriate flags.
 
-            CustomWorkout = new Workout();
             BuildingWorkout = true;
 
+            OpenConfig();
+
+            CustomWorkout = new Workout
+            {
+                Name = "Custom Workout",
+                Description = "User generated Workout",
+                RepSeconds = _config.ExerciseLength,
+                RestSeconds = _config.ExerciseRestLength,
+                SetSeconds = _config.StationRestLength,
+                StationReps = _config.NumRounds,
+            };
+
+            CustomWorkout.Stations.Capacity = _config.NumStations;
         }
         public void SaveWorkout()
         {
