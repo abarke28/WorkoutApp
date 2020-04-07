@@ -134,6 +134,8 @@ namespace WorkoutApp.ViewModel
         private Configuration _config;
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand CustomWorkoutCommand { get; set; }
+        public ICommand AddToWorkoutCommand { get; set; }
+        public ICommand RemoveFromWorkoutCommand { get; set; }
         public ICommand SaveWorkoutCommand { get; set; }
         public ICommand DeleteWorkoutCommand { get; set; }
         public ICommand UpdateWorkoutCommand { get; set; }
@@ -163,10 +165,12 @@ namespace WorkoutApp.ViewModel
             //
             // Instantiate all commands for VM
 
-            // x = nothing, w = workout, b = bool
+            // x = nothing, b = bool, e = exercise, w = workout
 
             RandomWorkoutCommand = new BaseCommand(x => true, x => GenerateRandomWorkout());
             CustomWorkoutCommand = new BaseCommand(x => true, x => BuildCustomWorkout());
+            AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
+            RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
             SaveWorkoutCommand = new BaseCommand(w => w != null, x => SaveWorkout());
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
@@ -288,8 +292,22 @@ namespace WorkoutApp.ViewModel
                 SetSeconds = _config.StationRestLength,
                 StationReps = _config.NumRounds,
             };
+        }
+        public void AddExerciseToWorkout(object parameter)
+        {
+            // Summary
+            //
+            // Add supplied exercise to custom workout
+            
+            throw new NotImplementedException();
+        }
+        public void RemoveExerciseFromWorkout(object parameter)
+        {
+            // Summary
+            //
+            // Remove supplied exercise from custom workout
 
-            CustomWorkout.Stations.Capacity = _config.NumStations;
+            throw new NotImplementedException();
         }
         public void SaveWorkout()
         {

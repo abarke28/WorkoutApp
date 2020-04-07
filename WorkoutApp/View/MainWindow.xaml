@@ -449,6 +449,11 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Remove From Workout"/>
+                                </ContextMenu>
+                            </ListView.ContextMenu>
                         </ListView>
                     </DataTemplate>
                 </ListView.ItemTemplate>
