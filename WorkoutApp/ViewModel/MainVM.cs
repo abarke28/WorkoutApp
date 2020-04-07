@@ -345,6 +345,11 @@ namespace WorkoutApp.ViewModel
             CustomWorkout.Stations[indexStation].Exercises[indexExercise] = exercise;
             _customWorkoutExerciseCount++;
 
+            // Manually refresh list
+            var flusher = CustomWorkout;
+            CustomWorkout = null;
+            CustomWorkout = flusher;
+
             OnPropertyChanged("CustomWorkout");
         }
         public void RemoveExerciseFromWorkout(object parameter)
@@ -353,9 +358,10 @@ namespace WorkoutApp.ViewModel
             //
             // Remove supplied exercise from custom workout
 
-            Exercise exercise = parameter as Exercise;
-
             if (_customWorkoutExerciseCount == 0) return;
+            if (parameter == null) return;
+
+            Exercise exercise = parameter as Exercise;
 
             // Find exercise and remove
             for (int i = 0; i < _config.NumStations; i++)
@@ -367,6 +373,11 @@ namespace WorkoutApp.ViewModel
                     {
                         CustomWorkout.Stations[i].Exercises[j] = null;
                         _customWorkoutExerciseCount--;
+
+                        var flusher = CustomWorkout;
+                        CustomWorkout = null;
+                        CustomWorkout = flusher;
+
                         return;
                     }
                 }
