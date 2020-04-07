@@ -423,16 +423,36 @@
               Margin="5" DataContext="{Binding CustomWorkout}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
+            <!--Workout Name-->
             <TextBox Grid.Row="0" Text="{Binding Name, Mode=TwoWay}" 
                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                     BorderThickness="0"
                      FontSize="18" FontWeight="DemiBold"/>
+            <!--Workout Description-->
             <TextBox Grid.Row="1" Text="{Binding Description, Mode=TwoWay}"
+                     BorderThickness="0"
                      VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
+            <!--Workout Listviw-->
+            <ListView Grid.Row="2" ItemsSource="{Binding Stations}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <!--Station Listview-->
+                        <ListView ItemsSource="{Binding Exercises}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="{Binding ExerciseName}" ToolTip="{Binding Description}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
     </Grid>
 </Window>
