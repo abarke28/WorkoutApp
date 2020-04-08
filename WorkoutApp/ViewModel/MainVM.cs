@@ -180,17 +180,17 @@ namespace WorkoutApp.ViewModel
 
             // x = nothing, b = bool, e = exercise, w = workout
 
-            RandomWorkoutCommand = new BaseCommand(x => CanGenerateRandomWorkout(), x => GenerateRandomWorkout());
-            CustomWorkoutCommand = new BaseCommand(x => CanBuildCustomWorkout(), x => BuildCustomWorkout());
+            RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => GenerateRandomWorkout());
+            CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => BuildCustomWorkout());
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
-            SaveRandomWorkoutCommand = new BaseCommand(w => CanSaveRandomWorkout(w), x => SaveRandomWorkout());
+            SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null), x => SaveRandomWorkout());
             SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
             ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
-            StartWorkoutCommand = new BaseCommand(w => CanLoadTimer(w), w => LoadTimer(w));
+            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
@@ -225,14 +225,6 @@ namespace WorkoutApp.ViewModel
             {
                 Workouts.Add(workout);
             }
-        }
-        public bool CanGenerateRandomWorkout()
-        {
-            // Summary
-            //
-            // CanExecuteMethod for RandomWorkoutCommand
-
-            return (!(BuildingWorkout | WorkoutActive));
         }
         public void GenerateRandomWorkout()
         {
@@ -298,14 +290,6 @@ namespace WorkoutApp.ViewModel
             }
 
             SelectedWorkout = workout;
-        }
-        public bool CanBuildCustomWorkout()
-        {
-            // Summary
-            //
-            // CanExecuteMethod for BuildCustomWorkoutCommand
-
-            return (!(WorkoutActive | BuildingWorkout));
         }
         public void BuildCustomWorkout()
         {
@@ -421,14 +405,6 @@ namespace WorkoutApp.ViewModel
             // Have failed to find exercise
             throw new ArgumentException("Exercise not found");
         }
-        public bool CanSaveRandomWorkout(object parameter)
-        {
-            // Summary
-            //
-            // CanExecute method for SaveRandomWorkoutCommand
-
-            return (!(WorkoutActive | BuildingWorkout) & (parameter != null));
-        }
         public void SaveRandomWorkout()
         {
             // Summary
@@ -489,14 +465,6 @@ namespace WorkoutApp.ViewModel
             MongoHelper.UpdateWorkout(parameter as Workout);
 
             ReadWorkouts();
-        }
-        public bool CanLoadTimer(object parameter)
-        {
-            // Summary
-            //
-            // CanExecuteMethod for StartWorkoutCommand
-
-            return ((parameter != null) & (!WorkoutActive));
         }
         public void LoadTimer(object parameter)
         {
