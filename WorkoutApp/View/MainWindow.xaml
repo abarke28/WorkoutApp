@@ -53,6 +53,7 @@
         </Style>
     </Window.Resources>
     <Grid DataContext="{Binding Source={StaticResource vm}}">
+        <!--Coloumn Styles Here-->
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
@@ -243,7 +244,7 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0">
                         <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     FontSize="12" FontWeight="Normal"
+                                     FontSize="12" FontWeight="DemiBold"
                                      Foreground="{StaticResource ListViewContrastColour}"
                                      VerticalAlignment="Center" BorderThickness="0" />
                     </Label>

@@ -12,6 +12,7 @@ namespace WorkoutApp.ViewModel
     {
         public Configuration Settings { get; set; }
         public ICommand SaveSettingsCommand { get; set; }
+        public bool CloseDialog { get; set; }
         public ConfigVM()
         {
             Settings = Configuration.GetConfig();

@@ -9,6 +9,9 @@
         mc:Ignorable="d"
         x:Uid="ConfigWindow"
         Title="Config" Height="300" Width="240">
+    <Window.DataContext>
+        <vm:ConfigVM/>
+    </Window.DataContext>
     <Window.Resources>
         <vm:ConfigVM x:Key="vm"/>
         <Style TargetType="Label" x:Key="SettingLabel">
