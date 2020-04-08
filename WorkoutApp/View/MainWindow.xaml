@@ -134,7 +134,7 @@
         <!--Row 0 - Menu-->
         <Menu Grid.Row="0" Grid.ColumnSpan="5">
             <MenuItem Header="File">
-                <MenuItem Header="Add New Exercise"/>
+                <MenuItem Header="Add New Exercise" Command="{Binding AddExerciseCommand}"/>
                 <Separator/>
                 <MenuItem Header="Generate Random Workout" Command="{Binding RandomWorkoutCommand}"/>
                 <MenuItem Header="Save Random Workout" Command="{Binding SaveRandomWorkoutCommand}"

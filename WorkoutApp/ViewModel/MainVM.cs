@@ -106,6 +106,7 @@ namespace WorkoutApp.ViewModel
                 (RandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (CustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (AddExerciseCommand as BaseCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -155,6 +156,7 @@ namespace WorkoutApp.ViewModel
         public ICommand StopWorkoutCommand { get; set; }
         public ICommand PlayPauseWorkoutCommand { get; set; }
         public ICommand OpenConfigCommand { get; set; }
+        public ICommand AddExerciseCommand { get; set; }
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
@@ -192,6 +194,7 @@ namespace WorkoutApp.ViewModel
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
+            AddExerciseCommand = new BaseCommand(x => !WorkoutActive, x => AddExercise());
         }
         public void ReadExercises()
         {
@@ -534,6 +537,18 @@ namespace WorkoutApp.ViewModel
 
             //Refresh config
             _config = Configuration.GetConfig();
+        }
+        public void AddExercise()
+        {
+            // Summary
+            //
+            // Execute method for AddExerciseCommand. Adds user submitted exercise.
+
+            AddExerciseWindow addExerciseWindow = new AddExerciseWindow();
+            addExerciseWindow.ShowDialog();
+
+            //Refresh exercises
+            ReadExercises();
         }
         public void ExitApplication()
         {

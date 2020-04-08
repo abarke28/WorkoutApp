@@ -43,6 +43,7 @@ namespace WorkoutApp.Model
             ExerciseContext exerciseContext = new ExerciseContext();
 
             exerciseContext.Exercises.Add(exercise);
+            exerciseContext.SaveChanges();
         }
     }
 }

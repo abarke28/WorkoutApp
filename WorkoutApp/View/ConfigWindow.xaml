@@ -32,7 +32,7 @@
             <Setter Property="Background" Value="#f5f5f7"/>
         </Style>
         <Style TargetType="Button" x:Key="SaveButton">
-            <Setter Property="Background" Value="#c2c2cc"/>
+            <Setter Property="Background" Value="AliceBlue"/>
         </Style>
     </Window.Resources>
     <Grid Style="{StaticResource ConfigGrid}">
@@ -52,7 +52,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                HorizontalAlignment="Center" VerticalAlignment="Center"
-               FontWeight="DemiBold" FontSize="16"
+               FontWeight="DemiBold" FontSize="15"
                Content="Settings"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Exercises/Station:"
                Style="{StaticResource SettingLabel}"/>
@@ -85,7 +85,7 @@
                  Style="{StaticResource SettingInput}"
                  Text="{Binding Settings.StationRestLength, Mode=TwoWay}"/>
         <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" 
-                Content="Save" Width="80" Margin="5" 
+                Content="OK" Width="70" Margin="5" 
                 Style="{StaticResource SaveButton}"
                 Command="{Binding SaveSettingsCommand}"/>
     </Grid>
