@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
         dc:DialogCloser.DialogResult="{Binding CloseDialog}"
-        Title="Add Exercise" Height="Auto" Width="300">
+        Title="Add Exercise" Height="445" Width="320">
     <Window.DataContext>
         <vm:AddExerciseVM/>
     </Window.DataContext>
@@ -66,7 +66,8 @@
                  Text="{Binding NewExercise.Description, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Row="5" Content="Exercise Type:"
                Style="{StaticResource PropertyLabel}"/>
-        <ListBox Grid.Row="6" ItemsSource="{Binding ExerciseTypes, Mode=OneTime}" 
+        <ListBox Grid.Row="6" Margin="5,0" 
+                 ItemsSource="{Binding ExerciseTypes, Mode=OneTime}" 
                  SelectedItem="{Binding NewExercise.ExerciseType, Mode=TwoWay}">
         </ListBox>
         <Button Grid.Row="7" Content="Add"
