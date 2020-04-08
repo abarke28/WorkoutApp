@@ -1,6 +1,7 @@
 ﻿using PodcastApp.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -8,11 +9,22 @@ using WorkoutApp.Config;
 
 namespace WorkoutApp.ViewModel
 {
-    public class ConfigVM
+    public class ConfigVM : INotifyPropertyChanged
     {
         public Configuration Settings { get; set; }
         public ICommand SaveSettingsCommand { get; set; }
-        public bool CloseDialog { get; set; }
+
+        private bool? _closeDialog;
+        public bool? CloseDialog
+        {
+            get { return _closeDialog; }
+            set
+            {
+                if (_closeDialog == value) return;
+                _closeDialog = value;
+                OnPropertyChanged("CloseDialog");
+            }
+        }
         public ConfigVM()
         {
             Settings = Configuration.GetConfig();
@@ -37,7 +49,13 @@ namespace WorkoutApp.ViewModel
             // TODO: Error handling
 
             Configuration.UpdateConfig(Settings);
-            //Application.Current.Windows[1].Close();
+            CloseDialog = true;
         }
+        private void OnPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

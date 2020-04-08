@@ -5,9 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkoutApp.View"
+        xmlns:dc="clr-namespace:WorkoutApp.utils"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
         x:Uid="ConfigWindow"
+        dc:DialogCloser.DialogResult="{Binding CloseDialog}"
         Title="Config" Height="300" Width="240">
     <Window.DataContext>
         <vm:ConfigVM/>
@@ -33,7 +35,7 @@
             <Setter Property="Background" Value="#c2c2cc"/>
         </Style>
     </Window.Resources>
-    <Grid Style="{StaticResource ConfigGrid}" DataContext="{Binding Source={StaticResource vm}}">
+    <Grid Style="{StaticResource ConfigGrid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2.75*"/>
             <ColumnDefinition Width="*"/>
