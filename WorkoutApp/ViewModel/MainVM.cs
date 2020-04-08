@@ -189,10 +189,10 @@ namespace WorkoutApp.ViewModel
             SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
-            ExitApplicationCommand = new BaseCommand(x => true, x => ExitApplication());
+            ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
             StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
-            PlayPauseWorkoutCommand = new BaseCommand(x => true, x => PlayPauseWorkout());
+            PlayPauseWorkoutCommand = new BaseCommand(x => true, x => Timer.PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
             AddExerciseCommand = new BaseCommand(x => !WorkoutActive, x => AddExercise());
         }
@@ -477,14 +477,6 @@ namespace WorkoutApp.ViewModel
             Timer.LoadWorkout(parameter as Workout);
             WorkoutActive = true;
         }
-        public void PlayPauseWorkout()
-        {
-            // Summary
-            //
-            // Calls timers play pause method
-
-            Timer.PlayPauseWorkout();
-        }
         public void StopWorkout()
         {
             // Summary
@@ -517,14 +509,6 @@ namespace WorkoutApp.ViewModel
 
             //Refresh exercises
             ReadExercises();
-        }
-        public void ExitApplication()
-        {
-            // Summary
-            //
-            // Exit application
-
-            System.Windows.Application.Current.Shutdown();
         }
         private void OnPropertyChanged(string property)
         {
