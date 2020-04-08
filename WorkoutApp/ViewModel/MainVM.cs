@@ -433,11 +433,11 @@ namespace WorkoutApp.ViewModel
 
             MongoHelper.AddWorkoutAsync(parameter as Workout);
 
+            ReadWorkouts();
+
             BuildingWorkout = false;
             CustomWorkout = null;
             _customWorkoutExerciseCount = 0;
-
-            ReadWorkouts();
         }
         public void DeleteWorkout(object parameter)
         {
