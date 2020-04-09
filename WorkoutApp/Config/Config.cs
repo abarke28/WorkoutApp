@@ -42,11 +42,17 @@ namespace WorkoutApp.Config
             // Summary
             //
             // Check if config exists. If so, return it. Else, construct a
-            // new one, serialize it, then return the object.
+            // new one, serialize it, then return the object. Create directory if necessary
 
             if (!(File.Exists(ConfigFilePath)))
             {
                 Configuration config = new Configuration();
+
+                if (!Directory.Exists(config.ConfigPath))
+                {
+                    Directory.CreateDirectory(config.ConfigPath);
+                }
+                
                 Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, config);
             }
 
