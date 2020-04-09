@@ -240,7 +240,7 @@
                 </Grid.RowDefinitions>
                 <!--Selected Workout Label-->
                 <Label Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay}" BorderThickness="0" Margin="3"/>
+                    <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="3"/>
                 </Label>
                 <!--Selected Workout-->
                 <Grid Grid.Row="1">
