@@ -72,6 +72,8 @@ namespace WorkoutApp.ViewModel
                 if (_selectedWorkout == value) return;
                 _selectedWorkout = value;
 
+                RandomWorkoutGenerated = false;
+
                 if (value == null) WorkoutSelected = false;
                 else if (value != null) WorkoutSelected = true;
 
@@ -137,6 +139,20 @@ namespace WorkoutApp.ViewModel
             }
         }
 
+        private bool _randomWorkoutGenerated;
+        public bool RandomWorkoutGenerated
+        {
+            get { return _randomWorkoutGenerated; }
+            set
+            {
+                if (_randomWorkoutGenerated == value) return;
+                _randomWorkoutGenerated = value;
+                OnPropertyChanged("RandomWorkoutGenerated");
+
+                (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+            }
+        }
+
         private readonly Random _rng;
 
         private Configuration _config;
@@ -185,7 +201,7 @@ namespace WorkoutApp.ViewModel
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
-            SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null), x => SaveRandomWorkout());
+            SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null & RandomWorkoutGenerated), x => SaveRandomWorkout());
             SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
@@ -290,6 +306,7 @@ namespace WorkoutApp.ViewModel
             }
 
             SelectedWorkout = workout;
+            RandomWorkoutGenerated = true;
         }
         public void BuildCustomWorkout()
         {
@@ -509,6 +526,14 @@ namespace WorkoutApp.ViewModel
 
             //Refresh exercises
             ReadExercises();
+        }
+        public void EditWorkout()
+        {
+            // Summary
+            //
+            // Execute method for EditWorkout Command
+
+
         }
         private void OnPropertyChanged(string property)
         {
