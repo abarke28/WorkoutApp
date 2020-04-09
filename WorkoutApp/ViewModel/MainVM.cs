@@ -229,7 +229,7 @@ namespace WorkoutApp.ViewModel
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
             SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null & RandomWorkoutGenerated), x => SaveRandomWorkout());
-            SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
+            SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == (_config.NumExercisesPerStation * _config.NumStations)), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
@@ -479,14 +479,6 @@ namespace WorkoutApp.ViewModel
             MongoHelper.AddWorkoutAsync(SelectedWorkout);
 
             ReadWorkouts();
-        }
-        public bool CanSaveCustomWorkout()
-        {
-            // Summary
-            //
-            // Check if workout is full, then return true
-
-            return (_customWorkoutExerciseCount == (_config.NumExercisesPerStation * _config.NumStations));
         }
         public void SaveCustomWorkout(object parameter)
         {
