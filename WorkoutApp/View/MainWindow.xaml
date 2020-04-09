@@ -142,6 +142,8 @@
                 <Separator/>
                 <MenuItem Header="Build Custom Workout" Command="{Binding CustomWorkoutCommand}"/>
                 <Separator/>
+                <MenuItem Header="Update Current Workout" Command="{Binding UpdateWorkoutCommand}"/>
+                <Separator/>
                 <MenuItem Header="Start Current Workout" CommandParameter="{Binding SelectedWorkout, Mode=Default}"
                               Command="{Binding StartWorkoutCommand}"/>
                 <Separator/>
@@ -222,9 +224,6 @@
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Edit Name"/>
-                        <MenuItem Header="Edit Description"/>
-                        <Separator/>
                         <MenuItem Header="Delete Workout" 
                                   Command="{Binding DeleteWorkoutCommand}"
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>

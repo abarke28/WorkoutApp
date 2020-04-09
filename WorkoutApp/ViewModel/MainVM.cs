@@ -204,7 +204,7 @@ namespace WorkoutApp.ViewModel
             SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null & RandomWorkoutGenerated), x => SaveRandomWorkout());
             SaveCustomWorkoutCommand = new BaseCommand(x => CanSaveCustomWorkout(), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
-            UpdateWorkoutCommand = new BaseCommand(x => true, w => UpdateWorkout(w));
+            UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
             StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
@@ -526,14 +526,6 @@ namespace WorkoutApp.ViewModel
 
             //Refresh exercises
             ReadExercises();
-        }
-        public void EditWorkout()
-        {
-            // Summary
-            //
-            // Execute method for EditWorkout Command
-
-
         }
         private void OnPropertyChanged(string property)
         {
