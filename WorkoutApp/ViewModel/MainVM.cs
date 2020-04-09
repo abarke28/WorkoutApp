@@ -79,6 +79,7 @@ namespace WorkoutApp.ViewModel
 
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
         }
@@ -175,6 +176,7 @@ namespace WorkoutApp.ViewModel
                 OnPropertyChanged("RandomWorkoutGenerated");
 
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
             }
         }
 

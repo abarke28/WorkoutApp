@@ -30,6 +30,14 @@
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
         </Style>
+        <Style TargetType="ListViewItem" x:Key="NoMouseOver">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="TextBlock" x:Key="Clock">
             <Setter Property="FontSize" Value="90"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -118,6 +126,9 @@
                             <DataTrigger Binding="{Binding Source={StaticResource vm}, Path=WorkoutActive, Mode=OneWay}" Value="False">
                                 <Setter Property="Width" Value="0"/>
                             </DataTrigger>
+                            <Trigger Property="cm:DesignerProperties.IsInDesignMode" Value="True">
+                                <Setter Property="Width" Value="275"/>
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </ColumnDefinition.Style>
@@ -129,7 +140,7 @@
                         <Setter Property="Width"  Value="0"/>
                         <Style.Triggers>
                             <Trigger Property="cm:DesignerProperties.IsInDesignMode" Value="True">
-                                <Setter Property="Width" Value="0"/>
+                                <Setter Property="Width" Value="275"/>
                             </Trigger>
                             <DataTrigger Binding="{Binding Source={StaticResource vm}, Path=BuildingWorkout, Mode=OneWay}" Value="True">
                                 <Setter Property="Width" Value="275"/>
