@@ -13,13 +13,4 @@ namespace WorkoutApp.Model
         public string Description { get; set; }
         public ExerciseType ExerciseType { get; set; }
     }
-
-    public enum ExerciseType
-    {
-        Cardio, 
-        LowerBody, 
-        UpperBody, 
-        Core,
-        FullBody
-    }
 }

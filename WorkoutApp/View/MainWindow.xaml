@@ -13,6 +13,7 @@
         <vm:MainVM x:Key="vm"/>
         <cv:BoolToVisibilityHiddenConverter x:Key="b2vh"/>
         <cv:BoolToVisibilityCollapsedConverter x:Key="b2vc"/>
+        <cv:EnumToRadioBoolConverter x:Key="e2r"/>
         <SolidColorBrush x:Key="PlayPauseBarColour" Color="#2f80ba"/>
         <SolidColorBrush x:Key="ListViewContrastColour" Color="#5890cc"/>
         <Style TargetType="Label">
@@ -51,6 +52,10 @@
             <Setter Property="Background" Value="AliceBlue"/>
             <Setter Property="Margin" Value="3"/>
         </Style>
+        <Style TargetType="RadioButton" x:Key="ExerciseFilter">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
     </Window.Resources>
     <Grid DataContext="{Binding Source={StaticResource vm}}">
         <!--Coloumn Styles Here-->
@@ -65,8 +70,11 @@
                     <Style TargetType="ColumnDefinition">
                         <Setter Property="Width"  Value="0"/>
                         <Style.Triggers>
+                            <Trigger Property="cm:DesignerProperties.IsInDesignMode" Value="True">
+                                <Setter Property="Width" Value="290"/>
+                            </Trigger>
                             <DataTrigger Binding="{Binding Source={StaticResource vm}, Path=BuildingWorkout, Mode=OneWay}" Value="True">
-                                <Setter Property="Width" Value="275"/>
+                                <Setter Property="Width" Value="290"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -121,7 +129,7 @@
                         <Setter Property="Width"  Value="0"/>
                         <Style.Triggers>
                             <Trigger Property="cm:DesignerProperties.IsInDesignMode" Value="True">
-                                <Setter Property="Width" Value="275"/>
+                                <Setter Property="Width" Value="0"/>
                             </Trigger>
                             <DataTrigger Binding="{Binding Source={StaticResource vm}, Path=BuildingWorkout, Mode=OneWay}" Value="True">
                                 <Setter Property="Width" Value="275"/>
@@ -157,7 +165,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--ExercisesLabel-->
@@ -169,12 +177,40 @@
                            Margin="3"/>
             </Label>
             <!--Filter Controls-->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="3,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <RadioButton Grid.Row="0" Grid.Column="0" 
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=FullBody}"
+                             GroupName="FilterList" Content="Full Body"/>
+                <RadioButton Grid.Row="0" Grid.Column="1" 
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=LowerBody}"
+                             GroupName="FilterList" Content="Lower Body"/>
+                <RadioButton Grid.Row="0" Grid.Column="2" 
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=UpperBody}"
+                             GroupName="FilterList" Content="Upper Body"/>
+                <RadioButton Grid.Row="1" Grid.Column="0" 
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=Cardio}"
+                             GroupName="FilterList" Content="Cardio"/>
+                <RadioButton Grid.Row="1" Grid.Column="1" 
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=Core}"
+                             GroupName="FilterList" Content="Core"/>
+                <RadioButton Grid.Row="1" Grid.Column="2"
+                             Style="{StaticResource ExerciseFilter}"
+                             IsChecked="{Binding ExerciseFilter, Converter={StaticResource e2r}, ConverterParameter=All}"
+                             GroupName="FilterList" Content="All"/>
             </Grid>
             <!--ExercisesList-->
             <ListView Grid.Row="2" Grid.Column="0"

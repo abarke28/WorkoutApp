@@ -38,7 +38,7 @@ namespace WorkoutApp.ViewModel
         public ICommand SaveExerciseCommand { get; set; }
         public AddExerciseVM()
         {
-            ExerciseTypes = Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().ToList();
+            ExerciseTypes = Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().Where(e => e != ExerciseType.All).ToList();
 
             NewExercise = new Exercise
             {

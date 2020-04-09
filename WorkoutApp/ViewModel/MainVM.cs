@@ -95,6 +95,31 @@ namespace WorkoutApp.ViewModel
             }
         }
 
+        private ExerciseType _exerciseFilter;
+        public ExerciseType ExerciseFilter
+        {
+            get { return _exerciseFilter; }
+            set
+            {
+                if (_exerciseFilter == value) return;
+                _exerciseFilter = value;
+                OnPropertyChanged("ExerciseFilter");
+
+                if (_exerciseFilter == ExerciseType.All)
+                {
+                    SelectedExercise = null;
+                    ReadExercises();
+                }
+
+                else
+                {
+                    SelectedExercise = null;
+                    ReadExercises(_exerciseFilter);
+
+                }
+            }
+        }
+
         private bool _workoutActive;
         public bool WorkoutActive
         {
@@ -227,6 +252,25 @@ namespace WorkoutApp.ViewModel
                 Exercises.Add(exercise);
             }
         }
+        public void ReadExercises(ExerciseType filter)
+        {
+            // Summary
+            //
+            // Read exercises and filter the list by a ExerciseType
+
+            var exercises = DatabaseHelper.GetExercises();
+
+            Exercises.Clear();
+
+            foreach (Exercise exercise in exercises)
+            {
+                if (exercise.ExerciseType == filter)
+                {
+                    Exercises.Add(exercise);
+
+                }
+            }
+        }
         public void ReadWorkouts()
         {
             // Summary
@@ -314,6 +358,8 @@ namespace WorkoutApp.ViewModel
             //
             // Build custom workout. Shows config first to configure workout.
             // Clear old custom workout. Set appropriate flags.
+
+            ExerciseFilter = ExerciseType.All;
 
             BuildingWorkout = true;
 
