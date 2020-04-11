@@ -33,7 +33,6 @@
         <Style TargetType="ListViewItem" x:Key="NoMouseOver">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
@@ -325,7 +324,8 @@
                     </StackPanel>
                     <!--Workout Stations List-->
                     <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
-                                   Grid.Row="2" BorderThickness="0" Margin="2">
+                              Grid.Row="2" BorderThickness="0" Margin="2"
+                              ItemContainerStyle="{StaticResource NoMouseOver}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">
@@ -337,12 +337,10 @@
                                                Content="{Binding StationName}"
                                                HorizontalContentAlignment="Left"/>
                                     <!--Exercises Lists-->
-                                    <ListBox ItemsSource="{Binding Exercises}"
-                                                  Grid.Row="1"
-                                                  HorizontalAlignment="Stretch"
-                                                  HorizontalContentAlignment="Stretch"
-                                                  BorderThickness="0">
-                                        <ListBox.ItemTemplate>
+                                    <ListView ItemsSource="{Binding Exercises}" Grid.Row="1" BorderThickness="0"
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                              ItemContainerStyle="{StaticResource NoMouseOver}">
+                                        <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ExerciseName}">
                                                     <TextBlock.ToolTip>
@@ -355,8 +353,8 @@
                                                     </TextBlock.ToolTip>
                                                      </TextBlock>
                                             </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -496,16 +494,8 @@
                      BorderThickness="0"
                      VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
             <!--Workout Listview-->
-            <ListView Grid.Row="2" ItemsSource="{Binding Stations, Mode=OneWay}">
-                <ListView.ItemContainerStyle>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="ItemsControl.IsMouseOver" Value="True">
-                                <Setter Property="ItemsControl.BorderThickness" Value="0"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
+            <ListView Grid.Row="2" ItemsSource="{Binding Stations, Mode=OneWay}" 
+                      ItemContainerStyle="{StaticResource NoMouseOver}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <!--Station Listview-->
@@ -515,16 +505,8 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="{Binding StationName}" FontWeight="DemiBold"/>
-                            <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}" BorderThickness="0">
-                                <ListView.ItemContainerStyle>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <Trigger Property="ItemsControl.IsMouseOver" Value="True">
-                                                <Setter Property="ItemsControl.BorderThickness" Value="0"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
+                            <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}" BorderThickness="0"
+                                      ItemContainerStyle="{StaticResource NoMouseOver}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
