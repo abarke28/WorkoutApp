@@ -181,10 +181,9 @@ namespace WorkoutApp.ViewModel
         }
 
         private readonly Random _rng;
-
         private Configuration _config;
-
         private int _customWorkoutExerciseCount;
+
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand CustomWorkoutCommand { get; set; }
         public ICommand AbortCustomWorkoutCommand { get; set; }
@@ -200,6 +199,7 @@ namespace WorkoutApp.ViewModel
         public ICommand PlayPauseWorkoutCommand { get; set; }
         public ICommand OpenConfigCommand { get; set; }
         public ICommand AddExerciseCommand { get; set; }
+
         public MainVM()
         {
             Exercises = new ObservableCollection<Exercise>();
@@ -215,6 +215,7 @@ namespace WorkoutApp.ViewModel
             ReadExercises();
             ReadWorkouts();
         }
+
         public void InstantiateCommands()
         {
             // Summary
@@ -350,6 +351,9 @@ namespace WorkoutApp.ViewModel
                     workout.Stations[i].Exercises[j] = randomizedExercises[numExercises * i + j];
                 }
             }
+
+            // Add workout length
+            workout.Length = Workout.GenerateLength(workout);
 
             SelectedWorkout = workout;
             RandomWorkoutGenerated = true;
@@ -488,6 +492,8 @@ namespace WorkoutApp.ViewModel
 
             if (parameter == null) throw new ArgumentNullException();
 
+            (parameter as Workout).Length = Workout.GenerateLength(parameter as Workout);
+
             MongoHelper.AddWorkoutAsync(parameter as Workout);
 
             ReadWorkouts();
@@ -567,6 +573,7 @@ namespace WorkoutApp.ViewModel
             //Refresh exercises
             ReadExercises();
         }
+
         private void OnPropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

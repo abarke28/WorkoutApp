@@ -13,7 +13,8 @@ namespace WorkoutApp.Model
         public const string DATABASE_NAME = @"workoutsDB";
         public const string WORKOUTS_COLLECTION = @"workouts";
         public const string EXERCISES_COLLECTION = @"exercises";
-        public static void AddWorkoutAsync(Workout workout)
+
+        public static async void AddWorkoutAsync(Workout workout)
         {
             // Summary
             //
@@ -25,7 +26,7 @@ namespace WorkoutApp.Model
             var database = client.GetDatabase(DATABASE_NAME);
             var collection = database.GetCollection<Workout>(WORKOUTS_COLLECTION);
 
-            collection.InsertOneAsync(workout);
+            await collection.InsertOneAsync(workout);
         }
         public static IEnumerable<Workout> GetWorkoutsAsync()
         {
@@ -70,7 +71,8 @@ namespace WorkoutApp.Model
             collection.UpdateOneAsync(updateFilter, updateName);
             collection.UpdateOneAsync(updateFilter, updateDescription);
         }
-        public static void AddExerciseAsync(Exercise exercise)
+
+        public static async void AddExerciseAsync(Exercise exercise)
         {
             // Summary
             //
@@ -80,7 +82,7 @@ namespace WorkoutApp.Model
             var database = client.GetDatabase(DATABASE_NAME);
             var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
 
-            collection.InsertOneAsync(exercise);
+            await collection.InsertOneAsync(exercise);
         }
         public static IEnumerable<Exercise> GetExercisesAsync()
         {
