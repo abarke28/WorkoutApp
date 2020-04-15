@@ -292,17 +292,30 @@
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
+                        <RowDefinition Height="20"/>
                         <RowDefinition Height="25"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    <!--Workout Description-->
                     <Label Grid.Row="0">
                         <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      FontSize="12" FontWeight="Normal"
                                      Foreground="{StaticResource ListViewContrastColour}"
                                      VerticalAlignment="Center" BorderThickness="0" />
                     </Label>
+                    <!--Workout Length-->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                                Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}">
+                        <TextBlock Text="Length:"
+                                   VerticalAlignment="Center"
+                                   FontWeight="DemiBold" FontSize="12" Margin="5,0"/>
+                        <TextBlock Text="{Binding SelectedWorkout.Length}" 
+                                   VerticalAlignment="Center"
+                                   FontWeight="Normal" FontSize="12"/>
+                    </StackPanel>
                     <!--Workout Parameters-->
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
                         <Label Content="Reps:"
                                    Style="{StaticResource WorkoutProperty}"
                                    Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"/>
@@ -324,7 +337,7 @@
                     </StackPanel>
                     <!--Workout Stations List-->
                     <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
-                              Grid.Row="2" BorderThickness="0" Margin="2"
+                              Grid.Row="3" BorderThickness="0" Margin="2"
                               ItemContainerStyle="{StaticResource NoMouseOver}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
