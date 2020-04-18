@@ -421,13 +421,21 @@ namespace WorkoutApp.ViewModel
             // Cant add above capacity of workout
             if (_customWorkoutExerciseCount == maxExerciseCount) return;
 
-            // Indices for insertion
-            int indexStation = _customWorkoutExerciseCount / exercisesPerStation;
-            int indexExercise = _customWorkoutExerciseCount % exercisesPerStation;
-
-            // Add exercise and increment count
-            CustomWorkout.Stations[indexStation].Exercises[indexExercise] = exercise;
-            _customWorkoutExerciseCount++;
+            // Loop through to find first open spot. Need to do so as user can remove any exercise.
+            for (int i = 0; i < numStations; i++)
+            {
+                for (int j = 0; j < exercisesPerStation; j++)
+                {
+                    // Find first spot with no exercise
+                    if (CustomWorkout.Stations[i].Exercises[j].ExerciseId == null)
+                    {
+                        CustomWorkout.Stations[i].Exercises[j] = exercise;
+                        _customWorkoutExerciseCount++;
+                        i = numStations - 1;
+                        break;
+                    }
+                }
+            }
 
             // Manually refresh list
             var flusher = CustomWorkout;
