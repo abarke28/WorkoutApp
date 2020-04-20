@@ -5,6 +5,7 @@
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=PresentationFramework"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkoutApp.View"
+        xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         xmlns:cv="clr-namespace:WorkoutApp.ViewModel.Converters"
         mc:Ignorable="d"
@@ -256,7 +257,8 @@
             <!--Workouts List-->
             <ListView ItemsSource="{Binding Workouts, Mode=OneWay}"
                           SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
-                          Grid.Column="1" Grid.Row="1" BorderThickness="0" Margin="2">
+                          Grid.Column="1" Grid.Row="1" BorderThickness="0" Margin="2"
+                      dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,5">
@@ -532,7 +534,8 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="{Binding StationName}" FontWeight="DemiBold"/>
                             <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}" BorderThickness="0"
-                                      ItemContainerStyle="{StaticResource NoMouseOver}">
+                                      ItemContainerStyle="{StaticResource NoMouseOver}"
+                                      dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">
