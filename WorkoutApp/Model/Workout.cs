@@ -14,7 +14,7 @@ namespace WorkoutApp.Model
         public int SetSeconds { get; set; }
         public int StationReps { get; set; }
         public TimeSpan Length { get; set; }
-        public List<Station> Stations { get; set; }
+        public IList<Station> Stations { get; set; }
 
         public Workout()
         {
