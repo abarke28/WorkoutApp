@@ -227,7 +227,7 @@ namespace WorkoutApp.ViewModel
 
             RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => GenerateRandomWorkout());
             CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => BuildCustomWorkout());
-            UseAsCustomBaseCommand = new BaseCommand(x => true, w => UseAsCustomWorkoutBase(w));
+            UseAsCustomBaseCommand = new BaseCommand(x => !BuildingWorkout & (SelectedWorkout != null), w => UseAsCustomWorkoutBase(w));
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
