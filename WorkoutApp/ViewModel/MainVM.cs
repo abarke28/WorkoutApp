@@ -80,6 +80,7 @@ namespace WorkoutApp.ViewModel
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (UseAsCustomBaseCommand as BaseCommand).RaiseCanExecuteChanged();
                 OnPropertyChanged("SelectedWorkout");
             }
         }
