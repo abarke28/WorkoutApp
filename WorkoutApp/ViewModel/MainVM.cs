@@ -235,7 +235,7 @@ namespace WorkoutApp.ViewModel
             SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == 0 ? false : 
                 (_customWorkoutExerciseCount == (CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count))), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
-            UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated), x => UpdateWorkout(SelectedWorkout));
+            UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated & !BuildingWorkout), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
             StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null) & (!BuildingWorkout)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
