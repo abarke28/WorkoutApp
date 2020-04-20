@@ -273,6 +273,9 @@
                         <MenuItem Header="Delete Workout" 
                                   Command="{Binding DeleteWorkoutCommand}"
                                   CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
+                        <MenuItem Header="Use As Custom Workout Base"
+                                  Command="{Binding UseAsCustomBaseCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>

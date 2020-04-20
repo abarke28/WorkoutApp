@@ -186,6 +186,7 @@ namespace WorkoutApp.ViewModel
 
         public ICommand RandomWorkoutCommand { get; set; }
         public ICommand CustomWorkoutCommand { get; set; }
+        public ICommand UseAsCustomBaseCommand { get; set; }
         public ICommand AbortCustomWorkoutCommand { get; set; }
         public ICommand AddToWorkoutCommand { get; set; }
         public ICommand RemoveFromWorkoutCommand { get; set; }
@@ -226,15 +227,17 @@ namespace WorkoutApp.ViewModel
 
             RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => GenerateRandomWorkout());
             CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => BuildCustomWorkout());
+            UseAsCustomBaseCommand = new BaseCommand(x => true, w => UseAsCustomWorkoutBase(w));
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
             SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null & RandomWorkoutGenerated), x => SaveRandomWorkout());
-            SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == (_config.NumExercisesPerStation * _config.NumStations)), w => SaveCustomWorkout(w));
+            SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == 0 ? false : 
+                (_customWorkoutExerciseCount == (CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count))), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
-            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null)), w => LoadTimer(w));
+            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null) & (!BuildingWorkout)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => Timer.PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
@@ -395,6 +398,33 @@ namespace WorkoutApp.ViewModel
                 }
             }
         }
+        public void UseAsCustomWorkoutBase(object parameter) 
+        {
+            // Summary
+            //
+            // Take supplied workout and load into custom workout. Method is called from context menu from
+            // Workouts list. Not re-calling Config since setting should be linked to imported workout. 
+
+            ExerciseFilter = ExerciseType.All;
+
+            BuildingWorkout = true;
+
+            CustomWorkout = new Workout
+            {
+                Name = "Copy of " + (parameter as Workout).Name,
+                Description = (parameter as Workout).Description,
+                RepSeconds = (parameter as Workout).RepSeconds,
+                RestSeconds = (parameter as Workout).RestSeconds,
+                SetSeconds = (parameter as Workout).SetSeconds,
+                StationReps = (parameter as Workout).StationReps,
+                Stations = (parameter as Workout).Stations,
+                Length = (parameter as Workout).Length
+            };
+
+            _customWorkoutExerciseCount = CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count;
+
+            (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+        }
         public void AbortCustomWorkout()
         {
             // Summary
@@ -449,7 +479,8 @@ namespace WorkoutApp.ViewModel
         {
             // Summary
             //
-            // Remove supplied exercise from custom workout
+            // Remove supplied exercise from custom workout. Exercise still needs to be filled. Leave as 
+            // empty exercise instead of a null reference
 
             if (_customWorkoutExerciseCount == 0) return;
             if (parameter == null) return;
@@ -464,7 +495,7 @@ namespace WorkoutApp.ViewModel
                     // Remove exercise if found, decrement, then return.
                     if (CustomWorkout.Stations[i].Exercises[j] == exercise)
                     {
-                        CustomWorkout.Stations[i].Exercises[j] = null;
+                        CustomWorkout.Stations[i].Exercises[j] = new Exercise();
                         _customWorkoutExerciseCount--;
 
                         var flusher = CustomWorkout;
