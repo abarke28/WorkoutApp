@@ -256,8 +256,8 @@
             </Label>
             <!--Workouts List-->
             <ListView ItemsSource="{Binding Workouts, Mode=OneWay}"
-                          SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
-                          Grid.Column="1" Grid.Row="1" BorderThickness="0" Margin="2"
+                      SelectedItem="{Binding SelectedWorkout, Mode=OneWayToSource}"
+                      Grid.Column="1" Grid.Row="1" BorderThickness="0" Margin="2"
                       dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
