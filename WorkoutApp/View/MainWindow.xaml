@@ -376,6 +376,14 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
+                <!--Context Menu-->
+                <Grid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Edit as Custom Workout"
+                                  Command="{Binding UseAsCustomBaseCommand}"
+                                  CommandParameter="{Binding SelectedWorkout}"/>
+                    </ContextMenu>
+                </Grid.ContextMenu>
             </Grid>
         </Grid>
         <!--Coloumn 4 - Timer-->
