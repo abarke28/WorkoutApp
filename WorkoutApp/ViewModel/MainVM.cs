@@ -617,6 +617,7 @@ namespace WorkoutApp.ViewModel
             //Refresh exercises
             ReadExercises();
         }
+
         public void OnWorkoutFinished(object sender, EventArgs e)
         {
             // Summary
@@ -625,11 +626,11 @@ namespace WorkoutApp.ViewModel
 
             MongoHelper.AddRecordAsync(new Record(SelectedWorkout));
         }
-
         private void OnPropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
