@@ -119,12 +119,10 @@ namespace WorkoutApp.Model
         }
 
         private int _stackIndex;
-
         private readonly SoundPlayer _soundPlayer;
-
         private readonly DispatcherTimer _dispatcherTimer;
-
         private readonly List<TimerStation> _timeStack;
+
         public WorkoutTimer()
         {
             _dispatcherTimer = new DispatcherTimer();
@@ -290,6 +288,7 @@ namespace WorkoutApp.Model
 
             _stackIndex = 0;
         }
+
         private void OnTick(object sender, EventArgs e)
         {
             // Summary
@@ -350,6 +349,7 @@ namespace WorkoutApp.Model
                 _soundPlayer.SoundLocation = AppResources.AppResources.DONE;
                 _soundPlayer.Play();
                 StopWorkout();
+                RaiseWorkoutFinished();
                 return;
             }
 
@@ -368,5 +368,15 @@ namespace WorkoutApp.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaiseWorkoutFinished()
+        {
+            // Summary
+            //
+            // Raise event for workout completed
+
+            WorkoutFinished?.Invoke(this, new EventArgs());
+        }
+        public event EventHandler WorkoutFinished;
     }
 }
