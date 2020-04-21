@@ -13,6 +13,7 @@ namespace WorkoutApp.Model
         public const string DATABASE_NAME = @"workoutsDB";
         public const string WORKOUTS_COLLECTION = @"workouts";
         public const string EXERCISES_COLLECTION = @"exercises";
+        public const string RECORDS_COLLECTION = @"records";
 
         public static async void AddWorkoutAsync(Workout workout)
         {
@@ -95,6 +96,31 @@ namespace WorkoutApp.Model
             var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
 
             return collection.FindSync(e => true).ToEnumerable();
+        }
+
+        public static async void AddRecordAsync(Record record)
+        {
+            // Summary
+            //
+            // Add supplied record
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Record>(RECORDS_COLLECTION);
+
+            await collection.InsertOneAsync(record);
+        }
+        public static IEnumerable<Record> GetRecordsAsync()
+        {
+            // Summary
+            //
+            // Fetch all records
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Record>(RECORDS_COLLECTION);
+
+            return collection.FindSync(r => true).ToEnumerable();
         }
     }
 }
