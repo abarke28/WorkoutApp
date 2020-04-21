@@ -158,12 +158,12 @@
                 <MenuItem Header="Generate Random Workout" Command="{Binding RandomWorkoutCommand}"/>
                 <MenuItem Header="Save Random Workout" Command="{Binding SaveRandomWorkoutCommand}"
                           CommandParameter="{Binding SelectedWorkout, Mode=OneWay}"/>
-                <MenuItem Header="Edit Random Workout" Command="{Binding UseAsCustomBaseCommand}"
-                          CommandParameter="{Binding SelectedWorkout}"/>
                 <Separator/>
                 <MenuItem Header="Build Custom Workout" Command="{Binding CustomWorkoutCommand}"/>
                 <Separator/>
                 <MenuItem Header="Update Current Workout" Command="{Binding UpdateWorkoutCommand}"/>
+                <MenuItem Header="Edit Current Workout" Command="{Binding UseAsCustomBaseCommand}"
+                          CommandParameter="{Binding SelectedWorkout}"/>
                 <Separator/>
                 <MenuItem Header="Start Current Workout" CommandParameter="{Binding SelectedWorkout, Mode=Default}"
                               Command="{Binding StartWorkoutCommand}"/>

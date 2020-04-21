@@ -20,7 +20,7 @@ namespace WorkoutApp.Model
         {
             Stations = new List<Station>();
         }
-
+        
         public static TimeSpan GenerateLength(Workout workout)
         {
             // Add workout length

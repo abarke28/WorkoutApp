@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,9 +9,10 @@ namespace WorkoutApp.Model
     {
         public string StationName { get; set; }
         public IList<Exercise> Exercises { get; set; }
+
         public Station()
         {
-            Exercises = new List<Exercise>();
+            Exercises = new ObservableCollection<Exercise>();
         }
     }
 }
