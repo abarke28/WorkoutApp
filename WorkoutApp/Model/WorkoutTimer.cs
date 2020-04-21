@@ -288,7 +288,6 @@ namespace WorkoutApp.Model
 
             _stackIndex = 0;
         }
-
         private void OnTick(object sender, EventArgs e)
         {
             // Summary
@@ -363,6 +362,7 @@ namespace WorkoutApp.Model
             ExerciseNameText = _timeStack[_stackIndex].ExerciseName;
             ExerciseDescriptionText = _timeStack[_stackIndex].Description;
         }
+
         private void OnPropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));

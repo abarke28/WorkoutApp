@@ -209,6 +209,9 @@ namespace WorkoutApp.ViewModel
             CustomWorkout = new Workout();
             Timer = new WorkoutTimer();
 
+            // Subscribe to the Event
+            Timer.WorkoutFinished += OnWorkoutFinished;
+
             _rng = new Random();
             _config = Configuration.GetConfig();
 
@@ -578,6 +581,7 @@ namespace WorkoutApp.ViewModel
             if (!(parameter is Workout)) throw new ArgumentNullException();
 
             Timer.LoadWorkout(parameter as Workout);
+
             WorkoutActive = true;
         }
         public void StopWorkout()
@@ -612,6 +616,14 @@ namespace WorkoutApp.ViewModel
 
             //Refresh exercises
             ReadExercises();
+        }
+        public void OnWorkoutFinished(object sender, EventArgs e)
+        {
+            // Summary
+            //
+            // Event raised by Timer class when workout is called. Write record of workout to Db
+
+            MongoHelper.AddRecordAsync(new Record(SelectedWorkout));
         }
 
         private void OnPropertyChanged(string property)
