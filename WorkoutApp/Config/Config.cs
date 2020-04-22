@@ -19,6 +19,7 @@ namespace WorkoutApp.Config
         public int ExerciseLength { get; set; }
         public int ExerciseRestLength { get; set; }
         public int StationRestLength { get; set; }
+        
         private Configuration()
         {
             // Summary
@@ -37,6 +38,7 @@ namespace WorkoutApp.Config
             ExerciseRestLength = 10;
             StationRestLength = 45;
         }
+
         public static Configuration GetConfig()
         {
             // Summary

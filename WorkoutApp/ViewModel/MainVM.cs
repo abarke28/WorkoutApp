@@ -229,19 +229,19 @@ namespace WorkoutApp.ViewModel
 
             // x = nothing, b = bool, e = exercise, w = workout
 
-            RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => GenerateRandomWorkout());
-            CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout | WorkoutActive), x => BuildCustomWorkout());
-            UseAsCustomBaseCommand = new BaseCommand(x => !BuildingWorkout & (SelectedWorkout != null), w => UseAsCustomWorkoutBase(w));
+            RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout || WorkoutActive), x => GenerateRandomWorkout());
+            CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout || WorkoutActive), x => BuildCustomWorkout());
+            UseAsCustomBaseCommand = new BaseCommand(x => !BuildingWorkout && (SelectedWorkout != null), w => UseAsCustomWorkoutBase(w));
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
-            SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout | WorkoutActive)) & w != null & RandomWorkoutGenerated), x => SaveRandomWorkout());
+            SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout || WorkoutActive)) && w != null && RandomWorkoutGenerated), x => SaveRandomWorkout());
             SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == 0 ? false : 
                 (_customWorkoutExerciseCount == (CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count))), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
-            UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) & !RandomWorkoutGenerated & !BuildingWorkout), x => UpdateWorkout(SelectedWorkout));
+            UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) && !RandomWorkoutGenerated && !BuildingWorkout), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
-            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) & (w != null) & (!BuildingWorkout)), w => LoadTimer(w));
+            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) && (w != null) & (!BuildingWorkout)), w => LoadTimer(w));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => Timer.PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
