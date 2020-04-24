@@ -14,5 +14,6 @@ namespace WorkoutApp.AppResources
         public const string THREE = @"C:\Users\Owner\source\repos\WorkoutApp\WorkoutApp\AppResources\three.wav";
         public const string GO = @"C:\Users\Owner\source\repos\WorkoutApp\WorkoutApp\AppResources\go.wav";
         public const string DONE = @"C:\Users\Owner\source\repos\WorkoutApp\WorkoutApp\AppResources\done.wav";
+        public const string GETREADY = @"C:\Users\Owner\source\repos\WorkoutApp\WorkoutApp\AppResources\getready.wav";
     }
 }

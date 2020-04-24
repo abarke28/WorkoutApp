@@ -337,6 +337,14 @@ namespace WorkoutApp.Model
                         }
                     }
                     break;
+
+                case 9:
+                    // Play get ready sound file if very start of workout. Check this last as it only occurs once
+                    if (_stackIndex != 0) break;
+
+                    _soundPlayer.SoundLocation = AppResources.AppResources.GETREADY;
+                    _soundPlayer.Play();
+                    break;
             }
 
             // Current movement/rest is not yet over. Let timer hit 0.
