@@ -142,7 +142,9 @@ namespace WorkoutApp.Model
             // Summary
             //
             // Takes a workout and builds a stack of timer stations with each station repersenting
-            // an exercise or rest. Also, build TimeToGo up to total length of workout.
+            // an exercise or rest.
+
+            if (workout.Stations.Count == 0) throw new ArgumentNullException(nameof(workout));
 
             _timeStack.Clear();
 
