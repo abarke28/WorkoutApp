@@ -1,11 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace WorkoutApp.Model
 {
     [BsonIgnoreExtraElements]
-    public class Workout
+    public class Workout : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -14,13 +15,24 @@ namespace WorkoutApp.Model
         public int SetSeconds { get; set; }
         public int StationReps { get; set; }
         public TimeSpan Length { get; set; }
-        public IList<Station> Stations { get; set; }
+        [BsonIgnore]
+        private IList<Station> _stations;
+        public IList<Station> Stations
+        {
+            get { return _stations; }
+            set
+            {
+                if (_stations == value) return;
+                _stations = value;
+                OnPropertyChanged("Stations");
+            }
+        }
 
         public Workout()
         {
             Stations = new List<Station>();
         }
-        
+
         public static TimeSpan GenerateLength(Workout workout)
         {
             // Add workout length
@@ -43,5 +55,11 @@ namespace WorkoutApp.Model
 
             return workoutLength;
         }
+
+        private void OnPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
