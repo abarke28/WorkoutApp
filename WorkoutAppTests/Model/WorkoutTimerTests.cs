@@ -13,7 +13,7 @@ namespace WorkoutAppTests
             var workoutTimer = new WorkoutTimer();
             var workout = new Workout();
 
-            // Act & Assert
+            // Act & Assert - 
             Assert.Throws<ArgumentNullException>(()=>workoutTimer.BuildTimer(workout));
         }
     }
