@@ -136,6 +136,7 @@ namespace WorkoutApp.Model
 
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
         }
+
         public void BuildTimer(Workout workout)
         {
             // Summary
@@ -215,22 +216,7 @@ namespace WorkoutApp.Model
 
             // Set TimeToGo to total workout length. Clear first
             TimeElapsed = TimeSpan.Zero;
-            TimeToGo = TimeSpan.Zero;
-
-            // Add exercise time
-            TimeToGo += TimeSpan.FromSeconds(stationReps * numStations * exercisesPerStation * workout.RepSeconds);
-
-            // Add exercise rest times. Take one from exercises per station since last rep is followed by station break
-            TimeToGo += TimeSpan.FromSeconds((stationReps * numStations * exercisesPerStation - numStations) * workout.RestSeconds);
-
-            // Add station rest times. Take one from number of stations since last station ends workout
-            TimeToGo += TimeSpan.FromSeconds((numStations - 1) * workout.SetSeconds);
-
-            // Add 10s for start of workout countdown
-            TimeToGo += TimeSpan.FromSeconds(10);
-
-            // Add 1s per exercise & 1s per rest since timer actually shows 0. Take 1 second off to skip final 0
-            TimeToGo += TimeSpan.FromSeconds(2 * numStations * exercisesPerStation * stationReps - 1);
+            TimeToGo = Workout.GenerateLength(workout);
         }
         public void LoadWorkout(Workout workout)
         {
