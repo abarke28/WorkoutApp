@@ -19,7 +19,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_closeDialog == value) return;
                 _closeDialog = value;
-                OnPropertyChanged("CloseDialog");
+                RaisePropertyChanged("CloseDialog");
             }
         }
 
@@ -31,11 +31,14 @@ namespace WorkoutApp.ViewModel
             {
                 if (_newExercise == value) return;
                 _newExercise = value;
-                OnPropertyChanged("NewExercise");
+                RaisePropertyChanged("NewExercise");
             }
         }
+
         public List<ExerciseType> ExerciseTypes { get; set; }
         public ICommand SaveExerciseCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
         public AddExerciseVM()
         {
             ExerciseTypes = Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().Where(e => e != ExerciseType.All).ToList();
@@ -47,6 +50,7 @@ namespace WorkoutApp.ViewModel
 
             InstantiateCommands();
         }
+        
         public void InstantiateCommands()
         {
             // Summary
@@ -55,6 +59,7 @@ namespace WorkoutApp.ViewModel
 
             // x = nothing, b = bool, e = exercise, w = workout
             SaveExerciseCommand = new BaseCommand(x => CanSaveExercise(), x => SaveExercise());
+            CancelCommand = new BaseCommand(x => true, x => CloseDialog = true);
         }
         public bool CanSaveExercise()
         {
@@ -62,7 +67,8 @@ namespace WorkoutApp.ViewModel
             //
             // CanExecute Method for SaveExerciseCommand
 
-            return true;
+            return !(String.IsNullOrWhiteSpace(NewExercise.ExerciseName) || String.IsNullOrEmpty(NewExercise.Description));
+            //return true;
         }
         public void SaveExercise()
         {
@@ -73,7 +79,8 @@ namespace WorkoutApp.ViewModel
             DatabaseHelper.AddExercise(NewExercise);
             CloseDialog = true;
         }
-        private void OnPropertyChanged(string property)
+
+        private void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }

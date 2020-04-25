@@ -22,7 +22,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_closeDialog == value) return;
                 _closeDialog = value;
-                OnPropertyChanged("CloseDialog");
+                RaisePropertyChanged("CloseDialog");
             }
         }
         public ConfigVM()
@@ -51,11 +51,11 @@ namespace WorkoutApp.ViewModel
             Configuration.UpdateConfig(Settings);
             CloseDialog = true;
         }
-        private void OnPropertyChanged(string property)
+
+        private void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -23,7 +23,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_exercises == value) return;
                 _exercises = value;
-                OnPropertyChanged("Exercises");
+                RaisePropertyChanged("Exercises");
             }
         }
 
@@ -35,7 +35,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workouts == value) return;
                 _workouts = value;
-                OnPropertyChanged("Workouts");
+                RaisePropertyChanged("Workouts");
             }
         }
 
@@ -47,7 +47,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_timer == value) return;
                 _timer = value;
-                OnPropertyChanged("Timer");
+                RaisePropertyChanged("Timer");
             }
         }
 
@@ -59,7 +59,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_selectedExercise == value) return;
                 _selectedExercise = value;
-                OnPropertyChanged("SelectedExercise");
+                RaisePropertyChanged("SelectedExercise");
             }
         }
 
@@ -81,7 +81,7 @@ namespace WorkoutApp.ViewModel
                 (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (UseAsCustomBaseCommand as BaseCommand).RaiseCanExecuteChanged();
-                OnPropertyChanged("SelectedWorkout");
+                RaisePropertyChanged("SelectedWorkout");
             }
         }
 
@@ -93,7 +93,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_customWorkout == value) return;
                 _customWorkout = value;
-                OnPropertyChanged("CustomWorkout");
+                RaisePropertyChanged("CustomWorkout");
             }
         }
 
@@ -105,7 +105,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_exerciseFilter == value) return;
                 _exerciseFilter = value;
-                OnPropertyChanged("ExerciseFilter");
+                RaisePropertyChanged("ExerciseFilter");
 
                 if (_exerciseFilter == ExerciseType.All)
                 {
@@ -130,7 +130,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workoutActive == value) return;
                 _workoutActive = value;
-                OnPropertyChanged("WorkoutActive");
+                RaisePropertyChanged("WorkoutActive");
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (RandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (CustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -147,7 +147,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workoutSelected == value) return;
                 _workoutSelected = value;
-                OnPropertyChanged("WorkoutSelected");
+                RaisePropertyChanged("WorkoutSelected");
             }
         }
 
@@ -159,7 +159,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_buildingWorkout == value) return;
                 _buildingWorkout = value;
-                OnPropertyChanged("BuildingWorkout");
+                RaisePropertyChanged("BuildingWorkout");
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (RandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (CustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -174,7 +174,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (_randomWorkoutGenerated == value) return;
                 _randomWorkoutGenerated = value;
-                OnPropertyChanged("RandomWorkoutGenerated");
+                RaisePropertyChanged("RandomWorkoutGenerated");
 
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -626,11 +626,11 @@ namespace WorkoutApp.ViewModel
 
             MongoHelper.AddRecordAsync(new Record(SelectedWorkout));
         }
-        private void OnPropertyChanged(string property)
+
+        private void RaisePropertyChanged(string property)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

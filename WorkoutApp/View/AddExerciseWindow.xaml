@@ -20,7 +20,7 @@
             <Setter Property="Padding" Value="10,0"/>
             <Setter Property="FontWeight" Value="DemiBold"/>
         </Style>
-        <Style TargetType="Button" x:Key="SaveButton">
+        <Style TargetType="Button" x:Key="CommandButton">
             <Setter Property="Background" Value="AliceBlue"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="FontSize" Value="14"/>
@@ -70,9 +70,19 @@
                  ItemsSource="{Binding ExerciseTypes, Mode=OneTime}" 
                  SelectedItem="{Binding NewExercise.ExerciseType, Mode=TwoWay}">
         </ListBox>
-        <Button Grid.Row="7" Content="Add"
-                Width="65"
-                Style="{StaticResource SaveButton}"
+        <Grid Grid.Row="7" Margin="40,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Add"
+                Width="85"
+                Style="{StaticResource CommandButton}"
                 Command="{Binding SaveExerciseCommand}"/>
+            <Button Grid.Column="1" Content="Cancel"
+                Width="85"
+                Style="{StaticResource CommandButton}"
+                Command="{Binding CancelCommand}"/>
+        </Grid>
     </Grid>
 </Window>
