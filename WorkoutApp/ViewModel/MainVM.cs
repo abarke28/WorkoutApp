@@ -400,7 +400,7 @@ namespace WorkoutApp.ViewModel
 
                 for (int j = 0; j < _config.NumExercisesPerStation; j++)
                 {
-                    CustomWorkout.Stations[i].Exercises.Add(new Exercise());
+                    CustomWorkout.Stations[i].Exercises.Add(null);
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace WorkoutApp.ViewModel
                 for (int j = 0; j < exercisesPerStation; j++)
                 {
                     // Find first spot with no exercise
-                    if (CustomWorkout.Stations[i].Exercises[j].ExerciseId == null)
+                    if (CustomWorkout.Stations[i].Exercises[j] == null)
                     {
                         CustomWorkout.Stations[i].Exercises[j] = exercise;
                         _customWorkoutExerciseCount++;
@@ -501,7 +501,7 @@ namespace WorkoutApp.ViewModel
                     // Remove exercise if found, decrement, then return.
                     if (CustomWorkout.Stations[i].Exercises[j] == exercise)
                     {
-                        CustomWorkout.Stations[i].Exercises[j] = new Exercise();
+                        CustomWorkout.Stations[i].Exercises[j] = null;
                         _customWorkoutExerciseCount--;
 
                         var flusher = CustomWorkout;
@@ -670,7 +670,7 @@ namespace WorkoutApp.ViewModel
             // Get current non-empty count of workout
             for (int i = 0; i < exercisesPerStation; i++)
             {
-                if (station[i].ExerciseName != null)
+                if (station[i] != null)
                     currentCount++;
                 if (station[i] == exercise)
                 {
@@ -695,7 +695,7 @@ namespace WorkoutApp.ViewModel
                 System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
                 // Target index is unnocupied
-                if (station[targetIndex].ExerciseName == null)
+                if (station[targetIndex] == null)
                 {
                     station[targetIndex] = exercise;
                     _customWorkoutExerciseCount++;
@@ -709,7 +709,7 @@ namespace WorkoutApp.ViewModel
                     int nextOpenIndex = 0;
                     for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
                     {
-                        if (station[i % exercisesPerStation].ExerciseName == null)
+                        if (station[i % exercisesPerStation] == null)
                         {
                             nextOpenIndex = i % exercisesPerStation;
                             break;
@@ -763,6 +763,28 @@ namespace WorkoutApp.ViewModel
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Reorder ");
                 System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
+                // Subcase 1: If target index is empty, simply move exercise from source to target index
+                if (station[targetIndex] == null)
+                {
+                    station[targetIndex] = exercise;
+                    station[sourceIndex] = null;
+                    return;
+                }
+
+                // Target index is occupied, so find first empty index after targetIndex
+                int nextOpenIndex = 0;
+                for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
+                {
+                    if (station[i % exercisesPerStation] == null)
+                    {
+                        nextOpenIndex = i % exercisesPerStation;
+                        break;
+                    }
+                }
+
+                // Two Subcases: 
+                // Subcase 2 - Target index is between Source index & Next Open index
+                // Subcase 3 - Source
             }
         }
 
