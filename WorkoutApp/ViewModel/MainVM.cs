@@ -633,7 +633,6 @@ namespace WorkoutApp.ViewModel
             dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
             dropInfo.Effects = isReorder ? DragDropEffects.Move : DragDropEffects.Copy;
         }
-
         public void Drop(IDropInfo dropInfo)
         {
             // Summary
