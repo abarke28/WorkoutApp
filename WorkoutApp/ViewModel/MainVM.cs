@@ -750,7 +750,7 @@ namespace WorkoutApp.ViewModel
             }
 
             // Station is not full & a reorder - accept
-            if (currentCount < exercisesPerStation && !isReorder)
+            if (currentCount < exercisesPerStation && isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Reorder ");
                 System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
@@ -775,8 +775,58 @@ namespace WorkoutApp.ViewModel
                 }
 
                 // Two Subcases: 
-                // Subcase 2 - Target index is between Source index & Next Open index
-                // Subcase 3 - Source
+                // Subcase 2 - Target Index > Next Open Index > Source Index
+                // Subcase 3 - Target Index > Source Index > Next Open Index
+
+                var modNextOpenIndex = nextOpenIndex;
+                var modSourceIndex = sourceIndex;
+
+                if (nextOpenIndex < targetIndex)
+                    modNextOpenIndex += exercisesPerStation;
+
+                if (sourceIndex < targetIndex)
+                    modSourceIndex += exercisesPerStation;
+
+                // Subcase 2
+                if (modNextOpenIndex < modSourceIndex)
+                {
+                    // push everything down from target index to next open slot, then insert
+                    //
+                    // still want to do up to exercisesPerStation loops, but need to start at
+                    // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
+
+                    station[sourceIndex] = null;
+
+                    for (int i = nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
+                    {
+                        if (i % exercisesPerStation == targetIndex)
+                        {
+                            station[i % exercisesPerStation] = exercise;
+                            return;
+                        }
+
+                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
+                    }
+                }
+
+                // Subcase 3
+                else
+                {
+                    // push everything down from target index to source index
+                    //
+                    // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
+                    // hence the odd indices. Use mod operator on i to prevent indexoutrange
+                    for (int i = sourceIndex + exercisesPerStation; i > sourceIndex; i--)
+                    {
+                        if (i % exercisesPerStation == targetIndex)
+                        {
+                            station[i % exercisesPerStation] = exercise;
+                            return;
+                        }
+
+                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
+                    }
+                }
             }
         }
 
