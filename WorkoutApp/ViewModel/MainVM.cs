@@ -684,6 +684,7 @@ namespace WorkoutApp.ViewModel
             if (currentCount == exercisesPerStation && !isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Not Inserting - Full & Not Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
                 return;
             }
 
@@ -691,6 +692,7 @@ namespace WorkoutApp.ViewModel
             if (currentCount < exercisesPerStation && !isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
                 // Target index is unnocupied
                 if (station[targetIndex].ExerciseName == null)
@@ -715,6 +717,9 @@ namespace WorkoutApp.ViewModel
                     }
 
                     // push everything down from target index to next open slot, then insert
+                    //
+                    // still want to do up to exercisesPerStation loops, but need to start at
+                    // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
                     for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
                     {
                         if (i%exercisesPerStation == targetIndex)
@@ -729,19 +734,34 @@ namespace WorkoutApp.ViewModel
                 }
             }
 
-            // Station is full & a rorder - accept
+            // Station is full & a reorder - accept
             if (currentCount == exercisesPerStation && isReorder)
             {
-                for (int i = exercisesPerStation - 1; i > targetIndex; i--)
+                System.Diagnostics.Debug.WriteLine("Inserting - Full & Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
+
+                // push everything down from target index to source index
+                //
+                // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
+                // hence the odd indices. Use mod operator on i to prevent indexoutrange
+                for (int i = sourceIndex + exercisesPerStation; i > sourceIndex; i--)
                 {
+                    if (i%exercisesPerStation == targetIndex)
+                    {
+                        station[i % exercisesPerStation] = exercise;
+                        _customWorkoutExerciseCount++;
+                        return;
+                    }
 
+                    station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
                 }
-
             }
 
-            // Station is not full & not a reorder - accept
+            // Station is not full & a reorder - accept
             if (currentCount < exercisesPerStation && !isReorder)
             {
+                System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Reorder ");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
             }
         }
