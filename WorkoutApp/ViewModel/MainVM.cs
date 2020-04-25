@@ -499,10 +499,6 @@ namespace WorkoutApp.ViewModel
                         CustomWorkout.Stations[i].Exercises[j] = null;
                         _customWorkoutExerciseCount--;
 
-                        var flusher = CustomWorkout;
-                        CustomWorkout = null;
-                        CustomWorkout = flusher;
-
                         // Re-evaluate if Workout is full and can be saved
                         (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
 
@@ -694,6 +690,7 @@ namespace WorkoutApp.ViewModel
                 {
                     station[targetIndex] = exercise;
                     _customWorkoutExerciseCount++;
+                    (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                     return;
                 }
 
@@ -721,6 +718,7 @@ namespace WorkoutApp.ViewModel
                         {
                             station[i % exercisesPerStation] = exercise;
                             _customWorkoutExerciseCount++;
+                            (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                             return;
                         }
 
