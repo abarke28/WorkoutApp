@@ -41,6 +41,11 @@ namespace WorkoutApp.ViewModel
 
         public AddExerciseVM()
         {
+            // Summary
+            //
+            // ExerciseTypes is data source for Radio Buttons. Subscribe to PropertyChanged event of NewExercise so that 
+            // CanExecute logic can be called whenever NewExercise properties change
+
             ExerciseTypes = Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().Where(e => e != ExerciseType.All).ToList();
 
             NewExercise = new Exercise
@@ -49,6 +54,7 @@ namespace WorkoutApp.ViewModel
             };
 
             InstantiateCommands();
+            NewExercise.PropertyChanged += OnNewExercisePropertyChanged;
         }
         
         public void InstantiateCommands()
@@ -78,6 +84,15 @@ namespace WorkoutApp.ViewModel
 
             DatabaseHelper.AddExercise(NewExercise);
             CloseDialog = true;
+        }
+
+        private void OnNewExercisePropertyChanged(object sender, EventArgs e)
+        {
+            // Summary
+            //
+            // When property of NewExercise changes, need to re-evaluate can-execute logic for SaveExerciseCommand
+
+            (SaveExerciseCommand as BaseCommand).RaiseCanExecuteChanged();
         }
 
         private void RaisePropertyChanged(string property)
