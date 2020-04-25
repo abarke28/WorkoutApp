@@ -535,7 +535,8 @@
                             <TextBlock Grid.Row="0" Text="{Binding StationName}" FontWeight="DemiBold"/>
                             <ListView Grid.Row="1" ItemsSource="{Binding Exercises, Mode=OneWay}" BorderThickness="0"
                                       ItemContainerStyle="{StaticResource NoMouseOver}"
-                                      dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True">
+                                      dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" 
+                                      dd:DragDrop.DropHandler="{Binding Source={StaticResource vm}}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Vertical">

@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using GongSolutions.Wpf.DragDrop;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using PodcastApp.ViewModel.Commands;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using WorkoutApp.Config;
 using WorkoutApp.Model;
@@ -13,7 +15,7 @@ using WorkoutApp.View;
 
 namespace WorkoutApp.ViewModel
 {
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : INotifyPropertyChanged, IDropTarget
     {
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> Exercises
@@ -625,6 +627,92 @@ namespace WorkoutApp.ViewModel
             // Event raised by Timer class when workout is called. Write record of workout to Db
 
             MongoHelper.AddRecordAsync(new Record(SelectedWorkout));
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            // Summary
+            //
+            // Event Handler for drag over a droptarget. Styles drop targets appropriately
+
+            var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+            var exercsiesPerStation = station.Count;
+
+            int currentCount = 0;
+            for(int i=0; i<exercsiesPerStation; i++)
+            {
+                if (station[i].ExerciseName == null) 
+                    currentCount++;
+            }
+
+            if (currentCount < exercsiesPerStation)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+                dropInfo.Effects = DragDropEffects.Copy;
+                return;
+            }
+
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+            dropInfo.Effects = DragDropEffects.Copy;
+        }
+        public void Drop(IDropInfo dropInfo)
+        {
+            // Summary
+            //
+            // Drop Event handler. Need to ensure station can accept item. Four cases are:
+            // - Station is not full & exercise is new > accept
+            // - Station is full & exercise is new > reject
+            // - Station is not full & exercise is a re-order > accept
+            // - Station is full & exercise is a re-order > accept
+
+            var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+            var targetIndex = dropInfo.InsertIndex;
+            var exercisesPerStation = station.Count;
+            var exercise = dropInfo.Data as Exercise;
+
+            // Not allowed to expand Station size
+            if (targetIndex == exercisesPerStation) return;
+
+            bool isReorder = false;
+            int currentCount = 0;
+
+            for (int i = 0; i < exercisesPerStation; i++)
+            {
+                if (station[i].ExerciseName != null)
+                    currentCount++;
+                if (station[i] == exercise)
+                    isReorder = true;
+            }
+
+            // Station is full & not a reorder - reject
+            if (currentCount == exercisesPerStation && !isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Not Inserting - Full & Not Reorder");
+                return;
+            }
+
+            // Station is not full & not a reorder - accept
+            if (currentCount < exercisesPerStation && !isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
+
+                // Need to scan through and re-org items appropriately
+                for (int i=0; i<exercisesPerStation; i++)
+                {
+                    // Target index is unoccupied
+                    if (i == targetIndex && station[i].ExerciseName == null)
+                    {
+                        station[i] = exercise;
+                        return;
+                    }
+
+                    // Target index is occupied - need to push down until we hit an open position
+                    if (i == targetIndex && station[i].ExerciseName != null)
+                    {
+
+                    }
+                }
+            }
         }
 
         private void RaisePropertyChanged(string property)
