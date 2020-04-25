@@ -634,27 +634,15 @@ namespace WorkoutApp.ViewModel
             // Summary
             //
             // Event Handler for drag over a droptarget. Styles drop targets appropriately
+            // Cases are a drop of a new exercise, or a re-order of the current station
 
             var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
-            var exercsiesPerStation = station.Count;
+            bool isReorder = station.Contains(dropInfo.Data as Exercise);
 
-            int currentCount = 0;
-            for(int i=0; i<exercsiesPerStation; i++)
-            {
-                if (station[i].ExerciseName == null) 
-                    currentCount++;
-            }
-
-            if (currentCount < exercsiesPerStation)
-            {
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-                dropInfo.Effects = DragDropEffects.Copy;
-                return;
-            }
-
-            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-            dropInfo.Effects = DragDropEffects.Copy;
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            dropInfo.Effects = isReorder ? DragDropEffects.Move : DragDropEffects.Copy;
         }
+
         public void Drop(IDropInfo dropInfo)
         {
             // Summary
@@ -676,6 +664,7 @@ namespace WorkoutApp.ViewModel
             bool isReorder = false;
             int currentCount = 0;
 
+            // Get current non-empty count of workout
             for (int i = 0; i < exercisesPerStation; i++)
             {
                 if (station[i].ExerciseName != null)
@@ -695,6 +684,13 @@ namespace WorkoutApp.ViewModel
             if (currentCount < exercisesPerStation && !isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
+
+                // Target index is unnocupied
+                if (station[targetIndex].ExerciseName == null)
+                {
+                    station[targetIndex] = exercise;
+                    return;
+                }
 
                 // Need to scan through and re-org items appropriately
                 for (int i=0; i<exercisesPerStation; i++)
