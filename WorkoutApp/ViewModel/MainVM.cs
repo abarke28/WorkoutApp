@@ -661,8 +661,11 @@ namespace WorkoutApp.ViewModel
             // Not allowed to expand Station size
             if (targetIndex == exercisesPerStation) return;
 
+            // Variables for 4 insertion cases. Assign sourceIndex now while already
+            // looping. Will only be assigned in case of reorder
             bool isReorder = false;
             int currentCount = 0;
+            int sourceIndex = 0;
 
             // Get current non-empty count of workout
             for (int i = 0; i < exercisesPerStation; i++)
@@ -670,9 +673,13 @@ namespace WorkoutApp.ViewModel
                 if (station[i].ExerciseName != null)
                     currentCount++;
                 if (station[i] == exercise)
+                {
                     isReorder = true;
+                    sourceIndex = i;
+                }
             }
 
+            // FOUR CASES
             // Station is full & not a reorder - reject
             if (currentCount == exercisesPerStation && !isReorder)
             {
@@ -689,25 +696,53 @@ namespace WorkoutApp.ViewModel
                 if (station[targetIndex].ExerciseName == null)
                 {
                     station[targetIndex] = exercise;
+                    _customWorkoutExerciseCount++;
                     return;
                 }
 
-                // Need to scan through and re-org items appropriately
-                for (int i=0; i<exercisesPerStation; i++)
+                // Target index is occupied
+                else
                 {
-                    // Target index is unoccupied
-                    if (i == targetIndex && station[i].ExerciseName == null)
+                    // find first empty index after targetIndex
+                    int nextOpenIndex = 0;
+                    for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
                     {
-                        station[i] = exercise;
-                        return;
+                        if (station[i % exercisesPerStation].ExerciseName == null)
+                        {
+                            nextOpenIndex = i % exercisesPerStation;
+                            break;
+                        }
                     }
 
-                    // Target index is occupied - need to push down until we hit an open position
-                    if (i == targetIndex && station[i].ExerciseName != null)
+                    // push everything down from target index to next open slot, then insert
+                    for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
                     {
+                        if (i%exercisesPerStation == targetIndex)
+                        {
+                            station[i % exercisesPerStation] = exercise;
+                            _customWorkoutExerciseCount++;
+                            return;
+                        }
 
+                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
                     }
                 }
+            }
+
+            // Station is full & a rorder - accept
+            if (currentCount == exercisesPerStation && isReorder)
+            {
+                for (int i = exercisesPerStation - 1; i > targetIndex; i--)
+                {
+
+                }
+
+            }
+
+            // Station is not full & not a reorder - accept
+            if (currentCount < exercisesPerStation && !isReorder)
+            {
+
             }
         }
 
