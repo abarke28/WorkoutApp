@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using GongSolutions.Wpf.DragDrop;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using PodcastApp.ViewModel.Commands;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using WorkoutApp.Config;
 using WorkoutApp.Model;
@@ -13,7 +15,7 @@ using WorkoutApp.View;
 
 namespace WorkoutApp.ViewModel
 {
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : INotifyPropertyChanged, IDropTarget
     {
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> Exercises
@@ -398,7 +400,7 @@ namespace WorkoutApp.ViewModel
 
                 for (int j = 0; j < _config.NumExercisesPerStation; j++)
                 {
-                    CustomWorkout.Stations[i].Exercises.Add(new Exercise());
+                    CustomWorkout.Stations[i].Exercises.Add(null);
                 }
             }
         }
@@ -461,7 +463,7 @@ namespace WorkoutApp.ViewModel
                 for (int j = 0; j < exercisesPerStation; j++)
                 {
                     // Find first spot with no exercise
-                    if (CustomWorkout.Stations[i].Exercises[j].ExerciseId == null)
+                    if (CustomWorkout.Stations[i].Exercises[j] == null)
                     {
                         CustomWorkout.Stations[i].Exercises[j] = exercise;
                         _customWorkoutExerciseCount++;
@@ -470,11 +472,6 @@ namespace WorkoutApp.ViewModel
                     }
                 }
             }
-
-            // Manually refresh list
-            var flusher = CustomWorkout;
-            CustomWorkout = null;
-            CustomWorkout = flusher;
 
             // Re-evaluate if Workout is full and can be saved
             (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -499,7 +496,7 @@ namespace WorkoutApp.ViewModel
                     // Remove exercise if found, decrement, then return.
                     if (CustomWorkout.Stations[i].Exercises[j] == exercise)
                     {
-                        CustomWorkout.Stations[i].Exercises[j] = new Exercise();
+                        CustomWorkout.Stations[i].Exercises[j] = null;
                         _customWorkoutExerciseCount--;
 
                         var flusher = CustomWorkout;
@@ -625,6 +622,164 @@ namespace WorkoutApp.ViewModel
             // Event raised by Timer class when workout is called. Write record of workout to Db
 
             MongoHelper.AddRecordAsync(new Record(SelectedWorkout));
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            // Summary
+            //
+            // Event Handler for drag over a droptarget. Styles drop targets appropriately
+            // Cases are a drop of a new exercise, or a re-order of the current station
+
+            var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+            bool isReorder = station.Contains(dropInfo.Data as Exercise);
+
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            dropInfo.Effects = isReorder ? DragDropEffects.Move : DragDropEffects.Copy;
+        }
+
+        public void Drop(IDropInfo dropInfo)
+        {
+            // Summary
+            //
+            // Drop Event handler. Need to ensure station can accept item. Four cases are:
+            // - Station is not full & exercise is new > accept
+            // - Station is full & exercise is new > reject
+            // - Station is not full & exercise is a re-order > accept
+            // - Station is full & exercise is a re-order > accept
+
+            var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+            var targetIndex = dropInfo.InsertIndex;
+            var exercisesPerStation = station.Count;
+            var exercise = dropInfo.Data as Exercise;
+
+            // Not allowed to expand Station size
+            if (targetIndex == exercisesPerStation) return;
+
+            // Variables for 4 insertion cases. Assign sourceIndex now while already
+            // looping. Will only be assigned in case of reorder
+            bool isReorder = false;
+            int currentCount = 0;
+            int sourceIndex = 0;
+
+            // Get current non-empty count of workout
+            for (int i = 0; i < exercisesPerStation; i++)
+            {
+                if (station[i] != null)
+                    currentCount++;
+                if (station[i] == exercise)
+                {
+                    isReorder = true;
+                    sourceIndex = i;
+                }
+            }
+
+            // FOUR CASES
+            // Station is full & not a reorder - reject
+            if (currentCount == exercisesPerStation && !isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Not Inserting - Full & Not Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
+                return;
+            }
+
+            // Station is not full & not a reorder - accept
+            if (currentCount < exercisesPerStation && !isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
+
+                // Target index is unnocupied
+                if (station[targetIndex] == null)
+                {
+                    station[targetIndex] = exercise;
+                    _customWorkoutExerciseCount++;
+                    return;
+                }
+
+                // Target index is occupied
+                else
+                {
+                    // find first empty index after targetIndex
+                    int nextOpenIndex = 0;
+                    for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
+                    {
+                        if (station[i % exercisesPerStation] == null)
+                        {
+                            nextOpenIndex = i % exercisesPerStation;
+                            break;
+                        }
+                    }
+
+                    // push everything down from target index to next open slot, then insert
+                    //
+                    // still want to do up to exercisesPerStation loops, but need to start at
+                    // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
+                    for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
+                    {
+                        if (i%exercisesPerStation == targetIndex)
+                        {
+                            station[i % exercisesPerStation] = exercise;
+                            _customWorkoutExerciseCount++;
+                            return;
+                        }
+
+                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
+                    }
+                }
+            }
+
+            // Station is full & a reorder - accept
+            if (currentCount == exercisesPerStation && isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Inserting - Full & Reorder");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
+
+                // push everything down from target index to source index
+                //
+                // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
+                // hence the odd indices. Use mod operator on i to prevent indexoutrange
+                for (int i = sourceIndex + exercisesPerStation; i > sourceIndex; i--)
+                {
+                    if (i%exercisesPerStation == targetIndex)
+                    {
+                        station[i % exercisesPerStation] = exercise;
+                        return;
+                    }
+
+                    station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
+                }
+            }
+
+            // Station is not full & a reorder - accept
+            if (currentCount < exercisesPerStation && !isReorder)
+            {
+                System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Reorder ");
+                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
+
+                // Subcase 1: If target index is empty, simply move exercise from source to target index
+                if (station[targetIndex] == null)
+                {
+                    station[targetIndex] = exercise;
+                    station[sourceIndex] = null;
+                    return;
+                }
+
+                // Target index is occupied, so find first empty index after targetIndex
+                int nextOpenIndex = 0;
+                for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
+                {
+                    if (station[i % exercisesPerStation] == null)
+                    {
+                        nextOpenIndex = i % exercisesPerStation;
+                        break;
+                    }
+                }
+
+                // Two Subcases: 
+                // Subcase 2 - Target index is between Source index & Next Open index
+                // Subcase 3 - Source
+            }
         }
 
         private void RaisePropertyChanged(string property)
