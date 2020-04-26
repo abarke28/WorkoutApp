@@ -25,12 +25,14 @@ namespace WorkoutApp.ViewModel
                 RaisePropertyChanged("CloseDialog");
             }
         }
+
         public ConfigVM()
         {
             Settings = Configuration.GetConfig();
 
             InstatiateCommands();
         }
+        
         public void InstatiateCommands()
         {
             // Summary

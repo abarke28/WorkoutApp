@@ -37,7 +37,7 @@
     </Window.Resources>
     <Grid Style="{StaticResource ConfigGrid}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.75*"/>
+            <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>

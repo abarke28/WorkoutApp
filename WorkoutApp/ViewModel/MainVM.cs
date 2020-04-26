@@ -682,7 +682,6 @@ namespace WorkoutApp.ViewModel
             if (currentCount < exercisesPerStation && !isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
-                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
                 // Target index is unnocupied
                 if (station[targetIndex] == null)
