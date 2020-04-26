@@ -409,25 +409,15 @@ namespace WorkoutApp.ViewModel
             // Summary
             //
             // Take supplied workout and load into custom workout. Method is called from context menu from
-            // Workouts list. Not re-calling Config since setting should be linked to imported workout. 
+            // Workouts list. Not re-calling Config since settings should be linked to imported workout. 
+
+            CustomWorkout = parameter as Workout;
+            CustomWorkout.Name = "Copy of " + CustomWorkout.Name;
+            _customWorkoutExerciseCount = CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count;
 
             ExerciseFilter = ExerciseType.All;
 
             BuildingWorkout = true;
-
-            CustomWorkout = new Workout
-            {
-                Name = "Copy of " + (parameter as Workout).Name,
-                Description = (parameter as Workout).Description,
-                RepSeconds = (parameter as Workout).RepSeconds,
-                RestSeconds = (parameter as Workout).RestSeconds,
-                SetSeconds = (parameter as Workout).SetSeconds,
-                StationReps = (parameter as Workout).StationReps,
-                Stations = (parameter as Workout).Stations,
-                Length = (parameter as Workout).Length
-            };
-
-            _customWorkoutExerciseCount = CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count;
 
             (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
         }
@@ -486,12 +476,15 @@ namespace WorkoutApp.ViewModel
             if (_customWorkoutExerciseCount == 0) return;
             if (parameter == null) return;
 
+            int numStations = CustomWorkout.Stations.Count;
+            int numExercisesPerStation = CustomWorkout.Stations[0].Exercises.Count;
+
             Exercise exercise = parameter as Exercise;
 
             // Find exercise and remove
-            for (int i = 0; i < _config.NumStations; i++)
+            for (int i = 0; i < numStations; i++)
             {
-                for (int j = 0; j < _config.NumExercisesPerStation; j++)
+                for (int j = 0; j < numExercisesPerStation; j++)
                 {
                     // Remove exercise if found, decrement, then return.
                     if (CustomWorkout.Stations[i].Exercises[j] == exercise)
@@ -501,6 +494,11 @@ namespace WorkoutApp.ViewModel
 
                         // Re-evaluate if Workout is full and can be saved
                         (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+
+                        // Manually refresh workout
+                        var temp = CustomWorkout;
+                        CustomWorkout = null;
+                        CustomWorkout = temp;
 
                         return;
                     }
@@ -627,7 +625,9 @@ namespace WorkoutApp.ViewModel
             // Event Handler for drag over a droptarget. Styles drop targets appropriately
             // Cases are a drop of a new exercise, or a re-order of the current station
 
-            var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+            //var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
+
+            var station = (ObservableCollection<Exercise>)dropInfo.TargetCollection;
             bool isReorder = station.Contains(dropInfo.Data as Exercise);
 
             dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
