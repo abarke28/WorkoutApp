@@ -698,11 +698,12 @@ namespace WorkoutApp.ViewModel
                 {
                     // find first empty index after targetIndex
                     int nextOpenIndex = 0;
-                    for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
+
+                    for (int i=0; i<exercisesPerStation; i++)
                     {
-                        if (station[i % exercisesPerStation] == null)
+                        if (station[(i+targetIndex)%exercisesPerStation] == null)
                         {
-                            nextOpenIndex = i % exercisesPerStation;
+                            nextOpenIndex = (i + targetIndex) % exercisesPerStation;
                             break;
                         }
                     }
@@ -713,6 +714,8 @@ namespace WorkoutApp.ViewModel
                     // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
                     for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
                     {
+                        System.Diagnostics.Debug.WriteLine(string.Format("At index: {0}", i%exercisesPerStation));
+
                         if (i%exercisesPerStation == targetIndex)
                         {
                             station[i % exercisesPerStation] = exercise;
@@ -762,13 +765,14 @@ namespace WorkoutApp.ViewModel
                     return;
                 }
 
-                // Target index is occupied, so find first empty index after targetIndex
+                // find first empty index after targetIndex
                 int nextOpenIndex = 0;
-                for (int i = targetIndex; (i + targetIndex) < (exercisesPerStation + targetIndex); i++)
+
+                for (int i = 0; i < exercisesPerStation; i++)
                 {
-                    if (station[i % exercisesPerStation] == null)
+                    if (station[(i + targetIndex) % exercisesPerStation] == null)
                     {
-                        nextOpenIndex = i % exercisesPerStation;
+                        nextOpenIndex = (i + targetIndex) % exercisesPerStation;
                         break;
                     }
                 }
