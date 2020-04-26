@@ -643,13 +643,12 @@ namespace WorkoutApp.ViewModel
             // - Station is not full & exercise is a re-order > accept
             // - Station is full & exercise is a re-order > accept
 
-            System.Diagnostics.Debug.WriteLine(String.Format("Original Insert Index: {0}", dropInfo.InsertIndex));
+            // If the dropInfo.InsertPosition is after the target item, or contains is (InsertPosition is bitwise enum)
+            // then need to decrement the InsertIndex by one
+            var targetIndex = (dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem
+                ? dropInfo.InsertIndex - 1 : dropInfo.InsertIndex;
 
             var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
-            var targetIndex = ((dropInfo.InsertPosition == RelativeInsertPosition.AfterTargetItem) 
-                || (((dropInfo.InsertPosition & RelativeInsertPosition.TargetItemCenter) == RelativeInsertPosition.TargetItemCenter)
-                    && (dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem))
-                ? dropInfo.InsertIndex - 1 : dropInfo.InsertIndex;
             var exercisesPerStation = station.Count;
             var exercise = dropInfo.Data as Exercise;
 
