@@ -643,10 +643,18 @@ namespace WorkoutApp.ViewModel
             // - Station is not full & exercise is a re-order > accept
             // - Station is full & exercise is a re-order > accept
 
+            System.Diagnostics.Debug.WriteLine(String.Format("Original Insert Index: {0}", dropInfo.InsertIndex));
+
             var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
-            var targetIndex = dropInfo.InsertIndex;
+            var targetIndex = ((dropInfo.InsertPosition == RelativeInsertPosition.AfterTargetItem) 
+                || (((dropInfo.InsertPosition & RelativeInsertPosition.TargetItemCenter) == RelativeInsertPosition.TargetItemCenter)
+                    && (dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem))
+                ? dropInfo.InsertIndex - 1 : dropInfo.InsertIndex;
             var exercisesPerStation = station.Count;
             var exercise = dropInfo.Data as Exercise;
+
+            System.Diagnostics.Debug.WriteLine(String.Format("Insert Index: {0}", targetIndex));
+            System.Diagnostics.Debug.WriteLine(String.Format("Insert Position: {0}", dropInfo.InsertPosition));
 
             // Not allowed to expand Station size
             if (targetIndex == exercisesPerStation) return;
@@ -713,8 +721,6 @@ namespace WorkoutApp.ViewModel
                     // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
                     for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
                     {
-                        System.Diagnostics.Debug.WriteLine(string.Format("At index: {0}", i%exercisesPerStation));
-
                         if (i%exercisesPerStation == targetIndex)
                         {
                             station[i % exercisesPerStation] = exercise;
@@ -732,7 +738,6 @@ namespace WorkoutApp.ViewModel
             if (currentCount == exercisesPerStation && isReorder)
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Full & Reorder");
-                System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
                 // push everything down from target index to source index
                 //
