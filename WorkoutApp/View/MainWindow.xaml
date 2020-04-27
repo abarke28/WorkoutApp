@@ -381,7 +381,7 @@
             </Grid>
             <!--Options Bar-->
             <Grid Grid.Row="2"
-                  Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}">
+                  Visibility="{Binding WorkoutControlsAvailable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource b2vh}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
