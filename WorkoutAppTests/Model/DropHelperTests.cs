@@ -22,7 +22,7 @@ namespace WorkoutAppTests.Model
         }
 
         [Fact]
-        public void ReorderItemInNotFullStructure_WhenCalled_ProperlyInserts()
+        public void ReorderItemInNotFullStructure_WhenTargetIsClosestToSource_ProperlyInserts()
         {
             var collection = new ObservableCollection<String> { "ABC", "DEF", "GHI", null };
 
@@ -31,6 +31,19 @@ namespace WorkoutAppTests.Model
             Assert.Equal("DEF", collection[0]);
             Assert.Equal("ABC", collection[1]);
             Assert.Equal("GHI", collection[2]);
+        }
+
+        [Fact]
+        public void ReorderItemInNotFullStructure_WhenEmptyIndexIsClosestToSource_ProperlyInserts()
+        {
+            var collection = new ObservableCollection<String> { "ABC", null, "DEF", "GHI" };
+
+            DropHelper.ReorderItemInNotFullStructure<String>("ABC", collection, 2, 0);
+
+            Assert.Equal("GHI", collection[0]);
+            Assert.Null(collection[1]);
+            Assert.Equal("ABC", collection[2]);
+            Assert.Equal("DEF", collection[3]);
         }
 
         [Fact]
