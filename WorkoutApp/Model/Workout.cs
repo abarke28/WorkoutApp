@@ -9,13 +9,38 @@ namespace WorkoutApp.Model
     [BsonIgnoreExtraElements]
     public class Workout : INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name == value) return;
+                _name = value;
+                RaisePropertyChanged("Name");
+            }
+        }
+
+        private string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                if (_description == value) return;
+                _description = value;
+                RaisePropertyChanged("Description");
+            }
+        }
+
         public int RepSeconds { get; set; }
         public int RestSeconds { get; set; }
         public int SetSeconds { get; set; }
         public int StationReps { get; set; }
+
         public TimeSpan Length { get; set; }
+
         private IList<Station> _stations;
         public IList<Station> Stations
         {

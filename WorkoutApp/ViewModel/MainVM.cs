@@ -411,8 +411,36 @@ namespace WorkoutApp.ViewModel
             // Take supplied workout and load into custom workout. Method is called from context menu from
             // Workouts list. Not re-calling Config since settings should be linked to imported workout. 
 
-            CustomWorkout = parameter as Workout;
-            CustomWorkout.Name = "Copy of " + CustomWorkout.Name;
+            var import = parameter as Workout;
+            var numStations = import.Stations.Count;
+            var numExercises = import.Stations[0].Exercises.Count;
+
+            // Command casting & parameterization drops ObservableCollection<T> type. Need to rebox
+
+            CustomWorkout.Name = "Copy of " + import.Name;
+            CustomWorkout.Description = import.Description;
+            CustomWorkout.Length = import.Length;
+            CustomWorkout.RepSeconds = import.RepSeconds;
+            CustomWorkout.RestSeconds = import.RestSeconds;
+            CustomWorkout.SetSeconds = import.SetSeconds;
+            CustomWorkout.StationReps = import.StationReps;
+
+            CustomWorkout.Stations = new ObservableCollection<Station>();
+
+            for (int i=0; i<numStations; i++)
+            {
+                CustomWorkout.Stations.Add(new Station
+                {
+                    StationName = "Station " + (i+1).ToString(),
+                    Exercises = new ObservableCollection<Exercise>()
+                });
+                
+                for(int j=0; j<numExercises; j++)
+                {
+                    CustomWorkout.Stations[i].Exercises.Add(import.Stations[i].Exercises[j]);
+                }
+            }
+
             _customWorkoutExerciseCount = CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count;
 
             ExerciseFilter = ExerciseType.All;
@@ -494,11 +522,6 @@ namespace WorkoutApp.ViewModel
 
                         // Re-evaluate if Workout is full and can be saved
                         (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
-
-                        // Manually refresh workout
-                        var temp = CustomWorkout;
-                        CustomWorkout = null;
-                        CustomWorkout = temp;
 
                         return;
                     }
