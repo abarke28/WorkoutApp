@@ -9,6 +9,11 @@ namespace WorkoutApp.Model
     {
         public static void InsertItemIntoNotFullStructure<T>(T item, ObservableCollection<T> collection, int targetIndex)
         {
+            // Summary
+            //
+            // Method to drop an item in a collection if it is not full. Items will be pushed down until
+            // an empty index is reached. Push is wrapped around collection end.
+
             // Target index is unnocupied
             if (collection[targetIndex] == null)
             {
@@ -50,6 +55,11 @@ namespace WorkoutApp.Model
 
         public static void ReorderItemInNotFullStructure<T>(T item, ObservableCollection<T> collection, int targetIndex, int sourceIndex)
         {
+            // Summary
+            //
+            // Method to drop an item in a collection if it is not full and the item came from the collection. 
+            // Items will be pushed down until an empty index is reached. Push is wrapped around collection end.
+
             // Subcase 1: If target index is empty, simply move item from source to target index
             if (collection[targetIndex] == null)
             {
@@ -127,8 +137,11 @@ namespace WorkoutApp.Model
 
         public static void ReorderItemInFullStructure<T>(T item, ObservableCollection<T> collection, int targetIndex, int sourceIndex)
         {
-            // push everything down from target index to source index
+            // Summary
             //
+            // Reorder items in collection when an existing item is dropped elsewhere in the collection
+
+            // push everything down from target index to source index
             // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
             // hence the odd indices. Use mod operator on i to prevent indexoutrange
             for (int i = sourceIndex + collection.Count; i > sourceIndex; i--)
