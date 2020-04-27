@@ -666,7 +666,7 @@ namespace WorkoutApp.ViewModel
             // - Station is not full & exercise is a re-order > accept
             // - Station is full & exercise is a re-order > accept
 
-            // If the dropInfo.InsertPosition is after the target item, or contains is (InsertPosition is bitwise enum)
+            // If the dropInfo.InsertPosition is AfterTargetItem, or contains it (InsertPosition is bitwise enum)
             // then need to decrement the InsertIndex by one
             var targetIndex = (dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem
                 ? dropInfo.InsertIndex - 1 : dropInfo.InsertIndex;
@@ -687,7 +687,7 @@ namespace WorkoutApp.ViewModel
             int currentCount = 0;
             int sourceIndex = 0;
 
-            // Get current non-empty count of workout
+            // Get variables for drop cases
             for (int i = 0; i < exercisesPerStation; i++)
             {
                 if (station[i] != null)
@@ -713,47 +713,10 @@ namespace WorkoutApp.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Not Reorder");
 
-                // Target index is unnocupied
-                if (station[targetIndex] == null)
-                {
-                    station[targetIndex] = exercise;
-                    _customWorkoutExerciseCount++;
-                    (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
-                    return;
-                }
-
-                // Target index is occupied
-                else
-                {
-                    // find first empty index after targetIndex
-                    int nextOpenIndex = 0;
-
-                    for (int i=0; i<exercisesPerStation; i++)
-                    {
-                        if (station[(i+targetIndex)%exercisesPerStation] == null)
-                        {
-                            nextOpenIndex = (i + targetIndex) % exercisesPerStation;
-                            break;
-                        }
-                    }
-
-                    // push everything down from target index to next open slot, then insert
-                    //
-                    // still want to do up to exercisesPerStation loops, but need to start at
-                    // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
-                    for (int i=nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
-                    {
-                        if (i%exercisesPerStation == targetIndex)
-                        {
-                            station[i % exercisesPerStation] = exercise;
-                            _customWorkoutExerciseCount++;
-                            (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
-                            return;
-                        }
-
-                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
-                    }
-                }
+                DropHelper.InsertItemIntoNotFullStructure<Exercise>(exercise, station, targetIndex);
+                _customWorkoutExerciseCount++;
+                (SaveCustomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                return;
             }
 
             // Station is full & a reorder - accept
@@ -761,20 +724,8 @@ namespace WorkoutApp.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine("Inserting - Full & Reorder");
 
-                // push everything down from target index to source index
-                //
-                // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
-                // hence the odd indices. Use mod operator on i to prevent indexoutrange
-                for (int i = sourceIndex + exercisesPerStation; i > sourceIndex; i--)
-                {
-                    if (i%exercisesPerStation == targetIndex)
-                    {
-                        station[i % exercisesPerStation] = exercise;
-                        return;
-                    }
-
-                    station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
-                }
+                DropHelper.ReorderItemInFullStructure<Exercise>(exercise, station, targetIndex, sourceIndex);
+                return;
             }
 
             // Station is not full & a reorder - accept
@@ -783,79 +734,8 @@ namespace WorkoutApp.ViewModel
                 System.Diagnostics.Debug.WriteLine("Inserting - Not Full & Reorder ");
                 System.Diagnostics.Debug.WriteLine(String.Format("Target Index: {0}", targetIndex));
 
-                // Subcase 1: If target index is empty, simply move exercise from source to target index
-                if (station[targetIndex] == null)
-                {
-                    station[targetIndex] = exercise;
-                    station[sourceIndex] = null;
-                    return;
-                }
-
-                // find first empty index after targetIndex
-                int nextOpenIndex = 0;
-
-                for (int i = 0; i < exercisesPerStation; i++)
-                {
-                    if (station[(i + targetIndex) % exercisesPerStation] == null)
-                    {
-                        nextOpenIndex = (i + targetIndex) % exercisesPerStation;
-                        break;
-                    }
-                }
-
-                // Two Subcases: 
-                // Subcase 2 - Target Index > Next Open Index > Source Index
-                // Subcase 3 - Target Index > Source Index > Next Open Index
-
-                var modNextOpenIndex = nextOpenIndex;
-                var modSourceIndex = sourceIndex;
-
-                if (nextOpenIndex < targetIndex)
-                    modNextOpenIndex += exercisesPerStation;
-
-                if (sourceIndex < targetIndex)
-                    modSourceIndex += exercisesPerStation;
-
-                // Subcase 2
-                if (modNextOpenIndex < modSourceIndex)
-                {
-                    // push everything down from target index to next open slot, then insert
-                    //
-                    // still want to do up to exercisesPerStation loops, but need to start at
-                    // nextOpenIndex, hence the odd indices. Use mod operator to prevent indexoutofrange
-
-                    station[sourceIndex] = null;
-
-                    for (int i = nextOpenIndex + exercisesPerStation; i > nextOpenIndex; i--)
-                    {
-                        if (i % exercisesPerStation == targetIndex)
-                        {
-                            station[i % exercisesPerStation] = exercise;
-                            return;
-                        }
-
-                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
-                    }
-                }
-
-                // Subcase 3
-                else
-                {
-                    // push everything down from target index to source index
-                    //
-                    // still want to do up to exercisesPerStation loops, but need to start at sourceIndex,
-                    // hence the odd indices. Use mod operator on i to prevent indexoutrange
-                    for (int i = sourceIndex + exercisesPerStation; i > sourceIndex; i--)
-                    {
-                        if (i % exercisesPerStation == targetIndex)
-                        {
-                            station[i % exercisesPerStation] = exercise;
-                            return;
-                        }
-
-                        station[i % exercisesPerStation] = station[(i - 1) % exercisesPerStation];
-                    }
-                }
+                DropHelper.ReorderItemInNotFullStructure<Exercise>(exercise, station, targetIndex, sourceIndex);
+                return;
             }
         }
 
