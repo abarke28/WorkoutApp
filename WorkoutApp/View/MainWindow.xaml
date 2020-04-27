@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         xmlns:cv="clr-namespace:WorkoutApp.ViewModel.Converters"
         mc:Ignorable="d"
-        Title="Poor Yorrick Workouts" Height="550" Width="Auto" SizeToContent="Width">
+        Title="Poor Yorrick Workouts" Height="600" Width="Auto" SizeToContent="Width">
     <Window.Resources>
         <vm:MainVM x:Key="vm"/>
         <cv:BoolToVisibilityHiddenConverter x:Key="b2vh"/>
@@ -165,8 +165,7 @@
                 <MenuItem Header="Edit Current Workout" Command="{Binding UseAsCustomBaseCommand}"
                           CommandParameter="{Binding SelectedWorkout}"/>
                 <Separator/>
-                <MenuItem Header="Start Current Workout" CommandParameter="{Binding SelectedWorkout, Mode=Default}"
-                              Command="{Binding StartWorkoutCommand}"/>
+                <MenuItem Header="Start Current Workout" Command="{Binding StartWorkoutCommand}"/>
                 <Separator/>
                 <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}"/>
             </MenuItem>
@@ -286,100 +285,115 @@
         </Grid>
         <!--Coloumn 3 - Selected Workout-->
         <Grid Grid.Row="1" Grid.Column="2">
-            <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <!--Selected Workout Label-->
+            <Label Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="3"/>
+            </Label>
+            <!--Selected Workout-->
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <!--Selected Workout Label-->
-                <Label Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBox Text="{Binding SelectedWorkout.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="3"/>
-                </Label>
-                <!--Selected Workout-->
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <!--Workout Description-->
-                    <Label Grid.Row="0">
-                        <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <!--Workout Description-->
+                <Label Grid.Row="0">
+                    <TextBox Text="{Binding SelectedWorkout.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      FontSize="12" FontWeight="Normal"
                                      Foreground="{StaticResource ListViewContrastColour}"
                                      VerticalAlignment="Center" BorderThickness="0" />
-                    </Label>
-                    <!--Workout Length-->
-                    <StackPanel Grid.Row="1" Orientation="Horizontal"
+                </Label>
+                <!--Workout Length-->
+                <StackPanel Grid.Row="1" Orientation="Horizontal"
                                 VerticalAlignment="Center" HorizontalAlignment="Stretch"
                                 Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}">
-                        <TextBlock Text="Length:"
+                    <TextBlock Text="Length:"
                                    VerticalAlignment="Center"
                                    FontWeight="DemiBold" FontSize="12" Margin="5,0"/>
-                        <TextBlock Text="{Binding SelectedWorkout.Length}" 
+                    <TextBlock Text="{Binding SelectedWorkout.Length}" 
                                    VerticalAlignment="Center"
                                    FontWeight="Normal" FontSize="12"/>
-                    </StackPanel>
-                    <!--Workout Parameters-->
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Label Content="Reps:"
+                </StackPanel>
+                <!--Workout Parameters-->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label Content="Reps:"
                                    Style="{StaticResource WorkoutProperty}"
                                    Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"/>
-                        <Label Content="{Binding SelectedWorkout.RepSeconds}"
+                    <Label Content="{Binding SelectedWorkout.RepSeconds}"
                                    VerticalContentAlignment="Stretch" Width="45" 
                                    FontWeight="Normal" FontSize="12"/>
-                        <Label Content="Rests:"
+                    <Label Content="Rests:"
                                    Style="{StaticResource WorkoutProperty}"
                                    Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"/>
-                        <Label Content="{Binding SelectedWorkout.RestSeconds}"
+                    <Label Content="{Binding SelectedWorkout.RestSeconds}"
                                    Width="45" FontWeight="Normal" FontSize="12"
                                    VerticalContentAlignment="Stretch"/>
-                        <Label Content="Sets:"
+                    <Label Content="Sets:"
                                    Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}"
                                    Style="{StaticResource WorkoutProperty}"/>
-                        <Label Content="{Binding SelectedWorkout.SetSeconds}"
+                    <Label Content="{Binding SelectedWorkout.SetSeconds}"
                                    VerticalContentAlignment="Stretch" Width="45"
                                    FontWeight="Normal" FontSize="12"/>
-                    </StackPanel>
-                    <!--Workout Stations List-->
-                    <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
+                </StackPanel>
+                <!--Workout Stations List-->
+                <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
                               Grid.Row="3" BorderThickness="0" Margin="2"
                               ItemContainerStyle="{StaticResource NoMouseOver}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="3*"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" FontSize="12" Padding="0,5"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="3*"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" FontSize="12" Padding="0,5"
                                                Content="{Binding StationName}"
                                                HorizontalContentAlignment="Left"/>
-                                    <!--Exercises Lists-->
-                                    <ListView ItemsSource="{Binding Exercises}" Grid.Row="1" BorderThickness="0"
+                                <!--Exercises Lists-->
+                                <ListView ItemsSource="{Binding Exercises}" Grid.Row="1" BorderThickness="0"
                                               HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                                               ItemContainerStyle="{StaticResource NoMouseOver}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ExerciseName}">
-                                                    <TextBlock.ToolTip>
-                                                        <ToolTip MaxWidth="200" Background="White">
-                                                            <TextBlock Text="{Binding Description}"
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ExerciseName}">
+                                                <TextBlock.ToolTip>
+                                                    <ToolTip MaxWidth="200" Background="White">
+                                                        <TextBlock Text="{Binding Description}"
                                                                            TextWrapping="Wrap"
                                                                            HorizontalAlignment="Stretch"
                                                                            VerticalAlignment="Stretch"/>
-                                                        </ToolTip>
-                                                    </TextBlock.ToolTip>
+                                                    </ToolTip>
+                                                </TextBlock.ToolTip>
                                                      </TextBlock>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <!--Options Bar-->
+            <Grid Grid.Row="2"
+                  Visibility="{Binding WorkoutSelected, Converter={StaticResource b2vh}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource CustomWorkoutButton}"
+                            Command="{Binding UseAsCustomBaseCommand}">
+                    <TextBlock Text="Edit"/>
+                </Button>
+                <Button Grid.Column="1" Style="{StaticResource CustomWorkoutButton}"
+                        Command="{Binding StartWorkoutCommand}">
+                    <TextBlock Text="Load"/>
+                </Button>
             </Grid>
         </Grid>
         <!--Coloumn 4 - Timer-->
@@ -497,7 +511,7 @@
         </Grid>
         <!--Coloumn 5 Custom Workout-->
         <Grid Grid.Row="1" Grid.Column="5"
-              Margin="5" DataContext="{Binding CustomWorkout}">
+              DataContext="{Binding CustomWorkout}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="30"/>
@@ -549,7 +563,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <!--Control Bar-->
-            <Grid Grid.Row="3" Margin="0,5">
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

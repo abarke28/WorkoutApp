@@ -132,6 +132,9 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workoutActive == value) return;
                 _workoutActive = value;
+
+                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected) ? true : false;
+
                 RaisePropertyChanged("WorkoutActive");
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (RandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -149,6 +152,9 @@ namespace WorkoutApp.ViewModel
             {
                 if (_workoutSelected == value) return;
                 _workoutSelected = value;
+                
+                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected) ? true : false;
+
                 RaisePropertyChanged("WorkoutSelected");
             }
         }
@@ -180,6 +186,18 @@ namespace WorkoutApp.ViewModel
 
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
                 (UpdateWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        private bool _workoutControlsAvailable;
+        public bool WorkoutControlsAvailable
+        {
+            get { return _workoutControlsAvailable; }
+            set
+            {
+                if (_workoutControlsAvailable == value) return;
+                _workoutControlsAvailable = value;
+                RaisePropertyChanged("WorkoutControlsAvailable");
             }
         }
 
@@ -233,7 +251,7 @@ namespace WorkoutApp.ViewModel
 
             RandomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout || WorkoutActive), x => GenerateRandomWorkout());
             CustomWorkoutCommand = new BaseCommand(x => !(BuildingWorkout || WorkoutActive), x => BuildCustomWorkout());
-            UseAsCustomBaseCommand = new BaseCommand(x => !BuildingWorkout && (SelectedWorkout != null), w => UseAsCustomWorkoutBase(w));
+            UseAsCustomBaseCommand = new BaseCommand(x => !BuildingWorkout && (SelectedWorkout != null), x => UseAsCustomWorkoutBase(SelectedWorkout));
             AbortCustomWorkoutCommand = new BaseCommand(x => true, x => AbortCustomWorkout());
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
@@ -243,7 +261,7 @@ namespace WorkoutApp.ViewModel
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) && !RandomWorkoutGenerated && !BuildingWorkout), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
-            StartWorkoutCommand = new BaseCommand(w => ((!WorkoutActive) && (w != null) & (!BuildingWorkout)), w => LoadTimer(w));
+            StartWorkoutCommand = new BaseCommand(x => ((!WorkoutActive) && (SelectedWorkout != null) & (!BuildingWorkout)), x => LoadTimer(SelectedWorkout));
             StopWorkoutCommand = new BaseCommand(x => true, x => StopWorkout());
             PlayPauseWorkoutCommand = new BaseCommand(x => true, x => Timer.PlayPauseWorkout());
             OpenConfigCommand = new BaseCommand(x => true, x => OpenConfig());
@@ -457,7 +475,7 @@ namespace WorkoutApp.ViewModel
 
             BuildingWorkout = false;
 
-            CustomWorkout = null;
+            CustomWorkout = new Workout();
             _customWorkoutExerciseCount = 0;
         }
         public void AddExerciseToWorkout(object parameter)
