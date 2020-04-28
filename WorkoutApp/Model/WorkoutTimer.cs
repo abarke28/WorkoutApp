@@ -183,21 +183,24 @@ namespace WorkoutApp.Model
                             Time = TimeSpan.FromSeconds(workout.RepSeconds)
                         });
 
+                        //System.Diagnostics.Debug.WriteLine(_timeStack[^1].ExerciseName);
+
                         // Add Rep Rest unless about to add a Station Rest
 
                         // Need to add 1 to avoid off-by-1 error since indices start at 0 & have to stop 1 early
-                        if (((k + 1) == exercisesPerStation) && ((j + 1) == stationReps)) break;
+                        if (((k+1) == exercisesPerStation) && ((j+1) == stationReps)) break;
 
                         _timeStack.Add(new TimerStation
                         {
                             ExerciseName = "Rest",
-                            Description = ((k+1) == exercisesPerStation && (j+1) == stationReps)
-                                ? String.Empty : "Up Next: " + workout.Stations[i].Exercises[k+1].ExerciseName,
+                            Description = "Up Next: " + workout.Stations[i].Exercises[(k+1)%exercisesPerStation].ExerciseName,
                             ExerciseNumber = (k + 1).ToString() + @" / " + exercisesPerStation.ToString(),
                             RoundNumber = (j + 1).ToString() + @" / " + stationReps.ToString(),
                             StationNumber = (i + 1).ToString() + @" / " + numStations.ToString(),
                             Time = TimeSpan.FromSeconds(workout.RestSeconds)
                         });
+
+                        //System.Diagnostics.Debug.WriteLine(_timeStack[^1].ExerciseName + " - " + _timeStack[^1].Description);
                     }
                 }
 
@@ -210,12 +213,13 @@ namespace WorkoutApp.Model
                 {
                     ExerciseName = "Rest",
                     Description = "Up Next: " + workout.Stations[i+1].Exercises[0].ExerciseName,
-                    //Description = String.Empty,
                     ExerciseNumber = "--",
                     RoundNumber = "--",
                     StationNumber = "--",
                     Time = TimeSpan.FromSeconds(workout.SetSeconds)
                 });
+
+                //System.Diagnostics.Debug.WriteLine(_timeStack[^1].ExerciseName + " - " + _timeStack[^1].Description);
             }
 
             // Set TimeToGo to total workout length. Clear first

@@ -1,5 +1,6 @@
 using System;
 using WorkoutApp.Model;
+using WorkoutApp.ViewModel;
 using Xunit;
 
 namespace WorkoutAppTests
@@ -15,6 +16,14 @@ namespace WorkoutAppTests
 
             // Act & Assert - 
             Assert.Throws<ArgumentNullException>(()=>workoutTimer.BuildTimer(workout));
+        }
+
+        [Fact]
+        public void BuildTimer_WhenCalled_BuildsCorrectTimer()
+        {
+            // Arrange
+            //var workoutTimer = new WorkoutTimer();
+            //var vm = new MainVM();
         }
     }
 }
