@@ -156,7 +156,7 @@ namespace WorkoutApp.Model
             _timeStack.Add(new TimerStation
             {
                 ExerciseName = "Get Ready",
-                Description = String.Empty,
+                Description = "Up Next: " + workout.Stations[0].Exercises[0].ExerciseName,
                 ExerciseNumber = "--",
                 RoundNumber = "--",
                 StationNumber = "--",
@@ -191,7 +191,8 @@ namespace WorkoutApp.Model
                         _timeStack.Add(new TimerStation
                         {
                             ExerciseName = "Rest",
-                            Description = String.Empty,
+                            Description = ((k+1) == exercisesPerStation && (j+1) == stationReps)
+                                ? String.Empty : "Up Next: " + workout.Stations[i].Exercises[k+1].ExerciseName,
                             ExerciseNumber = (k + 1).ToString() + @" / " + exercisesPerStation.ToString(),
                             RoundNumber = (j + 1).ToString() + @" / " + stationReps.ToString(),
                             StationNumber = (i + 1).ToString() + @" / " + numStations.ToString(),
@@ -208,7 +209,8 @@ namespace WorkoutApp.Model
                 _timeStack.Add(new TimerStation 
                 {
                     ExerciseName = "Rest",
-                    Description = String.Empty,
+                    Description = "Up Next: " + workout.Stations[i+1].Exercises[0].ExerciseName,
+                    //Description = String.Empty,
                     ExerciseNumber = "--",
                     RoundNumber = "--",
                     StationNumber = "--",
@@ -268,7 +270,7 @@ namespace WorkoutApp.Model
 
             TimerText = 0;
             TimeToGo = TimeSpan.Zero;
-            ExerciseNameText = String.Empty;
+            ExerciseNameText = "Good Job!";
             ExerciseDescriptionText = String.Empty;
             PlayPauseButtonSource = AppResources.AppResources.PLAYIMAGE;
 

@@ -701,20 +701,17 @@ namespace WorkoutApp.ViewModel
 
             // Variables for 4 insertion cases. Assign sourceIndex now while already
             // looping. Will only be assigned in case of reorder
-            bool isReorder = false;
+
+            bool isReorder = station.Contains(exercise) ? true : false;
             int currentCount = 0;
             int sourceIndex = 0;
 
             // Get variables for drop cases
             for (int i = 0; i < exercisesPerStation; i++)
             {
-                if (station[i] != null)
-                    currentCount++;
-                if (station[i] == exercise)
-                {
-                    isReorder = true;
-                    sourceIndex = i;
-                }
+                if (station[i] != null) currentCount++;
+                if (station[i] == exercise) sourceIndex = i;
+                if (station[i]?.ExerciseId == exercise.ExerciseId) isReorder = true;
             }
 
             // FOUR CASES
