@@ -486,7 +486,7 @@ namespace WorkoutApp.ViewModel
 
             Exercise exercise = parameter as Exercise;
 
-            int exercisesPerStation = _config.NumExercisesPerStation;
+            int exercisesPerStation = CustomWorkout.Stations[0].Exercises.Count;
             int numStations = CustomWorkout.StationReps;
             int maxExerciseCount = numStations * exercisesPerStation;
 

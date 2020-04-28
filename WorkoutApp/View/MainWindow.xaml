@@ -174,7 +174,7 @@
             </MenuItem>
         </Menu>
         <!--Coloumn 1 - Exercises-->
-        <Grid Grid.Row="1" Grid.Column="0">
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,0,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="60"/>
@@ -243,7 +243,7 @@
             </ListView>
         </Grid>
         <!--Coloumn 2 - Workouts-->
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,0,0,5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
@@ -380,7 +380,7 @@
                 </ListView>
             </Grid>
             <!--Options Bar-->
-            <Grid Grid.Row="2"
+            <Grid Grid.Row="2" Margin="2"
                   Visibility="{Binding WorkoutControlsAvailable, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource b2vh}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -563,7 +563,7 @@
                 </ListView.ItemTemplate>
             </ListView>
             <!--Control Bar-->
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="3" Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
