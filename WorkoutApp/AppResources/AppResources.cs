@@ -15,5 +15,6 @@ namespace WorkoutApp.AppResources
         public static string GO { get; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Poor Yorrick Workouts\go.wav";
         public static string DONE { get; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Poor Yorrick Workouts\done.wav";
         public static string GETREADY { get; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Poor Yorrick Workouts\getready.wav";
+        public static string SEGFONT { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Poor Yorrick Workouts\Ni7seg.ttf";
     }
 }

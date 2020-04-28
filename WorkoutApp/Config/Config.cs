@@ -56,6 +56,7 @@ namespace WorkoutApp.Config
                 }
                 
                 Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, config);
+
             }
 
             return Serializer.DeserializeFromXmlFile<Configuration>(ConfigFilePath);
