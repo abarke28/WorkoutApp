@@ -31,13 +31,10 @@
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Stretch"/>
         </Style>
-        <Style TargetType="ListViewItem" x:Key="NoMouseOver">
+        <Style TargetType="ListBoxItem" x:Key="NoMouseOver">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
             </Style.Triggers>
@@ -405,10 +402,10 @@
                                    FontWeight="Normal" FontSize="12"/>
                 </StackPanel>
                 <!--Workout Stations List-->
-                <ListView ItemsSource="{Binding SelectedWorkout.Stations}" 
+                <ListBox ItemsSource="{Binding SelectedWorkout.Stations}" 
                           Grid.Row="3" BorderThickness="0" Margin="2"
                           ItemContainerStyle="{StaticResource NoMouseOver}">
-                    <ListView.ItemTemplate>
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.RowDefinitions>
@@ -439,8 +436,8 @@
                                 </ListView>
                             </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
             <!--Options Bar-->
             <Grid Grid.Row="2" Margin="2"
