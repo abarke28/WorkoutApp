@@ -9,10 +9,12 @@ namespace WorkoutApp.Config
     public class Configuration
     {
         public static string ConfigFilePath { get; } = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-            + @"\Poor Yorrick Workouts\config.xml";
+            + @"\Poor Yorrick Software\Poor Yorrick Workouts\config.xml";
+        public string Manufacturer { get; set; }
         public string AppName { get; set; }
         public string ConfigPath { get; set; }
         public string ConfigFileName { get; set; }
+        public string ResourcesPath { get; set; }
         public int NumStations { get; set; }
         public int NumExercisesPerStation { get; set; }
         public int NumRounds { get; set; }
@@ -26,9 +28,11 @@ namespace WorkoutApp.Config
             //
             // Will only be called if there is no existing config file
 
+            Manufacturer = @"Poor Yorrick Software";
             AppName = @"Poor Yorrick Workouts";
-            ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\" + AppName;
+            ConfigPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\" + Manufacturer + @"\" + AppName;
             ConfigFileName = @"config.xml";
+            ResourcesPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86) + @"\" + Manufacturer + @"\" + AppName + @"\resources";
 
             NumStations = 4;
             NumExercisesPerStation = 3;
@@ -54,7 +58,12 @@ namespace WorkoutApp.Config
                 {
                     Directory.CreateDirectory(config.ConfigPath);
                 }
-                
+
+                if (!Directory.Exists(config.ResourcesPath))
+                {
+                    Directory.CreateDirectory(config.ResourcesPath);
+                }
+
                 Serializer.SerializeToXmlFile<Configuration>(ConfigFilePath, config);
 
             }

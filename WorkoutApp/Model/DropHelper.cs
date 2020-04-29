@@ -80,7 +80,7 @@ namespace WorkoutApp.Model
                 }
             }
 
-            // Two Subcases: 
+            // Two other subcases: 
             // Subcase 2 - Target Index > Next Open Index > Source Index
             // Subcase 3 - Target Index > Source Index > Next Open Index
 
