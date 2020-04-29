@@ -711,7 +711,7 @@ namespace WorkoutApp.ViewModel
             {
                 if (station[i] != null) currentCount++;
                 if (station[i] == exercise) sourceIndex = i;
-                if (station[i]?.ExerciseId == exercise.ExerciseId) isReorder = true;
+                if (station[i]?.ExerciseName == exercise.ExerciseName) isReorder = true;
             }
 
             // FOUR CASES

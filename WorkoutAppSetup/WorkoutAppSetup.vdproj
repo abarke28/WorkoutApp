@@ -51,6 +51,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B87F7483B0E24451B1A9D72767B4F055"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_CBD1322F212C42A987C9A360E09A33CF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -258,6 +270,26 @@
             {
             "SourcePath" = "8:..\\WorkoutApp\\AppResources\\rest.wav"
             "TargetName" = "8:rest.wav"
+            "Tag" = "8:"
+            "Folder" = "8:_63EBAD1A910F4701BBEE503047B7B3CF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B87F7483B0E24451B1A9D72767B4F055"
+            {
+            "SourcePath" = "8:..\\WorkoutApp\\IjTennis.ico"
+            "TargetName" = "8:IjTennis.ico"
             "Tag" = "8:"
             "Folder" = "8:_63EBAD1A910F4701BBEE503047B7B3CF"
             "Condition" = "8:"
@@ -553,6 +585,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B0C275A333A14169A9AF71A7C4163A6A"
+            {
+            "Name" = "8:Poor Yorrick Workouts"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
+            "Folder" = "8:_22ADE884A7C2415D8B3D58E628A20551"
+            "WorkingFolder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
+            "Icon" = "8:_B87F7483B0E24451B1A9D72767B4F055"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CFC056421EAC42D2888A5DE402468B4E"
+            {
+            "Name" = "8:Poor Yorrick Workouts"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
+            "Folder" = "8:_161B46D37C1D41CF9EA53FE01D587E0C"
+            "WorkingFolder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
+            "Icon" = "8:_B87F7483B0E24451B1A9D72767B4F055"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -952,6 +1012,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A25C4E97D8AC42AE9681E732EEBB16ED"
+            {
+            "SourcePath" = "8:..\\WorkoutApp\\obj\\Debug\\netcoreapp3.1\\WorkoutApp.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{34BDB481-246A-4495-8A69-F77F809A87C3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
         }
     }
 }
