@@ -24,4 +24,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="AppResources\Ni7seg.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
 </Project>
