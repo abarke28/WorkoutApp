@@ -402,7 +402,7 @@
                 </Button>
                 <Button Grid.Column="1" Style="{StaticResource CustomWorkoutButton}"
                         Command="{Binding StartWorkoutCommand}">
-                    <TextBlock Text="Load"/>
+                    <TextBlock Text="Start"/>
                 </Button>
             </Grid>
         </Grid>
