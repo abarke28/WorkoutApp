@@ -107,7 +107,8 @@ namespace WorkoutApp.Model
             var database = client.GetDatabase(DATABASE_NAME);
             var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
 
-            return collection.FindSync(e => true).ToEnumerable();
+            var exercises = collection.Find(e => true).SortBy(e => e.ExerciseName).ToEnumerable();
+            return exercises;
         }
 
         public static async void AddRecordAsync(Record record)
