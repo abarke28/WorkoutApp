@@ -97,7 +97,7 @@ namespace WorkoutApp.Model
 
             collection.InsertMany(exercises);
         }
-        public static IEnumerable<Exercise> GetExercisesAsync()
+        public static IEnumerable<Exercise> GetExercises()
         {
             // Summary
             //

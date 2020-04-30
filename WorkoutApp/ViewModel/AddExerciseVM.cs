@@ -82,7 +82,9 @@ namespace WorkoutApp.ViewModel
             //
             // Perform error handling and add exercise
 
-            DatabaseHelper.AddExercise(NewExercise);
+            //DatabaseHelper.AddExercise(NewExercise);
+            MongoHelper.AddExercise(NewExercise);
+
             CloseDialog = true;
         }
 

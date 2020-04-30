@@ -229,7 +229,7 @@ namespace WorkoutApp.ViewModel
             CustomWorkout = new Workout();
             Timer = new WorkoutTimer();
 
-            // Subscribe to the Event
+            // Subscribe to the WorkoutFinished Event
             Timer.WorkoutFinished += OnWorkoutFinished;
 
             _rng = new Random();
@@ -273,7 +273,8 @@ namespace WorkoutApp.ViewModel
             // 
             // Read exercises from Database with DBHelper class. Clear existing exercises first.
 
-            var exercises = DatabaseHelper.GetExercises();
+            //var exercises = DatabaseHelper.GetExercises();
+            var exercises = MongoHelper.GetExercises();
 
             Exercises.Clear();
 
@@ -288,7 +289,8 @@ namespace WorkoutApp.ViewModel
             //
             // Read exercises and filter the list by a ExerciseType
 
-            var exercises = DatabaseHelper.GetExercises();
+            //var exercises = DatabaseHelper.GetExercises();
+            var exercises = MongoHelper.GetExercises();
 
             Exercises.Clear();
 
