@@ -17,6 +17,7 @@
         <cv:EnumToRadioBoolConverter x:Key="e2r"/>
         <SolidColorBrush x:Key="PlayPauseBarColour" Color="#2f80ba"/>
         <SolidColorBrush x:Key="ListViewContrastColour" Color="#5890cc"/>
+        <FontFamily x:Key="DSEG7">pack://application:,,,/AppResources/#DSEG7 Modern</FontFamily>
         <FontFamily x:Key="Ni7seg">pack://application:,,,/AppResources/#NI7SEG</FontFamily>
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="18"/>
@@ -51,8 +52,7 @@
             <Setter Property="FontSize" Value="90"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <!--<Setter Property="FontFamily" Value="{StaticResource Ni7seg}"/>-->
-            <Setter Property="FontFamily" Value="DSEG7 Modern Mini"/>
+            <Setter Property="FontFamily" Value="{StaticResource DSEG7}"/>
             <Setter Property="FontStyle" Value="Italic"/>
             <Style.Triggers>
                 <Trigger Property="Text" Value="3">
