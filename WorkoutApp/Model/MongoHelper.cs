@@ -73,7 +73,7 @@ namespace WorkoutApp.Model
             collection.UpdateOneAsync(updateFilter, updateDescription);
         }
 
-        public static async void AddExerciseAsync(Exercise exercise)
+        public static void AddExercise(Exercise exercise)
         {
             // Summary
             //
@@ -83,7 +83,19 @@ namespace WorkoutApp.Model
             var database = client.GetDatabase(DATABASE_NAME);
             var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
 
-            await collection.InsertOneAsync(exercise);
+            collection.InsertOne(exercise);
+        }
+        public static void AddExercises(IEnumerable<Exercise> exercises)
+        {
+            // Summary
+            //
+            // Adds multiple exercises
+
+            var client = new MongoClient(CONNECTION_STRING);
+            var database = client.GetDatabase(DATABASE_NAME);
+            var collection = database.GetCollection<Exercise>(EXERCISES_COLLECTION);
+
+            collection.InsertMany(exercises);
         }
         public static IEnumerable<Exercise> GetExercisesAsync()
         {
