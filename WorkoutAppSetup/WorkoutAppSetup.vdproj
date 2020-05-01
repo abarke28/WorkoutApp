@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5B50F18E745847A28D955F4847B8DC4A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5C93DBDCBA6348EFB16976CDB3364282"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -46,12 +52,6 @@
         "Entry"
         {
         "MsmKey" = "8:_836270A531C64D93AD677F6F453AC4F7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -444,7 +444,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Poor Yorrick Workouts"
         "ProductCode" = "8:{50BB46B8-A565-48C6-9D11-6A65D74700B7}"
-        "PackageCode" = "8:{75F54D38-4B3C-4FB8-9200-CC14A1327E0A}"
+        "PackageCode" = "8:{6BAFCB6F-66A1-4658-BCC3-3C028A79B23B}"
         "UpgradeCode" = "8:{CADDB3AA-314C-48D2-BA87-842564663846}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -457,9 +457,9 @@
         "ARPHELPLINK" = "8:"
         "Title" = "8:WorkoutAppSetup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:Alex Barker"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:HIIT Workout App"
         "ARPURLINFOABOUT" = "8:"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
@@ -564,34 +564,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B0C275A333A14169A9AF71A7C4163A6A"
-            {
-            "Name" = "8:Poor Yorrick Workouts"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
-            "Folder" = "8:_22ADE884A7C2415D8B3D58E628A20551"
-            "WorkingFolder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
-            "Icon" = "8:_B87F7483B0E24451B1A9D72767B4F055"
-            "Feature" = "8:"
-            }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CFC056421EAC42D2888A5DE402468B4E"
-            {
-            "Name" = "8:Poor Yorrick Workouts"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_A25C4E97D8AC42AE9681E732EEBB16ED"
-            "Folder" = "8:_161B46D37C1D41CF9EA53FE01D587E0C"
-            "WorkingFolder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
-            "Icon" = "8:_B87F7483B0E24451B1A9D72767B4F055"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {
@@ -991,9 +963,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A25C4E97D8AC42AE9681E732EEBB16ED"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5B50F18E745847A28D955F4847B8DC4A"
             {
-            "SourcePath" = "8:..\\WorkoutApp\\obj\\Debug\\netcoreapp3.1\\WorkoutApp.dll"
+            "SourcePath" = "8:..\\WorkoutApp\\obj\\Debug\\netcoreapp3.1\\WorkoutApp.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5189ADA7A31E42A3A2F7708BDADD2FF7"
@@ -1012,7 +984,7 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
+            "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{34BDB481-246A-4495-8A69-F77F809A87C3}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
