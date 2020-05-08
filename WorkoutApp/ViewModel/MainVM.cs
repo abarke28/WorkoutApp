@@ -578,6 +578,13 @@ namespace WorkoutApp.ViewModel
             BuildingWorkout = false;
             CustomWorkout = null;
             _customWorkoutExerciseCount = 0;
+
+            if (Workouts.Count > 0)
+            {
+                SelectedWorkout = Workouts[^1];
+                (StartWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
+                (UseAsCustomBaseCommand as BaseCommand).RaiseCanExecuteChanged();
+            }
         }
         public void DeleteWorkout(object parameter)
         {
