@@ -536,6 +536,7 @@
                      BorderThickness="0" FontSize="18" FontWeight="DemiBold"/>
             <!--Workout Description-->
             <TextBox Grid.Row="1" Text="{Binding Description, Mode=TwoWay}"
+                     ut:TextFocuser.SelectAllOnFocus="True"
                      BorderThickness="0"
                      VerticalAlignment="Center" Foreground="{StaticResource ListViewContrastColour}"/>
             <!--Workout Listview-->

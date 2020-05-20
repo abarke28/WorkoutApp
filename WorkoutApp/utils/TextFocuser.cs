@@ -51,8 +51,7 @@ namespace WorkoutApp.utils
 
         public static void IgnoreMouse(object sender, MouseButtonEventArgs e)
         {
-            var frameworkElement = sender as FrameworkElement;
-            if (frameworkElement == null || frameworkElement.IsKeyboardFocusWithin) return;
+            if (!(sender is FrameworkElement frameworkElement) || frameworkElement.IsKeyboardFocusWithin) return;
             e.Handled = true;
             frameworkElement.Focus();
         }

@@ -17,16 +17,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|Any CPU.Build.0 = Debug|x86
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|x86.ActiveCfg = Release|x86
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Debug|x86.Build.0 = Release|x86
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Release|x86.ActiveCfg = Release|x86
 		{34BDB481-246A-4495-8A69-F77F809A87C3}.Release|x86.Build.0 = Release|x86
-		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Debug|Any CPU.Build.0 = Debug|x86
 		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F95A737-A1EB-40A8-93E2-295AE36288CF}.Release|x86.ActiveCfg = Release|Any CPU
