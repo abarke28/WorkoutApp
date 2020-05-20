@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dc="clr-namespace:WorkoutApp.utils"
+        xmlns:ut="clr-namespace:WorkoutApp.utils"
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         mc:Ignorable="d"
-        dc:DialogCloser.DialogResult="{Binding CloseDialog}"
+        ut:DialogCloser.DialogResult="{Binding CloseDialog}"
         Title="Add Exercise" Height="445" Width="320">
     <Window.DataContext>
         <vm:AddExerciseVM/>

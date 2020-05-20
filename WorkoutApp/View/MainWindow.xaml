@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkoutApp.View"
         xmlns:dd="urn:gong-wpf-dragdrop"
+        xmlns:ut="clr-namespace:WorkoutApp.utils"
         xmlns:vm="clr-namespace:WorkoutApp.ViewModel"
         xmlns:cv="clr-namespace:WorkoutApp.ViewModel.Converters"
         mc:Ignorable="d"
@@ -531,8 +532,7 @@
             <!--Workout Name-->
             <TextBox Grid.Row="0" Text="{Binding Name, Mode=TwoWay}" 
                      HorizontalAlignment="Center" VerticalAlignment="Center"
-                     BorderThickness="0"
-                     FontSize="18" FontWeight="DemiBold"/>
+                     BorderThickness="0" FontSize="18" FontWeight="DemiBold"/>
             <!--Workout Description-->
             <TextBox Grid.Row="1" Text="{Binding Description, Mode=TwoWay}"
                      BorderThickness="0"
