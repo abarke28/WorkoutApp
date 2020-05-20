@@ -530,7 +530,8 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <!--Workout Name-->
-            <TextBox Grid.Row="0" Text="{Binding Name, Mode=TwoWay}" 
+            <TextBox Grid.Row="0" Text="{Binding Name, Mode=TwoWay}"
+                     ut:TextFocuser.SelectAllOnFocus="True"
                      HorizontalAlignment="Center" VerticalAlignment="Center"
                      BorderThickness="0" FontSize="18" FontWeight="DemiBold"/>
             <!--Workout Description-->

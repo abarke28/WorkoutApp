@@ -8,17 +8,25 @@ namespace WorkoutApp.utils
 {
     public static class TextFocuser
     {
+        public static bool GetSelectAllOnFocus(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(SelectAllOnFocusProperty);
+        }
+
+        public static void SetSelectAllOnFocus(DependencyObject obj, bool value)
+        {
+            obj.SetValue(SelectAllOnFocusProperty, value);
+        }
+
         public static readonly DependencyProperty SelectAllOnFocusProperty =
-            DependencyProperty.Register("SelectAllOnFocus", 
-                typeof(bool?), typeof(TextFocuser), 
-                new PropertyMetadata(false, SelectAllOnFocusChanged));
-         
+            DependencyProperty.RegisterAttached("SelectAllOnFocus", typeof(bool), typeof(TextFocuser), new PropertyMetadata(false, SelectAllOnFocusChanged));
+        
         private static void SelectAllOnFocusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (e.NewValue == e.OldValue) return;
+
             if (d is TextBox textBox)
             {
-                if (e.NewValue == e.OldValue) return;
-
                 if ((bool)e.NewValue) textBox.GotFocus += SelectAll;
                 else textBox.GotFocus -= SelectAll;
             }
