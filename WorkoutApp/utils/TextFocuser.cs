@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WorkoutApp.utils
 {
@@ -27,8 +28,16 @@ namespace WorkoutApp.utils
 
             if (d is TextBox textBox)
             {
-                if ((bool)e.NewValue) textBox.GotFocus += SelectAll;
-                else textBox.GotFocus -= SelectAll;
+                if ((bool)e.NewValue) 
+                {
+                    textBox.GotFocus += SelectAll;
+                    textBox.PreviewMouseDown += IgnoreMouse;
+                }
+                else
+                {
+                    textBox.GotFocus -= SelectAll;
+                    textBox.PreviewMouseDown -= IgnoreMouse;
+                }
             }
         }
 
@@ -38,6 +47,14 @@ namespace WorkoutApp.utils
             {
                 textBox.SelectAll();
             }
+        }
+
+        public static void IgnoreMouse(object sender, MouseButtonEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            if (frameworkElement == null || frameworkElement.IsKeyboardFocusWithin) return;
+            e.Handled = true;
+            frameworkElement.Focus();
         }
     }
 }
