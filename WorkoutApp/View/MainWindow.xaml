@@ -408,118 +408,120 @@
             </Grid>
         </Grid>
         <!--Coloumn 4 - Timer-->
-        <Grid Grid.Row="1" Grid.Column="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!--Timer Label-->
-            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-                <TextBlock Text="Timer" Margin="3"/>
-            </Label>
-            <!--Timer Body Grid-->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Border Grid.Row="1" Grid.Column="3" BorderBrush="Gray" BorderThickness="0.5,0">
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <!--StationNum-->
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="0">
-                    <Label Content="Station"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.StationNumText}"
-                           VerticalContentAlignment="Center"
-                           HorizontalContentAlignment="Center"/>
-                </StackPanel>
-                <!--ExerciseNum-->
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="1">
-                    <Label Content="Exercise"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.ExerciseNumText}"
-                           HorizontalContentAlignment="Center"
-                           VerticalContentAlignment="Center"/>
-                </StackPanel>
-                <!--RoundNum-->
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="0"
-                            Grid.Column="2">
-                    <Label Content="Round"
-                           FontWeight="Normal"
-                           FontSize="12"
-                           HorizontalContentAlignment="Center"/>
-                    <Label Content="{Binding Timer.RoundNumText}"
-                           VerticalContentAlignment="Center"
-                           HorizontalContentAlignment="Center"/>
-                </StackPanel>
-                <!--Time Elapsed & To Go-->
-                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                <!--Timer Label-->
+                <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <TextBlock Text="Timer" Margin="3"/>
+                </Label>
+                <!--Timer Body Grid-->
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Elapsed:" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="1" Content="{Binding Timer.TimeElapsed}" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="2" Content="To Go:" Style="{StaticResource TimeSpanLabel}"/>
-                    <Label Grid.Column="3" Content="{Binding Timer.TimeToGo}" Style="{StaticResource TimeSpanLabel}"/>
-                </Grid>
-                <!--Clock-->
-                <TextBlock Grid.Row="2" Grid.Column="0"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <!--StationNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="0">
+                        <Label Content="Station"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.StationNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--ExerciseNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="1">
+                        <Label Content="Exercise"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.ExerciseNumText}"
+                           HorizontalContentAlignment="Center"
+                           VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--RoundNum-->
+                    <StackPanel Orientation="Vertical"
+                            Grid.Row="0"
+                            Grid.Column="2">
+                        <Label Content="Round"
+                           FontWeight="Normal"
+                           FontSize="12"
+                           HorizontalContentAlignment="Center"/>
+                        <Label Content="{Binding Timer.RoundNumText}"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"/>
+                    </StackPanel>
+                    <!--Time Elapsed & To Go-->
+                    <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Elapsed:" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="1" Content="{Binding Timer.TimeElapsed}" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="2" Content="To Go:" Style="{StaticResource TimeSpanLabel}"/>
+                        <Label Grid.Column="3" Content="{Binding Timer.TimeToGo}" Style="{StaticResource TimeSpanLabel}"/>
+                    </Grid>
+                    <!--Clock-->
+                    <TextBlock Grid.Row="2" Grid.Column="0"
                            Grid.RowSpan="2" Grid.ColumnSpan="3"
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            Style="{StaticResource Clock}"
                            Text="{Binding Timer.TimerText}"/>
-                <!--Current Exercise & Description-->
-                <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Orientation="Vertical">
-                    <Label Content="{Binding Timer.ExerciseNameText}" FontSize="18"
+                    <!--Current Exercise & Description-->
+                    <StackPanel Grid.Row="4" Grid.ColumnSpan="3" Orientation="Vertical">
+                        <Label Content="{Binding Timer.ExerciseNameText}" FontSize="18"
                                VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                    <TextBlock Text="{Binding Timer.ExerciseDescriptionText}"
+                        <TextBlock Text="{Binding Timer.ExerciseDescriptionText}"
                                    FontWeight="Normal" FontSize="12" TextWrapping="Wrap" Margin="5,0"
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-                <!--PlayBar-->
-                <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
+                    </StackPanel>
+                    <!--PlayBar-->
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" 
                       Background="{StaticResource PlayPauseBarColour}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <!--Play Button-->
-                    <Button Grid.Column="1" Height="40" Width="40"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--Play Button-->
+                        <Button Grid.Column="1" Height="40" Width="40"
                             BorderThickness="0" Background="Transparent"
                             HorizontalAlignment="Center"
                             Command="{Binding PlayPauseWorkoutCommand}">
-                        <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
-                    </Button>
-                    <!--Stop Button-->
-                    <Button Grid.Column="2" Height="20" Width="40"
+                            <Image Source="{Binding Timer.PlayPauseButtonSource}"/>
+                        </Button>
+                        <!--Stop Button-->
+                        <Button Grid.Column="2" Height="20" Width="40"
                             Background="AliceBlue"
                             Command="{Binding StopWorkoutCommand}"
                             IsEnabled="{Binding WorkoutActive, Mode=OneWay}"
                             HorizontalAlignment="Center" Content="Stop">
-                    </Button>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </Border>
         <!--Coloumn 5 Custom Workout-->
         <Grid Grid.Row="1" Grid.Column="5"
               DataContext="{Binding CustomWorkout}">
