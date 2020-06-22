@@ -133,7 +133,7 @@ namespace WorkoutApp.ViewModel
                 if (_workoutActive == value) return;
                 _workoutActive = value;
 
-                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected) ? true : false;
+                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected);
 
                 RaisePropertyChanged("WorkoutActive");
                 (SaveRandomWorkoutCommand as BaseCommand).RaiseCanExecuteChanged();
@@ -153,7 +153,7 @@ namespace WorkoutApp.ViewModel
                 if (_workoutSelected == value) return;
                 _workoutSelected = value;
                 
-                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected) ? true : false;
+                WorkoutControlsAvailable = (!_workoutActive && _workoutSelected);
 
                 RaisePropertyChanged("WorkoutSelected");
             }
@@ -256,8 +256,7 @@ namespace WorkoutApp.ViewModel
             AddToWorkoutCommand = new BaseCommand(x => true, e => AddExerciseToWorkout(e));
             RemoveFromWorkoutCommand = new BaseCommand(x => true, e => RemoveExerciseFromWorkout(e));
             SaveRandomWorkoutCommand = new BaseCommand(w => ((!(BuildingWorkout || WorkoutActive)) && w != null && RandomWorkoutGenerated), x => SaveRandomWorkout());
-            SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount == 0 ? false : 
-                (_customWorkoutExerciseCount == (CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count))), w => SaveCustomWorkout(w));
+            SaveCustomWorkoutCommand = new BaseCommand(x => (_customWorkoutExerciseCount != 0 && (_customWorkoutExerciseCount == (CustomWorkout.Stations.Count * CustomWorkout.Stations[0].Exercises.Count))), w => SaveCustomWorkout(w));
             DeleteWorkoutCommand = new BaseCommand(x => true, w => DeleteWorkout(w));
             UpdateWorkoutCommand = new BaseCommand(x => ((SelectedWorkout != null) && !RandomWorkoutGenerated && !BuildingWorkout), x => UpdateWorkout(SelectedWorkout));
             ExitApplicationCommand = new BaseCommand(x => true, x => System.Windows.Application.Current.Shutdown());
@@ -711,7 +710,7 @@ namespace WorkoutApp.ViewModel
             // Variables for 4 insertion cases. Assign sourceIndex now while already
             // looping. Will only be assigned in case of reorder
 
-            bool isReorder = station.Contains(exercise) ? true : false;
+            bool isReorder = station.Contains(exercise);
             int currentCount = 0;
             int sourceIndex = 0;
 
