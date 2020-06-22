@@ -1,1 +1,0 @@
-﻿This is Windows Home Workout App, for HIIT workouts.
