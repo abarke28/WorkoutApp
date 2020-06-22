@@ -694,8 +694,7 @@ namespace WorkoutApp.ViewModel
 
             // If the dropInfo.InsertPosition is AfterTargetItem, or contains it (InsertPosition is bitwise enum)
             // then need to decrement the InsertIndex by one
-            var targetIndex = (dropInfo.InsertPosition & RelativeInsertPosition.AfterTargetItem) == RelativeInsertPosition.AfterTargetItem
-                ? dropInfo.InsertIndex - 1 : dropInfo.InsertIndex;
+            var targetIndex = dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.AfterTargetItem) ? dropInfo.InsertIndex -1 : dropInfo.InsertIndex; 
 
             var station = dropInfo.TargetCollection as ObservableCollection<Exercise>;
             var exercisesPerStation = station.Count;
